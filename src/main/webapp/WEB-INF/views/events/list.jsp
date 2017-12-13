@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -37,6 +37,7 @@
         <th>Base Price</th>
         <th>Rating</th>
     </tr>
+    <%--@elvariable id="events" type="java.util.List"--%>
     <c:forEach var="event" items="${events}">
         <tr>
             <td>${event.id}</td>
@@ -44,9 +45,9 @@
             <td>${event.basePrice}</td>
             <td>${event.rating}</td>
             <td>
-                <spring:url value="/events/${event.id}" var="eventUrl"/>
-                <spring:url value="/events/${event.id}/delete" var="deleteUrl"/>
-                <spring:url value="/events/${event.id}/update" var="updateUrl"/>
+                <spring:url value="events/${event.id}" var="eventUrl"/>
+                <spring:url value="events/${event.id}/delete" var="deleteUrl"/>
+                <spring:url value="events/${event.id}/update" var="updateUrl"/>
 
                 <button class="btn btn-info"
                         onclick="location.href='${eventUrl}'">Show
@@ -55,7 +56,7 @@
                         onclick="location.href='${updateUrl}'">Update
                 </button>
                 <button class="btn btn-danger"
-                        onclick="this.disabled=true; location.href='${deleteUrl}'">Delete
+                        onclick="location.href='${deleteUrl}'">Delete
                 </button>
             </td>
         </tr>

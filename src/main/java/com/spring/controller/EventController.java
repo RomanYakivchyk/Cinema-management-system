@@ -27,41 +27,33 @@ public class EventController {
 //    private static final Logger logger
 //            = LoggerFactory.getLogger(EventController.class);
 
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
+
+    private final AuditoriumService auditoriumService;
 
     @Autowired
-    private AuditoriumService auditoriumService;
-
-    public void setAuditoriumService(AuditoriumService auditoriumService) {
-        this.auditoriumService = auditoriumService;
-    }
-
-    public void setEventService(EventService eventService) {
+    public EventController(EventService eventService, AuditoriumService auditoriumService) {
         this.eventService = eventService;
+        this.auditoriumService = auditoriumService;
     }
 
     //todo it is temporary
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-        return "redirect:/events";
+        return "redirect:events";
     }
 
     // show event
     @RequestMapping(value = "/events/{id}", method = RequestMethod.GET)
     public String showEvent(@PathVariable("id") long id, Model model) {
-
 //        logger.debug("showEvent() id=", id);
-
         Event event = eventService.findById(id);
 //        if (event == null) {
 //            model.addAttribute("css", "danger");
 //            model.addAttribute("msg", "Event not found");
 //        }
         model.addAttribute("event", event);
-
         return "events/show";
-
     }
 
     // delete event
@@ -101,7 +93,7 @@ public class EventController {
         Event event = new Event();
         model.addAttribute("event", event);
 
-        return "events/eventForm";
+        return "/events/eventForm";
     }
 
 
@@ -129,7 +121,7 @@ public class EventController {
             event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
             eventService.saveOrUpdate(event);
 
-            return "redirect:/events/" + event.getId();
+            return "redirect:events/" + event.getId();
         }
     }
 
