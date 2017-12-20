@@ -26,7 +26,7 @@
 </head>
 <body>
 <h1>All Events</h1>
-<spring:url value="/events/add" var="addUrl"/>
+<spring:url value="events/add" var="addUrl"/>
 <button class="btn btn-danger"
         onclick="location.href='${addUrl}'">Add Event
 </button>

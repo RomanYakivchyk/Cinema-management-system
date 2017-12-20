@@ -40,11 +40,11 @@ public class EventController {
     //todo it is temporary
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-        return "redirect:events";
+        return "redirect:/admin/events";
     }
 
     // show event
-    @RequestMapping(value = "/events/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/events/{id}", method = RequestMethod.GET)
     public String showEvent(@PathVariable("id") long id, Model model) {
 //        logger.debug("showEvent() id=", id);
         Event event = eventService.findById(id);
@@ -57,7 +57,7 @@ public class EventController {
     }
 
     // delete event
-    @RequestMapping(value = "/events/{id}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/events/{id}/delete", method = RequestMethod.GET)
     public String deleteEvent(@PathVariable("id") long id,
                               final RedirectAttributes redirectAttributes) {
 
@@ -68,12 +68,12 @@ public class EventController {
 //        redirectAttributes.addFlashAttribute("css", "success");
 //        redirectAttributes.addFlashAttribute("msg", "Event is deleted!");
 
-        return "redirect:/events";
+        return "redirect:/admin/events";
 
     }
 
     // todo
-    @RequestMapping(value = "/events/{id}/update", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/events/{id}/update", method = RequestMethod.GET)
     public String showUpdateEventForm(@PathVariable("id") long id, Model model) {
 
 //        logger.debug("showUpdateEventForm() id=", id);
@@ -86,18 +86,18 @@ public class EventController {
 
     }
 
-    @RequestMapping(value = "/events/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/events/add", method = RequestMethod.GET)
     public String showAddEventForm(Model model) {
 
 //        logger.debug("showAddEventForm()");
         Event event = new Event();
         model.addAttribute("event", event);
 
-        return "/events/eventForm";
+        return "events/eventForm";
     }
 
 
-    @RequestMapping(value = "/events", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/events", method = RequestMethod.POST)
     public String createOrUpdateEvent(@ModelAttribute("event") Event event,
                                       BindingResult result,
                                       final RedirectAttributes redirectAttributes) {
@@ -121,11 +121,11 @@ public class EventController {
             event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
             eventService.saveOrUpdate(event);
 
-            return "redirect:events/" + event.getId();
+            return "redirect:/admin/events/" + event.getId();
         }
     }
 
-    @RequestMapping(value = "/events", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/events", method = RequestMethod.GET)
     public String showAllEvents(Model model) {
 
 //        logger.debug("showAllEvents()");
@@ -145,32 +145,5 @@ public class EventController {
         }
         return resultList;
     }
-
-
-//    @RequestMapping(value = "/createEvent", method = RequestMethod.POST)
-//    public String createOrUpdateEvent(@ModelAttribute("EventModel") Event event, BindingResult result, ModelMap model) {
-//        if (result.hasErrors()) {
-//            return "error";
-//        }
-//        event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
-//        //eventService.saveOrUpdate(event);
-//
-//        model.addAttribute("name", event.getName());
-//        model.addAttribute("basePrice", event.getBasePrice());
-//        model.addAttribute("rating", event.getRating());
-//        model.addAttribute("dateAndAuditoriums", event.getDateAndAuditoriums());
-//        return "event";
-//    }
-
-//    @RequestMapping(value = "/enterEventData", method = RequestMethod.GET)
-//    public String showForm(Model model) {
-//        EventModel eventModel = new EventModel();
-//        model.addAttribute("EventModel", eventModel);
-//        return "eventForm";
-//        //  return "eventForm";
-//    }
-//
-//
-
 
 }

@@ -74,7 +74,7 @@
 
     <div>
         <%--@elvariable id="event" type="com.spring.domain.Event"--%>
-        <form:form method="POST" action="/events" modelAttribute="event">
+        <form:form method="POST" action="/admin/events" modelAttribute="event">
 
             <form:hidden path="id"/>
 
