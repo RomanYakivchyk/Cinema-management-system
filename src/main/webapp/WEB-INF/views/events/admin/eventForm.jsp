@@ -28,14 +28,6 @@
         var counter = ${event.dateAndAuditoriums.size()};
 
 
-        <%--var concatOptions = '';--%>
-        <%--var audList = ${auditoriums};--%>
-        <%--window.alert(${auditoriums});--%>
-        <%--for (var i in audList) {--%>
-        <%--// concatOptions += '<option value="' + audList[i] + '" label="' + audList[i] + '"></option>';--%>
-        <%--writeln(i);--%>
-        <%--writeln(audList[i]);--%>
-        <%--}--%>
 // todo names of auditoriums are hardcoded !!! remake some day
         function addMoreRows(form) {
             var path = "dateAndAuditoriums[" + counter + "]";

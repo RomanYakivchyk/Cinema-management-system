@@ -4,6 +4,7 @@ import com.spring.dao.UserDao;
 import com.spring.domain.User;
 import com.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
@@ -15,6 +16,13 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+//    @Autowired
+//    private BCryptPasswordEncoder passwordEncoder;
+
+//    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
+//        this.passwordEncoder = passwordEncoder;
+//    }
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -31,8 +39,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveOrUpdate(@Nonnull User object) {
-        return userDao.create(object);
+    public User saveOrUpdate(@Nonnull User user) {
+        if (user.getId() == 0) {
+            return userDao.create(user);
+        }
+        else
+            return userDao.update(user);
     }
 
     @Override
