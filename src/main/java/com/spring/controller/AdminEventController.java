@@ -1,6 +1,7 @@
 package com.spring.controller;
 
 import com.spring.dao.AuditoriumDao;
+
 import com.spring.domain.Auditorium;
 import com.spring.domain.Event;
 import com.spring.domain.EventDateAndAuditorium;
@@ -115,13 +116,11 @@ public class AdminEventController {
 //            } else {
 //                redirectAttributes.addFlashAttribute("msg", "Event updated successfully!");
 //            }
-            for (EventDateAndAuditorium e : event.getDateAndAuditoriums()) {
-                System.out.println(e.getStartTime() + " - " + e.getEndTime() + " | " + e.getAuditoriumName());
-            }
+            
             event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
             eventService.saveOrUpdate(event);
 
-            return "redirect:/admin/events/" + event.getId();
+            return "redirect:/admin/events";
         }
     }
 

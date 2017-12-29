@@ -1,51 +1,48 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
 <!DOCTYPE html >
 <head>
-    <title>Title</title>
-    <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-    </style>
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Event</title>
 </head>
 <body>
-<div>
-    <h1>Event</h1>
-    <br>
-    <div>Name: ${event.name}</div>
-    <br>
-    <div>base price: ${event.basePrice}</div>
-    <br>
-    <div>Rating: ${event.rating}</div>
-    <br>
-    <table>
-        <tr>
-            <th>Start</th>
-            <th>End</th>
-            <th>Auditorium</th>
-        </tr>
-        <c:forEach items="${event.dateAndAuditoriums}" var="item">
-            <tr>
-                <td><c:out value="${item.startTime}"/></td>
-                <td><c:out value="${item.endTime}"/></td>
-                <td><c:out value="${item.auditoriumName}"/></td>
-            </tr>
-        </c:forEach>
-    </table>
-</div>
+	<div class="container">
+		<div>
+			<h1>Event</h1>
+			<br>
+			<div>Name: ${event.name}</div>
+			<br>
+			<div>base price: ${event.basePrice}</div>
+			<br>
+			<div>Rating: ${event.rating}</div>
+			<br>
+			<table class="table table-hover">
+				<tr>
+					<th>Start</th>
+					<th>End</th>
+					<th>Auditorium</th>
+				</tr>
+				<c:forEach items="${event.dateAndAuditoriums}" var="item">
+					<tr>
+						<td><c:out value="${item.startTime}" /></td>
+						<td><c:out value="${item.endTime}" /></td>
+						<td><c:out value="${item.auditoriumName}" /></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+	</div>
 </body>
 

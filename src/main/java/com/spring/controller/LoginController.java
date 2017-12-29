@@ -1,6 +1,7 @@
 package com.spring.controller;
 
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,18 +27,8 @@ public class LoginController {
         return modelAndView;
     }
 
-//    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-//    public String register(
-//          @ModelAttribute("userForm")
-//            ) {
-//        ModelAndView modelAndView = new ModelAndView();
-//        if (error != null) {
-//            modelAndView.addObject("error", "Invalid username and password!");
-//        }
-//        if (logout != null) {
-//            modelAndView.addObject("msg", "You've been logged out successfully.");
-//        }
-//        modelAndView.setViewName("security/login");
-//        return modelAndView;
-//    }
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String register() {
+        return "security/register";
+    }
 }

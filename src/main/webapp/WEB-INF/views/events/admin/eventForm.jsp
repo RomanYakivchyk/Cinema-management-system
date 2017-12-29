@@ -1,153 +1,227 @@
 <%--@elvariable id="auditoriums" type="java.util.List"--%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <head>
-    <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-    </style>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript">
+
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="UTF-8" ></script>
+<!-- Latest compiled JavaScript -->
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js" ></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-datetimepicker.js" charset="UTF-8" ></script>
+<!-- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/bootstrap/js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>    -->
+
+
+
+  
+<script defer type="text/javascript">
         var counter = ${event.dateAndAuditoriums.size()};
-
-
 // todo names of auditoriums are hardcoded !!! remake some day
-        function addMoreRows(form) {
-            var path = "dateAndAuditoriums[" + counter + "]";
-            var recRow =
-                '<tr id="counter' + counter + '">' +
-                '<td><input name="' + path + ".startTime" + '" type="datetime-local"/></td>' +
-                '<td><input name="' + path + ".endTime" + '" type="datetime-local"/></td>' +
-                '<td><select name="' + path + ".auditoriumName" + '" title="Auditorium">' +
-                '<option value="NONE" label="-Select-"></option>' +
-                '<option value="RED" label="RED"></option>' +
-                '<option value="BLUE" label="BLUE"></option>' +
-                '</select></td>' +
-                '<td><input type="button" value="Delete"  onclick="removeRow(' + counter + ')"</td>' +
-                '</tr>';
-
-            counter++;
-
-            $('#addedRows').append(recRow);
+        function addMoreRows() {
+	
+        	var path = "dateAndAuditoriums[" + counter + "]";
+        	var table = document.getElementById("addedRows");
+        	var rowCount = table.rows.length;
+        	var row = table.insertRow(rowCount);
+        
+        	var cell1 = row.insertCell(0);
+        	var cell2 = row.insertCell(1);
+        	var cell3 = row.insertCell(2);
+        	var cell4 = row.insertCell(3);
+        	
+        	cell1.innerHTML =  
+            				   
+           					   '<div class="input-group date form_datetime" data-date-format="yyyy-mm-ddThh:mm">'+
+                			   '<input name="' + path + ".startTime" + '" type="text" class="form-control "   value="" />'+   
+							   '<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>'+      
+               				   '<span class="input-group-addon">'+
+                  		       '<span class="glyphicon glyphicon-calendar"></span>'+
+               				   '</span></div>';
+               				   
+        	cell2.innerHTML = 
+			   				  
+				  		      '<div class="input-group date form_datetime" data-date-format="yyyy-mm-ddThh:mm">'+
+			 				  '<input name="' + path + ".endTime" + '" type="text" class="form-control " value="" />'+   
+			  				  '<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>'+      
+						      '<span class="input-group-addon">'+
+  		    			      '<span class="glyphicon glyphicon-calendar"></span>'+
+				   	     	  '</span></div>';
+				   	     	  
+        	cell3.innerHTML =
+        					  '<select name="' + path + ".auditoriumName" + '" title="Auditorium" class="form-control" >' +
+           					  '<option value="None">Select</option>' +
+          					  '<option value="Red">Red</option>' +
+         				      '<option value="Blue">Blue</option>' +
+          				      '</select>';
+          				      
+          				      
+        	cell4.innerHTML = '<input type="button" value="Delete" class="btn btn-danger" onclick="removeRow(this)"/>';
+        	
+        	counter++;
         }
-
-        function removeRow(removeNum) {
-            $('#counter' + removeNum).remove();
-        }
+        
+        function removeRow(obj) {
+        		var index = obj.parentNode.parentNode.rowIndex;
+        	    var table = document.getElementById("addedRows");
+        	    table.deleteRow(index);
+        }       
+        
     </script>
 </head>
 <body>
-<div>
-    <c:choose>
-        <c:when test="${event['new']}">
-            <h1>Add event</h1>
-        </c:when>
-        <c:otherwise>
-            <h1>Update event</h1>
-        </c:otherwise>
-    </c:choose>
 
-    <div>
-        <%--@elvariable id="event" type="com.spring.domain.Event"--%>
-        <form:form method="POST" action="/admin/events" modelAttribute="event">
+	<div class="container">
+		<div>
+			<c:choose>
+				<c:when test="${event['new']}">
+					<h1>Add event</h1>
+				</c:when>
+				<c:otherwise>
+					<h1>Update event</h1>
+				</c:otherwise>
+			</c:choose>
 
-            <form:hidden path="id"/>
+			<div>
+				<%--@elvariable id="event" type="com.spring.domain.Event"--%>
+				<form:form method="POST"
+					action="${pageContext.request.contextPath}/admin/events"
+					modelAttribute="event" class="form-horizontal">
 
-            <div>
-                <label>Name</label>
-                <div>
-                    <form:input path="name" type="text"
-                                id="name" placeholder="Name"/>
-                    <form:errors path="name"/>
-                </div>
-            </div>
+					<form:hidden path="id" />
 
-            <div>
-                <label>Base price</label>
-                <div>
-                    <form:input path="basePrice"
-                                id="basePrice" placeholder="Base price"/>
-                    <form:errors path="basePrice"/>
-                </div>
-            </div>
+					<div class="form-group">
+						<label>Name</label>
+						<div>
+							<form:input path="name" type="text" id="name" placeholder="Name"
+								class="form-control" />
+							<form:errors path="name" />
+						</div>
+					</div>
 
-            <div>
-                <label>Rating</label>
-                <div>
-                    <label>
-                        <form:radiobutton path="rating" value="LOW"/> Low
-                    </label>
-                    <label>
-                        <form:radiobutton path="rating" value="MED"/> Medium
-                    </label>
-                    <label>
-                        <form:radiobutton path="rating" value="HIGH"/> High
-                    </label>
-                    <br/>
-                    <form:errors path="rating"/>
-                </div>
-            </div>
-            <hr>
+					<div class="form-group">
+						<label>Base price</label>
+						<div>
+							<form:input path="basePrice" id="basePrice"
+								placeholder="Base price" class="form-control" />
+							<form:errors path="basePrice" />
+						</div>
+					</div>
 
-            <table id="addedRows" rules="all">
-                <tr>
-                    <th>Start</th>
-                    <th>End</th>
-                    <th>Auditorium</th>
-                    <th></th>
-                </tr>
-                <c:forEach items="${event.dateAndAuditoriums}" var="item" varStatus="vs">
-                    <tr id="counter${vs.index}">
-                        <td><input name="dateAndAuditoriums[${vs.index}].startTime" type="datetime-local"
-                                   value="${item.startTime}" title="Start date"/></td>
-                        <td><input name="dateAndAuditoriums[${vs.index}].endTime" type="datetime-local"
-                                   value="${item.endTime}" title="End date"/></td>
-                        <td><select name="dateAndAuditoriums[${vs.index}].auditoriumName" title="Auditorium">
-                            <option value="NONE" label="-Select-"></option>
-                                <%--@elvariable id="auditoriums" type="java.util.List"--%>
-                            <c:forEach items="${auditoriums}" var="aud">
-                                <option label="${aud.name}" value="${aud.name}${aud.name == item.auditoriumName ? '" selected="selected': ''}">
-                                </option>
-                            </c:forEach>
-                        </select></td>
-                        <td><input type="button" value="Delete" onclick="removeRow(${vs.index})"/>
-                    </tr>
-                </c:forEach>
-            </table>
+					<div class="form-group">
+						<label>Rating</label>
+						<div>
+							<div class="radio-inline">
+								<form:radiobutton path="rating" value="LOW" />
+								Low
+							</div>
+							<div class="radio-inline">
+								<form:radiobutton path="rating" value="LOW" />
+								Medium
+							</div>
+							<div class="radio-inline">
+								<form:radiobutton path="rating" value="LOW" />
+								High
+							</div>
+						</div>
+					</div>
 
-            <div><input type="button" onclick="addMoreRows(this.form);" value="Add"/></div>
+					<br>
+
+					<table id="addedRows" class="table">
+						<tr>
+							<th>Start</th>
+							<th>End</th>
+							<th>Auditorium</th>
+							<th></th>
+						</tr>
+						<c:forEach items="${event.dateAndAuditoriums}" var="item"
+							varStatus="vs">
+							<tr>
+								<td>
+			      
+			                <div class='input-group date form_datetime' data-date-format="yyyy-mm-ddThh:mm">
+			                    <input name="dateAndAuditoriums[${vs.index}].startTime"
+												type="text" value="${item.startTime}"
+												title="Start date" class="form-control"/>   
+												<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>      
+			                    <span class="input-group-addon">
+			                        <span class="glyphicon glyphicon-calendar"></span>
+			                    </span>
+			                </div>
+			            
+			        
+
+									</td>
+								<td>
+								
+				
+		                <div class="input-group date form_datetime"  data-date-format="yyyy-mm-ddThh:mm">
+		                    <input name="dateAndAuditoriums[${vs.index}].endTime"
+											type="text" value="${item.endTime}"
+											title="End date" class="form-control"/>   
+											<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>      
+		                    <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+		                </div>
+		           
+		        		
+							</td>
+								<td><select
+									name="dateAndAuditoriums[${vs.index}].auditoriumName"
+									title="Auditorium" class="form-control">
+										<option value="None">Select</option>
+										<%--@elvariable id="auditoriums" type="java.util.List"--%>
+										<c:forEach items="${auditoriums}" var="aud">
+											<option value="${aud.name}${aud.name == item.auditoriumName ? '" selected="selected': ''}">${aud.name}</option>
+										</c:forEach>	
+								</select></td>
+								<td><input type="button"  class="btn btn-danger" value="Delete"
+									onclick="removeRow(this)" />
+							</tr>
+						</c:forEach>
+					</table>
+
+					<div>
+						<input type="button" class="btn btn-default"
+							onclick="addMoreRows();" value="Add" />
+					</div>
 
 
-            <div>
-                <div>
-                    <c:choose>
-                        <c:when test="${event['new']}">
-                            <button type="submit">Create</button>
-                        </c:when>
-                        <c:otherwise>
-                            <button type="submit">Update</button>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </div>
-        </form:form>
-    </div>
-</div>
+					<div>
+						<div>
+							<c:choose>
+								<c:when test="${event['new']}">
+									<button type="submit" class="btn btn-info">Create</button>
+								</c:when>
+								<c:otherwise>
+									<button type="submit" class="btn btn-info">Update</button>
+								</c:otherwise>
+							</c:choose>
+						</div>
+					</div>
+				</form:form>
+			</div>
+		</div>
+	
+	</div>
+	 <script type="text/javascript">
+          $(function () {
+    $(document).on('mouseenter', '.form_datetime', function () {
+        var $this = $(this);
+        $this.datetimepicker(); // You should probably check whether datapicker is already attached before binding it. 
+    });
+});
+        </script>
 </body>
