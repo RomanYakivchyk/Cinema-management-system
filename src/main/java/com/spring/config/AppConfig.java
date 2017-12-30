@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.context.annotation.*;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -20,7 +21,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @EnableAspectJAutoProxy
 @ComponentScan(basePackages = "com.spring")
-@Import({JdbcConfig.class,SecurityConfig.class}) //SecurityConfig.class
+@Import({JdbcConfig.class,SecurityConfig.class})
 public class AppConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public ViewResolver viewResolver() {

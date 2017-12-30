@@ -1,6 +1,8 @@
 package com.spring.service.impl;
 
+import com.spring.dao.RoleDao;
 import com.spring.dao.UserDao;
+import com.spring.domain.Role;
 import com.spring.domain.User;
 import com.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,43 +11,56 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private RoleDao roleDao;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-//    @Autowired
-//    private BCryptPasswordEncoder passwordEncoder;
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
 
-//    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
-//        this.passwordEncoder = passwordEncoder;
-//    }
+    public void setbCryptPasswordEncoder(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
 
-    @Nullable
-    @Override
-    public User findUserByEmail(@Nonnull String email) {
-        for(User user: findAll()){
-            if(email.equals(user.getEmail()))
+    public User findByUsername(String username) {
+        for (User user : findAll()) {
+            if (username.equals(user.getUsername())) {
+                for(Role role: user.getRoles()){
+                    System.out.println(role.getName());
+                }
                 return user;
+            }
         }
         return null;
     }
 
     @Override
     public User saveOrUpdate(@Nonnull User user) {
-        if (user.getId() == 0) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setActive((byte)1);
+        Role userRole = roleDao.findByName("ROLE_ADMIN");//todo
+        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+        if (user.getId() == 0)
             return userDao.create(user);
-        }
         else
             return userDao.update(user);
     }
+
 
     @Override
     public void delete(@Nonnull long id) {

@@ -1,8 +1,16 @@
 package com.spring.controller;
 
+import com.spring.domain.Role;
+import com.spring.domain.User;
+import com.spring.service.SecurityService;
+import com.spring.service.UserService;
+import com.spring.utility.UserValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +19,26 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LoginController {
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserValidator userValidator;
+
+    @Autowired
+    private SecurityService securityService;
+
+    public void setSecurityService(SecurityService securityService) {
+        this.securityService = securityService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public void setUserValidator(UserValidator userValidator) {
+        this.userValidator = userValidator;
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(
@@ -27,8 +55,32 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String register() {
+
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public String registration(Model model) {
+        model.addAttribute("user", new User());
         return "security/register";
+    }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String registration(@ModelAttribute("user") User user, BindingResult bindingResult) {
+
+        userValidator.validate(user, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "/security/register";
+        }
+
+        userService.saveOrUpdate(user);
+        System.out.println("saved");
+        for(Role r: userService.findByUsername("yakivchyk").getRoles()){
+            System.out.println(r.getId()+"|loginCOntroller|"+r.getName());
+        };
+        System.out.println(user.getUsername());
+        System.out.println(user.getPasswordConfirm());
+        securityService.autoLogin(user.getUsername(), user.getPasswordConfirm());
+        System.out.println("autologin");
+
+        return "redirect:/";
     }
 }
