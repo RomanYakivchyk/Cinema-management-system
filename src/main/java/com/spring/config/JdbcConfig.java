@@ -37,10 +37,10 @@ public class JdbcConfig {
                 .addScript("db/sql/populate-role-table.sql")
 
                 .addScript("db/sql/create-user-table.sql")
-                //.addScript("db/sql/populate-user-tabl.sql")
+                .addScript("db/sql/populate-user-tabl.sql")
 
                 .addScript("db/sql/create-user_role-table.sql")
-                //.addScript("db/sql/populate-user_role-table.sql")
+                .addScript("db/sql/populate-user_role-table.sql")
                 .build();
 
         return db;

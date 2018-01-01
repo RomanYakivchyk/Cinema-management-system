@@ -72,15 +72,7 @@ public class LoginController {
         }
 
         userService.saveOrUpdate(user);
-        System.out.println("saved");
-        for(Role r: userService.findByUsername("yakivchyk").getRoles()){
-            System.out.println(r.getId()+"|loginCOntroller|"+r.getName());
-        };
-        System.out.println(user.getUsername());
-        System.out.println(user.getPasswordConfirm());
         securityService.autoLogin(user.getUsername(), user.getPasswordConfirm());
-        System.out.println("autologin");
-
         return "redirect:/";
     }
 }

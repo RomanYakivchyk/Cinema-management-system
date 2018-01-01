@@ -23,13 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void setUserDetailsService(UserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
 	}
-//
-//	@Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//	    auth.inMemoryAuthentication().withUser("admin").password("1234").roles("ADMIN");
-//	    auth.inMemoryAuthentication().withUser("roman").password("1234").roles("USER");
-//
-//	}
+
+	@Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+	    auth.inMemoryAuthentication().withUser("admin").password("1234").roles("ADMIN");
+	    auth.inMemoryAuthentication().withUser("roman").password("1234").roles("USER");
+
+	}
 
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -57,8 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	}
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-	}
+//	@Autowired
+//	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+//	}
 }
