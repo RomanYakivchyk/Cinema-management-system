@@ -15,7 +15,6 @@
           rel="stylesheet" media="screen">
     <%-- for footer--%>
     <link href="${pageContext.request.contextPath}/resources/css/footer.css" rel="stylesheet">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="UTF-8"></script>
@@ -79,27 +78,10 @@
         }
 
     </script>
-    <style>
-        body {
-            padding: 0;
-            margin: 0;
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
-        }
-
-        #addedRows {
-            flex: 1;
-            padding: 1em;
-        }
-
-
-    </style>
 </head>
 <body>
-
 <div class="container">
-    <div>
+    <div class="page-wrap">
         <c:choose>
             <c:when test="${event['new']}">
                 <h1>Add event</h1>
@@ -120,7 +102,7 @@
                 <div class="form-group">
                     <label>Name</label>
                     <div>
-                        <form:input path="name" type="text" id="name" placeholder="Name"
+                        <form:input path="name" type="text" id="name" 
                                     class="form-control"/>
                         <form:errors path="name"/>
                     </div>
@@ -130,7 +112,7 @@
                     <label>Base price</label>
                     <div>
                         <form:input path="basePrice" id="basePrice"
-                                    placeholder="Base price" class="form-control"/>
+                                     class="form-control"/>
                         <form:errors path="basePrice"/>
                     </div>
                 </div>
@@ -152,7 +134,86 @@
                         </div>
                     </div>
                 </div>
-
+                
+                 <%-- <div class="form-group">
+                    <label>upload image</label>
+                    <div>
+                        <form:input path="basePrice" id="basePrice"
+                                    placeholder="Base price" class="form-control"/>
+                        <form:errors path="basePrice"/>
+                    </div>
+                </div> --%>
+                
+                 <div class="form-group">
+                    <label>Country</label>
+                    <div>
+                        <input name="country" type="text" class="form-control"/>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label>Year</label>
+                    <div>
+                        <input name="year" class="form-control year-picker" type="text"/>
+                    </div>
+                    <script type="text/javascript">
+      $('.year-picker').datepicker({
+         minViewMode: 2,
+         format: 'yyyy'
+       });
+  </script>
+                </div>
+                
+                  <div class="form-group">
+                  
+                    <label>Genre</label>
+                   
+                    <c:forEach items="${genres}" var="genre">
+                    <label class="checkbox-inline">
+			     		 <form:input path="genre"  class="form-control"/>
+			   		 </label>
+                    </c:forEach>
+                </div>
+                
+                 <div class="form-group">
+                    <label>Language</label>
+                    <div>
+                        <input name="language" type="text" class="form-control"/>
+                    </div>
+                </div>
+                
+                 <div class="form-group">
+                    <label>Directed by</label>
+                    <div>
+                        <input name="directedBy" type="text" class="form-control"/>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Description</label>
+                    <div>
+                        <textarea name="descripton" class="form-control" rows="3" required></textarea>
+                    </div>
+                </div>
+                
+                  <div class="form-group">
+                    <label>Duration</label>
+                    <div>
+                        <input name="duration" type="text" class="form-control"/>
+                    </div>
+                </div>
+ 				<div class="form-group">
+                    <label>Technology</label>
+                    <div>
+                        <input name="technology" type="text" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Age from:</label>
+                    <div>
+                        <input name="minAge" type="text" class="form-control"/>
+                    </div>
+                </div>
+                
                 <br>
 
                 <table id="addedRows" class="table">
@@ -245,5 +306,5 @@
         });
     });
 </script>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="//WEB-INF/views/fragments/footer.jsp"/>
 </body>

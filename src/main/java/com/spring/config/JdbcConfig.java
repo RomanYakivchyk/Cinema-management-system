@@ -41,6 +41,9 @@ public class JdbcConfig {
 
                 .addScript("db/sql/create-user_role-table.sql")
                 .addScript("db/sql/populate-user_role-table.sql")
+                
+                .addScript("db/sql/create-and-populate-genre-table.sql")
+                .addScript("db/sql/create-genre_event-table.sql")
                 .build();
 
         return db;

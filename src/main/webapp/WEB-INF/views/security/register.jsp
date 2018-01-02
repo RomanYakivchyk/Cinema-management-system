@@ -10,7 +10,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-
+ <%-- for footer--%>
+    <link href="${pageContext.request.contextPath}/resources/css/footer.css" rel="stylesheet">
+    
 <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -106,5 +108,6 @@ h2 {
 			</div>
 		</div>
 	</div>
+	<jsp:include page="//WEB-INF/views/fragments/footer.jsp"/>
 </body>
 </html>

@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 @Component
-@Scope("prototype")
 public class User extends DomainObject {
 
     private String firstName;

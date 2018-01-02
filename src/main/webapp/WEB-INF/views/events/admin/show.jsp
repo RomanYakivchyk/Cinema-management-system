@@ -9,7 +9,6 @@
 
     <%-- for footer--%>
     <link href="${pageContext.request.contextPath}/resources/css/footer.css" rel="stylesheet">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- jQuery library -->
     <script
@@ -48,6 +47,6 @@
         </table>
     </div>
 </div>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="//WEB-INF/views/fragments/footer.jsp"/>
 </body>
 

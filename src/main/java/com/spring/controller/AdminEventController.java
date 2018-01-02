@@ -2,11 +2,15 @@ package com.spring.controller;
 
 import com.spring.dao.AuditoriumDao;
 
+
 import com.spring.domain.Auditorium;
 import com.spring.domain.Event;
 import com.spring.domain.EventDateAndAuditorium;
+import com.spring.domain.Technology;
 import com.spring.service.AuditoriumService;
 import com.spring.service.EventService;
+import com.spring.service.GenreService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +35,16 @@ public class AdminEventController {
     private final EventService eventService;
 
     private final AuditoriumService auditoriumService;
+    
+    private final GenreService genreService;
 
     @Autowired
-    public AdminEventController(EventService eventService, AuditoriumService auditoriumService) {
+    public AdminEventController(EventService eventService, AuditoriumService auditoriumService,GenreService genreService) {
         this.eventService = eventService;
         this.auditoriumService = auditoriumService;
+        this.genreService = genreService;
     }
 
-    //todo it is temporary
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Model model) {
-        return "redirect:/admin/events";
-    }
 
     // show event
     @RequestMapping(value = "/admin/events/{id}", method = RequestMethod.GET)
@@ -82,7 +84,8 @@ public class AdminEventController {
         Event event = eventService.findById(id);
         model.addAttribute("event", event);
         model.addAttribute("auditoriums", auditoriumService.findAll());
-
+        model.addAttribute("technologies",Technology.values());
+        model.addAttribute("genres",genreService.findAll());
         return "events/admin/eventForm";
 
     }
@@ -92,8 +95,10 @@ public class AdminEventController {
 
 //        logger.debug("showAddEventForm()");
         Event event = new Event();
-        model.addAttribute("event", event);
-
+        model.addAttribute("event", event);     
+        model.addAttribute("technologies",Technology.values());
+        model.addAttribute("genres",genreService.findAll());
+        System.out.println(genreService.findAll().size());
         return "events/admin/eventForm";
     }
 
