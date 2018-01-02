@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.NavigableSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.TreeSet;
 
 @Component
@@ -18,7 +19,52 @@ public class User extends DomainObject {
     private String email;
     private NavigableSet<Ticket> tickets = new TreeSet<>();
 
+    private String username;
+    private String password;
+    private String passwordConfirm;
+    private byte active;
+    private Set<Role> roles;
 
+
+    public byte getActive() {
+        return active;
+    }
+
+    public void setActive(byte active) {
+        this.active = active;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public LocalDate getBirthday() {
         return birthday;
@@ -101,15 +147,4 @@ public class User extends DomainObject {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + getId() +
-                "birthday=" + birthday +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", tickets=" + tickets +
-                '}';
-    }
 }

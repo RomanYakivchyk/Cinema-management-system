@@ -8,13 +8,6 @@ import javax.annotation.Nullable;
 
 public interface UserService extends AbstractDomainObjectService<User> {
 
-    /**
-     * Finding user by email
-     * 
-     * @param email
-     *            Email of the user
-     * @return found user or <code>null</code>
-     */
-    public @Nullable User findUserByEmail(@Nonnull String email);
+     @Nullable User findByUsername(@Nonnull String email);
 
 }

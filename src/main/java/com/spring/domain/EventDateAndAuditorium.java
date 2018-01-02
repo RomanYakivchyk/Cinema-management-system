@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class EventDateAndAuditorium {
 
- 
+
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;

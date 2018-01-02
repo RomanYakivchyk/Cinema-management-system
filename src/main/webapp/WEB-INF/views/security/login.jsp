@@ -1,19 +1,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+<script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <title>Login Page</title>
 <style>
 form {
@@ -60,7 +58,7 @@ h2 {
 			<div class="panel panel-primary">
 				<div class="panel-body">
 					<form name='loginForm' method="POST"
-						action="${pageContext.request.contextPath}/login" role="form">
+						action="${contextPath}/login" class="form-signin">
 						<div class="form-group">
 							<h2>Log in</h2>
 						</div>
@@ -89,7 +87,7 @@ h2 {
 					</form>
 					<hr>
 					<p id="newAcc">
-						<a href="${pageContext.request.contextPath}/register">Create new account</a>
+						<a href="${contextPath}/registration">Create new account</a>
 					</p>
 				</div>
 			</div>

@@ -29,8 +29,18 @@ public class JdbcConfig {
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript("db/sql/create-event-table.sql")
                 .addScript("db/sql/populate-event-table.sql")
+
                 .addScript("db/sql/create-event-date-and-aud-table.sql")
-               // .addScript("db/sql/populate-event-date-and-aud-table.sql")
+                .addScript("db/sql/populate-event-date-and-aud-table.sql")
+
+                .addScript("db/sql/create-role-table.sql")
+                .addScript("db/sql/populate-role-table.sql")
+
+                .addScript("db/sql/create-user-table.sql")
+                .addScript("db/sql/populate-user-tabl.sql")
+
+                .addScript("db/sql/create-user_role-table.sql")
+                .addScript("db/sql/populate-user_role-table.sql")
                 .build();
 
         return db;
