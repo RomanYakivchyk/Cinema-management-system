@@ -98,7 +98,6 @@ public class AdminEventController {
         model.addAttribute("event", event);     
         model.addAttribute("technologies",Technology.values());
         model.addAttribute("genres",genreService.findAll());
-        System.out.println(genreService.findAll().size());
         return "events/admin/eventForm";
     }
 

@@ -2,11 +2,11 @@ package com.spring.domain;
 
 import java.time.LocalDateTime;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class EventDateAndAuditorium {
-
-
+	
     private LocalDateTime startTime;
-
     private LocalDateTime endTime;
 
     private String auditoriumName;
@@ -22,6 +22,7 @@ public class EventDateAndAuditorium {
         this.auditoriumName = auditoriumName;
     }
 
+    
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -37,4 +38,5 @@ public class EventDateAndAuditorium {
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
+    
 }
