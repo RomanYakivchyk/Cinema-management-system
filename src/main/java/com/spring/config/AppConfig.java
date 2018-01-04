@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import org.springframework.context.annotation.*;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "com.spring")
 @Import({JdbcConfig.class,SecurityConfig.class})
 public class AppConfig extends WebMvcConfigurerAdapter {
+
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -31,6 +33,17 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		viewResolver.setSuffix(".jsp");
 
 		return viewResolver;
+	}
+
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+
+		CommonsMultipartResolver cmr = new CommonsMultipartResolver();
+		int maxUploadSizeInMb = 5 * 1024 * 1024; //5 mb
+		cmr.setMaxUploadSize(maxUploadSizeInMb * 2);
+		cmr.setMaxUploadSizePerFile(maxUploadSizeInMb); //bytes
+		return cmr;
+
 	}
 
 	@Override
