@@ -16,8 +16,8 @@
     <script
             src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%-- for footer--%>
-    <link href="${pageContext.request.contextPath}/resources/css/footer.css" rel="stylesheet">
+    <%-- for footer
+    <link href="${pageContext.request.contextPath}/resources/css/footer.css" rel="stylesheet"> --%>
     
     <title>All Events</title>
 </head>
@@ -60,6 +60,6 @@
         </c:forEach>
     </table>
 </div>
-<jsp:include page="//WEB-INF/views/fragments/footer.jsp"/>
+<%-- <jsp:include page="//WEB-INF/views/fragments/footer.jsp"/>--%>
 </body>
 </html>

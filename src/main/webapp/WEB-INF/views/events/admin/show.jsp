@@ -7,9 +7,7 @@
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 
-    <%-- for footer--%>
-    <link href="${pageContext.request.contextPath}/resources/css/footer.css" rel="stylesheet">
-
+  
     <!-- jQuery library -->
     <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -47,6 +45,5 @@
         </table>
     </div>
 </div>
-<jsp:include page="//WEB-INF/views/fragments/footer.jsp"/>
 </body>
 
