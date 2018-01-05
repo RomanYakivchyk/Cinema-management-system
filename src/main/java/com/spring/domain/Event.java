@@ -4,6 +4,7 @@ import org.apache.commons.collections4.FactoryUtils;
 
 import org.apache.commons.collections4.list.LazyList;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.*;
 
@@ -13,7 +14,7 @@ public class Event extends DomainObject {
     private String name;
     private double basePrice;
     private EventRating rating;
-    private byte[] image;
+    private CommonsMultipartFile image;
     private String country;
     private int year;
     private String language;
@@ -32,18 +33,33 @@ public class Event extends DomainObject {
     public Event() {
     }
 
+
+    public boolean isNew() {
+        return (getId() == 0L);
+    }
     
     
-    public byte[] getImage() {
+    
+    
+    
+	@Override
+	public String toString() {
+		return "Event [name=" + name + ", basePrice=" + basePrice + ", rating=" + rating + ", image=" + image
+				+ ", country=" + country + ", year=" + year + ", language=" + language + ", genres=" + genres
+				+ ", actors=" + actors + ", directedBy=" + directedBy + ", description=" + description
+				+ ", durationMin=" + durationMin + ", technology=" + technology + ", minAge=" + minAge
+				+ ", dateAndAuditoriums=" + dateAndAuditoriums + "]";
+	}
+
+
+	public CommonsMultipartFile getImage() {
 		return image;
 	}
 
 
-
-	public void setImage(byte[] image) {
+	public void setImage(CommonsMultipartFile image) {
 		this.image = image;
 	}
-
 
 
 	public String getCountry() {
@@ -79,11 +95,6 @@ public class Event extends DomainObject {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-
-
-
-	
-
 
 
 	public List<String> getGenres() {
@@ -190,20 +201,6 @@ public class Event extends DomainObject {
         this.dateAndAuditoriums = dateAndAuditoriums;
     }
 
-    public boolean isNew() {
-        return (getId() == 0L);
-    }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "name='" + name + '\'' +
-                ", basePrice=" + basePrice +
-                ", rating=" + rating +
-                ", dateAndAuditoriums=" + dateAndAuditoriums +
-                '}';
-    }
-
 
 
 	public Technology getTechnology() {
@@ -215,5 +212,7 @@ public class Event extends DomainObject {
 	public void setTechnology(Technology technology) {
 		this.technology = technology;
 	}
+	
+	
 
 }

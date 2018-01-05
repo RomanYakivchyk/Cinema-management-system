@@ -4,11 +4,8 @@ import com.spring.config.security.SecurityConfig;
 import com.spring.utility.LocalDateConverter;
 import com.spring.utility.LocalDateTimeConverter;
 
-import java.time.LocalDateTime;
-
 import org.springframework.context.annotation.*;
 import org.springframework.format.FormatterRegistry;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
