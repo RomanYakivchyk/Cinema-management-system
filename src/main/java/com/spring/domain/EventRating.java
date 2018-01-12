@@ -2,19 +2,38 @@ package com.spring.domain;
 
 public enum EventRating {
 
-    LOW(0.9),
+    LOW("Low",0.9),
 
-    MED(1.0),
+    MED("Medium",1.0),
 
-    HIGH(1.1);
+    HIGH("High",1.1);
+	
+	
+	private String name;
+	private Double coef;
+	
+	private EventRating(String name, Double coef) {
+		this.name = name;
+		this.coef = coef;
+	}
 
-    EventRating(double coef){
-        this.coef = coef;
-    }
+	public String getName() {
+		return name;
+	}
 
-    private double coef;
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public double getCoef() {
-        return coef;
-    }
+	public Double getCoef() {
+		return coef;
+	}
+
+	public void setCoef(Double coef) {
+		this.coef = coef;
+	}
+	
+	
+
+  
 }

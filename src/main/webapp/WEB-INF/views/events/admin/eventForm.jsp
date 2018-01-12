@@ -15,6 +15,10 @@
 <link
 	href="${pageContext.request.contextPath}/resources/bootstrap/css/_bootstrap-datetimepicker.css"
 	rel="stylesheet" media="screen">
+
+<link
+	href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap-imageupload.css"
+	rel="stylesheet">
 <!-- jQuery library -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
@@ -40,46 +44,50 @@
 	rel="stylesheet" media="screen">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/bootstrap/js/jquery.bootstrap-touchspin.js"></script>
+<!-- imageupload -->
+<script
+	src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap-imageupload.js"></script>
 
-<script defer type="text/javascript">
-        // todo names of auditoriums are hardcoded !!! remake some day
-        function addMoreRows() {
+<script type="text/javascript">
+	// todo names of auditoriums are hardcoded !!! remake some day
+	function addMoreRows() {
 
-            var table = document.getElementById("addedRows");
-            var rowCount = table.rows.length;
-            var path = "dateAndAuditoriums[" + rowCount + "]";
-// add row var
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
+		var table = document.getElementById("addedRows");
+		var rowCount = table.rows.length;
+		var row = table.insertRow(rowCount);
+		var path = "dateAndAuditoriums[" + rowCount + "]";
 
-            cell1.innerHTML = '<div class="input-group date form_datetime">'
-                + '<input name="' + path + ".startTime" + '" type="text" class="form-control" value="" />'
-                + '<span class="input-group-addon">'
-                + '<span class="glyphicon glyphicon-calendar"></span>'
-                + '</span></div>';
+		var cell1 = row.insertCell(0);
+		var cell2 = row.insertCell(1);
+		var cell3 = row.insertCell(2);
+		var cell4 = row.insertCell(3);
 
-            cell2.innerHTML = '<div class="input-group date form_datetime">'
-                + '<input name="' + path + ".endTime" + '" type="text" class="form-control" value="" />'
-                + '<span class="input-group-addon">'
-                + '<span class="glyphicon glyphicon-calendar"></span>'
-                + '</span></div>';
+		cell1.innerHTML = '<div class="input-group date form_datetime">'
+				+ '<input name="' + path + ".startTime" + '" type="text" class="form-control" value="" />'
+				+ '<span class="input-group-addon">'
+				+ '<span class="glyphicon glyphicon-calendar"></span>'
+				+ '</span></div>';
 
-            cell3.innerHTML = '<select name="' + path + ".auditoriumName" + '" title="Auditorium" class="form-control" >'
-                + '<option value="None">Select</option>'
-                + '<option value="Red">Red</option>'
-                + '<option value="Blue">Blue</option>' + '</select>';
+		cell2.innerHTML = '<div class="input-group date form_datetime">'
+				+ '<input name="' + path + ".endTime" + '" type="text" class="form-control" value="" />'
+				+ '<span class="input-group-addon">'
+				+ '<span class="glyphicon glyphicon-calendar"></span>'
+				+ '</span></div>';
+		//TODO hardcoded auditorium names
+		cell3.innerHTML = '<select name="' + path + ".auditoriumName" + '" title="Auditorium" class="form-control" >'
+				+ '<option value="None">Select</option>'
+				+ '<option value="Red">Red</option>'
+				+ '<option value="Blue">Blue</option>' + '</select>';
 
-            cell4.innerHTML = '<input type="button" value="Delete" class="btn btn-danger" onclick="removeRow(this)"/>';
-        }
+		cell4.innerHTML = '<input type="button" value="Delete" class="btn btn-danger" onclick="removeRow(this)"/>';
+	}
 
-        function removeRow(obj) {
-            var index = obj.parentNode.parentNode.rowIndex;
-            var table = document.getElementById("addedRows");
-            table.deleteRow(index);
-        }
-    </script>
+	function removeRow(obj) {
+		var index = obj.parentNode.parentNode.rowIndex;
+		var table = document.getElementById("addedRows");
+		table.deleteRow(index);
+	}
+</script>
 <style>
 .container {
 	max-width: 800px;
@@ -109,10 +117,10 @@ textarea {
 			<div class="panel-body">
 				<%--@elvariable id="event" type="com.spring.domain.Event"--%>
 				<form:form method="POST"
-					action="${pageContext.request.contextPath}/admin/events"
-					modelAttribute="event">
-
+					action="${pageContext.request.contextPath}/admin/events?${_csrf.parameterName}=${_csrf.token}"
+					enctype="multipart/form-data" modelAttribute="event">
 					<form:hidden path="id" />
+
 					<div class="form-group">
 						<label>Name</label>
 						<div>
@@ -128,43 +136,63 @@ textarea {
 							<form:errors path="basePrice" />
 						</div>
 					</div>
-					<%-- <div class="form-group">
-						<label>Upload image</label>
-						<div>
-							<form:input type="file" path="image" id="image" class="form-control" />
-							<form:errors path="image" />
+
+
+					<div class="form-group">
+						<label>Image</label>
+						<div class="imageupload panel panel-default">
+							<div class="panel-heading clearfix">
+								<h5 class="pull-left">Upload image</h5>
+								<div class="btn-group pull-right">
+									<button type="button" class="btn btn-default active">File</button>
+									<button type="button" class="btn btn-default">URL</button>
+								</div>
+							</div>
+							<div class="file-tab panel-body">
+								<div>
+									<button type="button" class="btn btn-default btn-file">
+										<span>Browse</span> <input type="file" name="image">
+									</button>
+									<button type="button" class="btn btn-default">Remove</button>
+								</div>
+							</div>
+							<div class="url-tab panel-body">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Image URL">
+									<div class="input-group-btn">
+										<button type="button" class="btn btn-default">Submit</button>
+									</div>
+								</div>
+								<input type="hidden" name="url-input">
+							</div>
 						</div>
-					</div> --%>
+					</div>
+
+
 					<div class="form-group">
 						<label>Rating</label>
 						<div>
-							<div class="radio-inline">
-								<form:radiobutton path="rating" value="LOW" />
-								Low
-							</div>
-							<div class="radio-inline">
-								<form:radiobutton path="rating" value="LOW" />
-								Medium
-							</div>
-							<div class="radio-inline">
-								<form:radiobutton path="rating" value="LOW" />
-								High
-							</div>
+							<c:forEach var="rating" items="${eventRatings}">
+								<div class="radio-inline">
+									<form:radiobutton path="rating" value="${rating}" />
+									${rating.name}
+								</div>
+							</c:forEach>
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Country</label>
 						<div>
-							<input name="country" type="text" class="form-control" />
+							<form:input path="country" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Year</label>
 						<div class='input-group date' id='yearpicker'>
-							<input type='text' class="form-control" /> <span
-								class="input-group-addon"> <span
+							<span class="input-group-addon"> <span
 								class="glyphicon glyphicon-calendar"></span>
 							</span>
+							<form:input path="year" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -203,41 +231,40 @@ textarea {
 					<div class="form-group">
 						<label>Language</label>
 						<div>
-							<input name="language" type="text" class="form-control" />
+							<form:input path="language" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Actors</label>
 						<div>
-							<input name="language" type="text" class="form-control" />
+							<form:textarea path="actors" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Directed by</label>
 						<div>
-							<input name="directedBy" type="text" class="form-control" />
+							<form:input path="directedBy" class="form-control" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Description</label>
 						<div>
-							<textarea name="descripton" class="form-control" rows="5"></textarea>
+							<form:textarea path="description" class="form-control" rows="5" />
 						</div>
 					</div>
 					<div class="form-group ">
 						<label>Duration</label>
 						<div>
-							<input name="duration" type="text" class="form-control" value="" />
-
+							<form:input path="durationMin" class="form-control" value="" />
 						</div>
 					</div>
 					<div class="form-group">
-						<label>Technology</label>
+						<label class="control-label">Technology</label>
 						<div>
-							<c:forEach var="item" items="${technologies}">
+							<c:forEach var="technology" items="${technologies}">
 								<div class="radio-inline">
-									<form:radiobutton path="technology" />
-									${item.name}
+									<form:radiobutton path="technology" value="${technology}"/>
+									${technology.name}
 								</div>
 							</c:forEach>
 						</div>
@@ -260,34 +287,31 @@ textarea {
 							<tr>
 								<td>
 									<div class='input-group date form_datetime'>
-										<input type='text' class="form-control"
-											name="dateAndAuditoriums[${vs.index}].startTime"
-											value="${item.startTime}" /> <span class="input-group-addon">
-											<span class="glyphicon glyphicon-calendar"></span>
+										<form:input class="form-control"
+											path="dateAndAuditoriums[${vs.index}].startTime"
+											value="${item.startTime}" />
+										<span class="input-group-addon"> <span
+											class="glyphicon glyphicon-calendar"></span>
 										</span>
 									</div>
 								</td>
 								<td>
 									<div class='input-group date form_datetime'>
-										<input type='text'
-											name="dateAndAuditoriums[${vs.index}].endTime"
-											value="${item.endTime}" class="form-control" /> <span
-											class="input-group-addon"> <span
+										<form:input path="dateAndAuditoriums[${vs.index}].endTime"
+											value="${item.endTime}" class="form-control" />
+										<span class="input-group-addon"> <span
 											class="glyphicon glyphicon-calendar"></span>
 										</span>
 									</div>
 								</td>
-								<td><select
-									name="dateAndAuditoriums[${vs.index}].auditoriumName"
-									title="Auditorium" class="form-control">
-										<option value="None">Select</option>
-										<%--@elvariable id="auditoriums" type="java.util.List"--%>
+								<td><form:select
+										path="dateAndAuditoriums[${vs.index}].auditoriumName"
+										class="form-control">
+										<form:option value="None" label="Select" />
 										<c:forEach items="${auditoriums}" var="aud">
-											<option
-												value="${aud.name}${aud.name == item.auditoriumName ? '"
-												selected="selected': ''}">${aud.name}</option>
+											<form:option value="${aud.name}" label="${aud.name}" />
 										</c:forEach>
-								</select></td>
+									</form:select></td>
 								<td><input type="button" class="btn btn-danger"
 									value="Delete" onclick="removeRow(this)" />
 							</tr>
@@ -295,10 +319,11 @@ textarea {
 					</table>
 					<div>
 						<input type="button" class="btn btn-default"
-							onclick="addMoreRows();" value="Add" />
+							onclick="addMoreRows();" value="Add date" />
 					</div>
-					<div>
-						<div>
+					<br>
+					<hr>
+						<div class="text-center">
 							<c:choose>
 								<c:when test="${event['new']}">
 									<button type="submit" class="btn btn-info">Create</button>
@@ -308,82 +333,89 @@ textarea {
 								</c:otherwise>
 							</c:choose>
 						</div>
-					</div>
 				</form:form>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
-    $(function () {
-        $('#yearpicker').datetimepicker({
-            format: 'YYYY'
-        });
-    });
-</script>
+		$(function() {
+			$('#yearpicker').datetimepicker({
+				format : 'YYYY'
+			});
+		});
+	</script>
 	<script>
-    $(function () {
-        $(document)
-            .on(
-                'click',
-                '#ageBtn',
-                function () {
-                    $("#ageBtn").remove();
-                    $("#age")
-                        .append(
-                            '<label>Age from:</label> <div><input name="minAge"' +
-                            'type="text" class="form-control"/></div><button class="btn btn-default btn-sm" type="button" id="removeAgeBtn">remove</button>');
-                });
+		$(function() {
+			$(document)
+					.on(
+							'click',
+							'#ageBtn',
+							function() {
+								$("#ageBtn").remove();
+								$("#age")
+										.append(
+												'<label>Age from:</label> <div><input name="minAge"' +
+                            'type="text" class="form-control"/></div><button style="margin-top:2px" class="btn btn-default btn-sm" type="button" id="removeAgeBtn">remove</button>');
+							});
 
-    });
-</script>
+		});
+	</script>
 	<script>
-    $("input[name='duration']").TouchSpin({
-        step: 5,
-        initval: 20,
-        min: 20,
-        max: 1440
-    });
-</script>
+		$("input[name='durationMin']").TouchSpin({
+			step : 5,
+			initval : 20,
+			min : 20,
+			max : 1440
+		});
+	</script>
 	<script>
-    $(function () {
-        $(document).on('mouseenter', 'input[name="minAge"]', function () {
-            var $this = $(this);
-            $this.TouchSpin({
-                initval: 4,
-                min: 4,
-                max: 21
-            }); // You should probably check whether datapicker is already attached before binding it.
-        });
-    });
-</script>
+		$(function() {
+			$(document).on('mouseenter', 'input[name="minAge"]', function() {
+				var $this = $(this);
+				$this.TouchSpin({
+					initval : 4,
+					min : 4,
+					max : 21
+				}); // You should probably check whether datapicker is already attached before binding it.
+			});
+		});
+	</script>
 	<script>
-    $(function () {
-        $(document)
-            .on(
-                'click',
-                '#removeAgeBtn',
-                function () {
-                    $("#age").html("");
-                    $("#ageButtonContainer")
-                        .append(
-                            '<button id="ageBtn" class="btn btn-default">Add age restriction</button>');
-                });
-    });
-</script>
+		$(function() {
+			$(document)
+					.on(
+							'click',
+							'#removeAgeBtn',
+							function() {
+								$("#age").html("");
+								$("#ageButtonContainer")
+										.append(
+												'<button id="ageBtn" class="btn btn-default">Add age restriction</button>');
+							});
+		});
+	</script>
 	<script type="text/javascript">
-    $(function () {
-        $(document).on('mouseenter', '.form_datetime', function () {
-            $(this).datetimepicker({
-                format: 'YYYY-MM-DD HH:mm'
-            });
-        });
-    });
-</script>
+		$(function() {
+			$(document).on('mouseenter', '.form_datetime', function() {
+				$(this).datetimepicker({
+					format : 'YYYY-MM-DD HH:mm'
+				});
+			});
+		});
+	</script>
 	<script type="text/javascript">
-    $(function () {
-        $('.form_datetime').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm'
-        });
-    });
-</script>
+		$(function() {
+			$('.form_datetime').datetimepicker({
+				format : 'YYYY-MM-DD HH:mm'
+			});
+		});
+	</script>
+	<script>
+		$('.imageupload').imageupload({
+			allowedFormats : [ "jpg", "jpeg", "png", "gif" ],
+			previewWidth : 250,
+			previewHeight : 250,
+			maxFileSizeKb : 5120
+		});
+	</script>
 </body>

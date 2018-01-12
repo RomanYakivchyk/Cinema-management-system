@@ -5,6 +5,7 @@ import com.spring.dao.AuditoriumDao;
 import com.spring.domain.Auditorium;
 import com.spring.domain.Event;
 import com.spring.domain.EventDateAndAuditorium;
+import com.spring.domain.EventRating;
 import com.spring.domain.Technology;
 import com.spring.service.AuditoriumService;
 import com.spring.service.EventService;
@@ -48,19 +49,6 @@ public class AdminEventController {
 		this.genreService = genreService;
 	}
 	
-	@InitBinder
-    public void myInitBinder(WebDataBinder dataBinder) {
-        Object target = dataBinder.getTarget();
-        if (target == null) {
-            return;
-        } 
-        if (target.getClass() == Event.class) {
-     //       dataBinder.setValidator(productInfoValidator);
-            // For upload Image.
-            dataBinder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
-        }
-    }
-	
 	
 	// show event
 	@RequestMapping(value = "/admin/events/{id}", method = RequestMethod.GET)
@@ -98,8 +86,9 @@ public class AdminEventController {
 
 		Event event = eventService.findById(id);
 		model.addAttribute("event", event);
-		model.addAttribute("auditoriums", auditoriumService.findAll());
+		model.addAttribute("eventRatings",EventRating.values());
 		model.addAttribute("technologies", Technology.values());
+		model.addAttribute("auditoriums", auditoriumService.findAll());
 		model.addAttribute("genres", genreService.findAll());
 		return "events/admin/eventForm";
 
@@ -112,6 +101,8 @@ public class AdminEventController {
 		Event event = new Event();
 		model.addAttribute("event", event);
 		model.addAttribute("technologies", Technology.values());
+		model.addAttribute("eventRatings",EventRating.values());
+		model.addAttribute("auditoriums", auditoriumService.findAll());
 		model.addAttribute("genres", genreService.findAll());
 		return "events/admin/eventForm";
 	}
@@ -123,6 +114,7 @@ public class AdminEventController {
 		// logger.debug("createOrUpdateEvent() event=", event);
 
 		if (result.hasErrors()) {
+			System.out.println(result.getFieldError());
 			return "events/admin/eventForm";
 		} else {
 			

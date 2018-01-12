@@ -4,6 +4,7 @@ import org.apache.commons.collections4.FactoryUtils;
 
 import org.apache.commons.collections4.list.LazyList;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.util.*;
@@ -12,19 +13,19 @@ import java.util.*;
 public class Event extends DomainObject {
 
     private String name;
-    private double basePrice;
+    private Double basePrice;
     private EventRating rating;
-    private CommonsMultipartFile image;
+    private MultipartFile image;
     private String country;
-    private int year;
+    private Integer year;
     private String language;
     private List<String> genres;
     private List<String> actors;
     private String directedBy;
     private String description;
-    private int durationMin;
+    private Integer durationMin;
     private Technology technology;
-    private int minAge;
+    private Integer minAge;
     
     
     private List<EventDateAndAuditorium> dateAndAuditoriums = LazyList.lazyList(
@@ -52,12 +53,42 @@ public class Event extends DomainObject {
 	}
 
 
-	public CommonsMultipartFile getImage() {
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public Double getBasePrice() {
+		return basePrice;
+	}
+
+
+	public void setBasePrice(Double basePrice) {
+		this.basePrice = basePrice;
+	}
+
+
+	public EventRating getRating() {
+		return rating;
+	}
+
+
+	public void setRating(EventRating rating) {
+		this.rating = rating;
+	}
+
+
+	public MultipartFile getImage() {
 		return image;
 	}
 
 
-	public void setImage(CommonsMultipartFile image) {
+	public void setImage(MultipartFile image) {
 		this.image = image;
 	}
 
@@ -67,29 +98,24 @@ public class Event extends DomainObject {
 	}
 
 
-
 	public void setCountry(String country) {
 		this.country = country;
 	}
 
 
-
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
 
-
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
-
 
 
 	public String getLanguage() {
 		return language;
 	}
-
 
 
 	public void setLanguage(String language) {
@@ -102,11 +128,9 @@ public class Event extends DomainObject {
 	}
 
 
-
 	public void setGenres(List<String> genres) {
 		this.genres = genres;
 	}
-
 
 
 	public List<String> getActors() {
@@ -114,11 +138,9 @@ public class Event extends DomainObject {
 	}
 
 
-
 	public void setActors(List<String> actors) {
 		this.actors = actors;
 	}
-
 
 
 	public String getDirectedBy() {
@@ -126,11 +148,9 @@ public class Event extends DomainObject {
 	}
 
 
-
 	public void setDirectedBy(String directedBy) {
 		this.directedBy = directedBy;
 	}
-
 
 
 	public String getDescription() {
@@ -138,69 +158,19 @@ public class Event extends DomainObject {
 	}
 
 
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 
-
-	public int getDurationMin() {
+	public Integer getDurationMin() {
 		return durationMin;
 	}
 
 
-
-	public void setDurationMin(int durationMin) {
+	public void setDurationMin(Integer durationMin) {
 		this.durationMin = durationMin;
 	}
-
-
-
-	public int getMinAge() {
-		return minAge;
-	}
-
-
-
-	public void setMinAge(int minAge) {
-		this.minAge = minAge;
-	}
-
-
-
-	public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getBasePrice() {
-        return basePrice;
-    }
-
-    public void setBasePrice(double basePrice) {
-        this.basePrice = basePrice;
-    }
-
-    public EventRating getRating() {
-        return rating;
-    }
-
-    public void setRating(EventRating rating) {
-        this.rating = rating;
-    }
-
-    public List<EventDateAndAuditorium> getDateAndAuditoriums() {
-        return dateAndAuditoriums;
-    }
-
-    public void setDateAndAuditoriums(List<EventDateAndAuditorium> dateAndAuditoriums) {
-        this.dateAndAuditoriums = dateAndAuditoriums;
-    }
-
 
 
 	public Technology getTechnology() {
@@ -208,11 +178,30 @@ public class Event extends DomainObject {
 	}
 
 
-
 	public void setTechnology(Technology technology) {
 		this.technology = technology;
 	}
-	
+
+
+	public Integer getMinAge() {
+		return minAge;
+	}
+
+
+	public void setMinAge(Integer minAge) {
+		this.minAge = minAge;
+	}
+
+
+	public List<EventDateAndAuditorium> getDateAndAuditoriums() {
+		return dateAndAuditoriums;
+	}
+
+
+	public void setDateAndAuditoriums(List<EventDateAndAuditorium> dateAndAuditoriums) {
+		this.dateAndAuditoriums = dateAndAuditoriums;
+	}
+
 	
 
 }

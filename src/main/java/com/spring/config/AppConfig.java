@@ -3,6 +3,9 @@ package com.spring.config;
 import com.spring.config.security.SecurityConfig;
 import com.spring.utility.LocalDateConverter;
 import com.spring.utility.LocalDateTimeConverter;
+import com.spring.utility.TechnologyConverter;
+
+import java.io.IOException;
 
 import org.springframework.context.annotation.*;
 import org.springframework.format.FormatterRegistry;
@@ -32,15 +35,12 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return viewResolver;
 	}
 
-	@Bean
-	public CommonsMultipartResolver multipartResolver() {
-
-		CommonsMultipartResolver cmr = new CommonsMultipartResolver();
-		int maxUploadSizeInMb = 5 * 1024 * 1024; //5 mb
-		cmr.setMaxUploadSize(maxUploadSizeInMb * 2);
-		cmr.setMaxUploadSizePerFile(maxUploadSizeInMb); //bytes
-		return cmr;
-
+	@Bean(name="multipartResolver")
+	 public CommonsMultipartResolver getResolver() throws IOException {
+	  CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+	  //Set the maximum allowed size (in bytes) for each individual file.
+	  resolver.setMaxUploadSizePerFile(5 * 1024 * 1024);//5MB
+	  return resolver;
 	}
 
 	@Override
@@ -57,6 +57,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new LocalDateConverter("yyyy-MM-dd"));
         registry.addConverter(new LocalDateTimeConverter("yyyy-MM-dd HH:mm"));
+        registry.addConverter(new TechnologyConverter());
     }
 	
 }
