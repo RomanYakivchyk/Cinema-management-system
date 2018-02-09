@@ -11,9 +11,12 @@ import com.spring.service.AuditoriumService;
 import com.spring.service.EventService;
 import com.spring.service.GenreService;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,11 +26,20 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import javax.servlet.ServletContext;
 
 @Controller
 public class AdminEventController {
@@ -41,6 +53,17 @@ public class AdminEventController {
 
 	private final GenreService genreService;
 
+	private ServletContext context;
+
+	public ServletContext getContext() {
+		return context;
+	}
+
+	@Autowired
+	public void setContext(ServletContext context) {
+		this.context = context;
+	}
+
 	@Autowired
 	public AdminEventController(EventService eventService, AuditoriumService auditoriumService,
 			GenreService genreService) {
@@ -48,8 +71,7 @@ public class AdminEventController {
 		this.auditoriumService = auditoriumService;
 		this.genreService = genreService;
 	}
-	
-	
+
 	// show event
 	@RequestMapping(value = "/admin/events/{id}", method = RequestMethod.GET)
 	public String showEvent(@PathVariable("id") long id, Model model) {
@@ -86,7 +108,7 @@ public class AdminEventController {
 
 		Event event = eventService.findById(id);
 		model.addAttribute("event", event);
-		model.addAttribute("eventRatings",EventRating.values());
+		model.addAttribute("eventRatings", EventRating.values());
 		model.addAttribute("technologies", Technology.values());
 		model.addAttribute("auditoriums", auditoriumService.findAll());
 		model.addAttribute("genres", genreService.findAll());
@@ -100,8 +122,8 @@ public class AdminEventController {
 		// logger.debug("showAddEventForm()");
 		Event event = new Event();
 		model.addAttribute("event", event);
+		model.addAttribute("eventRatings", EventRating.values());
 		model.addAttribute("technologies", Technology.values());
-		model.addAttribute("eventRatings",EventRating.values());
 		model.addAttribute("auditoriums", auditoriumService.findAll());
 		model.addAttribute("genres", genreService.findAll());
 		return "events/admin/eventForm";
@@ -117,20 +139,33 @@ public class AdminEventController {
 			System.out.println(result.getFieldError());
 			return "events/admin/eventForm";
 		} else {
-			
 
-			// Add message to flash scope
-			// redirectAttributes.addFlashAttribute("css", "success");
-			// if (event.isNew()) {
-			// redirectAttributes.addFlashAttribute("msg", "Event added successfully!");
-			// } else {
-			// redirectAttributes.addFlashAttribute("msg", "Event updated successfully!");
-			// }
+			redirectAttributes.addFlashAttribute("css", "success");
+			if (event.isNew()) {
+				redirectAttributes.addFlashAttribute("msg", "Event added successfully!");
+			} else {
+				redirectAttributes.addFlashAttribute("msg", "Event updated successfully!");
+			}
 			
 			System.out.println(event);
 			event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
+			File image = null;
+			try {
+				image = new File(
+						context.getRealPath("/") + "/resources/images/events/" + event.getName() + ".png");
+				if (image.exists()) {
+					image.delete();
+				}
+				FileOutputStream fos = new FileOutputStream(image);
+				fos.write(event.getImage().getBytes());
+				fos.close();
+				System.out.println(image.getAbsolutePath() + " , name " + image.getName());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			//TODO
+			event.setImagePath("events\"+image.getName());
 			eventService.saveOrUpdate(event);
-
 			return "redirect:/admin/events";
 		}
 	}

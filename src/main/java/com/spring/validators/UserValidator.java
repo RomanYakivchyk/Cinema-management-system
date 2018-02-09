@@ -1,4 +1,4 @@
-package com.spring.utility;
+package com.spring.validators;
 
 import com.spring.domain.User;
 import com.spring.service.UserService;

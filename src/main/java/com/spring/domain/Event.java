@@ -16,6 +16,7 @@ public class Event extends DomainObject {
     private Double basePrice;
     private EventRating rating;
     private MultipartFile image;
+    private String imagePath;
     private String country;
     private Integer year;
     private String language;
@@ -52,6 +53,8 @@ public class Event extends DomainObject {
 				+ ", dateAndAuditoriums=" + dateAndAuditoriums + "]";
 	}
 
+	
+	
 
 	public String getName() {
 		return name;
@@ -200,6 +203,16 @@ public class Event extends DomainObject {
 
 	public void setDateAndAuditoriums(List<EventDateAndAuditorium> dateAndAuditoriums) {
 		this.dateAndAuditoriums = dateAndAuditoriums;
+	}
+
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 
 	

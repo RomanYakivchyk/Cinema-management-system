@@ -1,6 +1,6 @@
 INSERT INTO EVENT (NAME, BASE_PRICE, RATING,COUNTRY,YEAR,LANGUAGE,DIRECTED_BY,DESCRIPTION,DURATION_MIN,TECHNOLOGY,MIN_AGE) 
-VALUES ('Man in Black', '150.0', 'HIGH','USA','2008','english','Tarantino','На Земле','120','2D','12');
+VALUES ('Man in Black', '150.0', 'HIGH','USA','2008','english','Tarantino','На Земле','120','TWO_D','12');
 INSERT INTO EVENT (NAME, BASE_PRICE, RATING,COUNTRY,YEAR,LANGUAGE,DIRECTED_BY,DESCRIPTION,DURATION_MIN,TECHNOLOGY,MIN_AGE) 
-VALUES  ('Tor', '90.0', 'LOW','USA','2008','english','desc','Tarantino','130','3D','12');
+VALUES  ('Tor', '90.0', 'LOW','USA','2008','english','desc','Tarantino','130','THREE_D','12');
 INSERT INTO EVENT (NAME, BASE_PRICE, RATING,COUNTRY,YEAR,LANGUAGE,DIRECTED_BY,DESCRIPTION,DURATION_MIN,TECHNOLOGY,MIN_AGE)
-VALUES  ('Predator', '110.0', 'MED','USA','2010','english','Tarantino','desc','115','3D','16');
+VALUES  ('Predator', '110.0', 'MED','USA','2010','english','Tarantino','desc','115','THREE_D','16');

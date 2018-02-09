@@ -1,7 +1,7 @@
 package com.spring.domain;
 
 public enum Technology {
-	TWD_D("2D"),
+	TWO_D("2D"),
 	THREE_D("3D"),
 	FOUR_D("4D");
 	

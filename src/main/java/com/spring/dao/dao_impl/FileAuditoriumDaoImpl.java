@@ -22,7 +22,6 @@ public class FileAuditoriumDaoImpl implements AuditoriumDao {
 
     private ServletContext servletContext;
 
-
     private String pathName;
 
     @Autowired
@@ -46,19 +45,12 @@ public class FileAuditoriumDaoImpl implements AuditoriumDao {
     public Set<Auditorium> findAll() {
 
         System.out.println("begin findAll() function");
-        String folderPath = servletContext.getRealPath("WEB-INF/classes/" + pathName);
-
-
+        ClassLoader classLoader = getClass().getClassLoader();
+        File folder = new File(classLoader.getResource(pathName).getFile());        
         Set<Auditorium> auditoriums = new HashSet<>();
-        File folder = new File(folderPath);
 
-        if (folder.listFiles() == null) {
-            System.out.println("listFiles is null");
-            System.out.println(folder.getName());
-            System.out.println(folder.exists());
-            System.out.println(folder.getAbsolutePath());
-            System.out.println(folder.getAbsoluteFile());
-            System.out.println(folder.isDirectory());
+        if (folder == null || !folder.isDirectory() || !folder.canRead()) {
+           System.out.println("IOException. Folder with auditoriums is unavailable");
         }
 
         Properties prop;
@@ -95,5 +87,6 @@ public class FileAuditoriumDaoImpl implements AuditoriumDao {
         }
         return null;
     }
+
 
 }

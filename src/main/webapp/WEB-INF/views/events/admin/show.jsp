@@ -29,6 +29,10 @@
         <br>
         <div>Rating: ${event.rating}</div>
         <br>
+        <div>
+        <c:out value="${event.imagePath}"/>
+        	<img src="${event.imagePath}" alt="img" width="100" height="100" />
+        </div>
         <table class="table table-hover">
             <tr>
                 <th>Start</th>

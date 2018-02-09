@@ -138,33 +138,32 @@ textarea {
 					</div>
 
 
-					<div class="form-group">
-						<label>Image</label>
-						<div class="imageupload panel panel-default">
-							<div class="panel-heading clearfix">
-								<h5 class="pull-left">Upload image</h5>
-								<div class="btn-group pull-right">
-									<button type="button" class="btn btn-default active">File</button>
-									<button type="button" class="btn btn-default">URL</button>
+					<div class="imageupload panel panel-default">
+						<div class="panel-heading clearfix">
+							<h3 class="panel-title pull-left">Upload Image</h3>
+							<div class="btn-group pull-right">
+								<button type="button" class="btn btn-default active">File</button>
+								<button type="button" class="btn btn-default">URL</button>
+							</div>
+						</div>
+						<div class="file-tab panel-body">
+							<label class="btn btn-default btn-file"> <span>Browse</span>
+								<!-- The file is stored here. --> <input type="file"
+								name="image">
+							</label>
+							<button type="button" class="btn btn-default">Remove</button>
+						</div>
+						<div class="url-tab panel-body">
+							<div class="input-group">
+								<input type="text" class="form-control hasclear"
+									placeholder="Image URL">
+								<div class="input-group-btn">
+									<button type="button" class="btn btn-default">Submit</button>
 								</div>
 							</div>
-							<div class="file-tab panel-body">
-								<div>
-									<button type="button" class="btn btn-default btn-file">
-										<span>Browse</span> <input type="file" name="image">
-									</button>
-									<button type="button" class="btn btn-default">Remove</button>
-								</div>
-							</div>
-							<div class="url-tab panel-body">
-								<div class="input-group">
-									<input type="text" class="form-control" placeholder="Image URL">
-									<div class="input-group-btn">
-										<button type="button" class="btn btn-default">Submit</button>
-									</div>
-								</div>
-								<input type="hidden" name="url-input">
-							</div>
+							<button type="button" class="btn btn-default">Remove</button>
+							<!-- The URL is stored here. -->
+							<input type="hidden" name="image-url">
 						</div>
 					</div>
 
@@ -263,7 +262,7 @@ textarea {
 						<div>
 							<c:forEach var="technology" items="${technologies}">
 								<div class="radio-inline">
-									<form:radiobutton path="technology" value="${technology}"/>
+									<form:radiobutton path="technology" value="${technology}" />
 									${technology.name}
 								</div>
 							</c:forEach>
@@ -323,16 +322,16 @@ textarea {
 					</div>
 					<br>
 					<hr>
-						<div class="text-center">
-							<c:choose>
-								<c:when test="${event['new']}">
-									<button type="submit" class="btn btn-info">Create</button>
-								</c:when>
-								<c:otherwise>
-									<button type="submit" class="btn btn-info">Update</button>
-								</c:otherwise>
-							</c:choose>
-						</div>
+					<div class="text-center">
+						<c:choose>
+							<c:when test="${event['new']}">
+								<button type="submit" class="btn btn-info">Create</button>
+							</c:when>
+							<c:otherwise>
+								<button type="submit" class="btn btn-info">Update</button>
+							</c:otherwise>
+						</c:choose>
+					</div>
 				</form:form>
 			</div>
 		</div>

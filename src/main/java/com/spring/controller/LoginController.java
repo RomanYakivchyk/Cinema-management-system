@@ -1,10 +1,11 @@
 package com.spring.controller;
 
 import com.spring.domain.Role;
+
 import com.spring.domain.User;
 import com.spring.service.SecurityService;
 import com.spring.service.UserService;
-import com.spring.utility.UserValidator;
+import com.spring.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 

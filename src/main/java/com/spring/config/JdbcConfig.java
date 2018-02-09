@@ -44,6 +44,8 @@ public class JdbcConfig {
                 
                 .addScript("db/sql/create-and-populate-genre-table.sql")
                 .addScript("db/sql/create-genre_event-table.sql")
+                
+                .addScript("db/sql/create-actor-table.sql")
                 .build();
 
         return db;
