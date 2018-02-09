@@ -118,7 +118,9 @@ public class JDBCEventDaoImpl implements EventDao {
 	@Override // todo!!! update with no data deletes previous data
 	public Event update(Event event) {
 
-		final String sql1 = "UPDATE EVENT SET NAME = ?, BASE_PRICE = ?, RATING = ? WHERE ID = ?";
+		final String sql1 = "UPDATE EVENT SET NAME = ?, BASE_PRICE = ?, RATING = ?, "
+				+ "  IMAGE_PATH = ?, COUNTRY = ?, YEAR = ?, LANGUAGE = ?, DIRECTED_BY = ?, "
+				+ "DESCRIPTION = ? ,DURATION_MIN = ? ,TECHNOLOGY = ? ,MIN_AGE = ? WHERE ID = ?";
 		final String sql2 = "DELETE FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
 		final String sql3 = "INSERT INTO EVENT_DATE_AND_AUDITORIUM "
 				+ "(EVENT_ID, START_DATE_TIME, END_DATE_TIME, AUDITORIUM_NAME) VALUES (?, ?, ?, ?)";
@@ -129,7 +131,9 @@ public class JDBCEventDaoImpl implements EventDao {
 		final String sql6 = "DELETE FROM ACTOR WHERE EVENT_ID = ?";
 		final String sql7 = "INSERT INTO ACTOR (NAME,EVENT_ID) VALUES (?, ?)";
 
-		jdbcTemplate.update(sql1, event.getName(), event.getBasePrice(), event.getRating().name(), event.getId());
+		jdbcTemplate.update(sql1, event.getName(), event.getBasePrice(), event.getRating().name(),event.getImagePath(),
+				event.getCountry(), event.getYear(), event.getLanguage(), event.getDirectedBy(), event.getDescription(),
+				event.getDurationMin(), event.getTechnology().name(), event.getMinAge(), event.getId());
 
 		jdbcTemplate.update(sql2, event.getId());
 		for (EventDateAndAuditorium entry : event.getDateAndAuditoriums()) {

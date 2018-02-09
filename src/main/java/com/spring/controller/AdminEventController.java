@@ -146,13 +146,12 @@ public class AdminEventController {
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "Event updated successfully!");
 			}
-			
+
 			System.out.println(event);
 			event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
 			File image = null;
 			try {
-				image = new File(
-						context.getRealPath("/") + "/resources/images/events/" + event.getName() + ".png");
+				image = new File(context.getRealPath("/") + "/resources/images/events/" + event.getName() + ".png");
 				if (image.exists()) {
 					image.delete();
 				}
@@ -163,8 +162,9 @@ public class AdminEventController {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			//TODO
-			event.setImagePath("events\"+image.getName());
+			// TODO
+			event.setImagePath("events/" + image.getName());
+			System.out.println(image.getName()+"---"+image.getPath());
 			eventService.saveOrUpdate(event);
 			return "redirect:/admin/events";
 		}

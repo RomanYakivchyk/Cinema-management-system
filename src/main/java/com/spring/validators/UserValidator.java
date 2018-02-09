@@ -1,6 +1,7 @@
 package com.spring.validators;
 
 import com.spring.domain.User;
+
 import com.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
