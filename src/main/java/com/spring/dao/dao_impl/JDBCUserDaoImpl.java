@@ -1,6 +1,7 @@
 package com.spring.dao.dao_impl;
 
 import com.spring.dao.UserDao;
+
 import com.spring.domain.Role;
 import com.spring.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;

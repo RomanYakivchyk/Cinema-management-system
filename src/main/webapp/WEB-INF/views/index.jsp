@@ -102,8 +102,8 @@
    <c:forEach var="event" items="${events}">
 	   <div class="col-sm-4">
 	      <div class="panel panel-primary">
-	        <div class="panel-body"><img src="" class="img-responsive" style="width:100%" alt="Image"></div>
-	        <div class="panel-footer">${event.name}</div>
+	        <div class="panel-body"><img src="${pageContext.request.contextPath}/resources/images/${event.imagePath}" class="img-responsive" alt="Image"></div>
+	        <div class="panel-footer"><a href="${pageContext.request.contextPath}/admin/events/${event.id}">${event.name}</a></div>
 	      </div>
 	    </div>
    </c:forEach>

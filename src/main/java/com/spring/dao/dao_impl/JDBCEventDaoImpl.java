@@ -28,7 +28,11 @@ public class JDBCEventDaoImpl implements EventDao {
 
 	@Override
 	public Event create(Event event) {
-		final String sql1 = "INSERT INTO EVENT (NAME, BASE_PRICE, RATING, IMAGE_PATH, COUNTRY, YEAR, LANGUAGE, DIRECTED_BY, DESCRIPTION,DURATION_MIN,TECHNOLOGY,MIN_AGE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+		
+		System.out.println("duration min = "+event.getDurationMin());
+		System.out.println("directed by = "+event.getDirectedBy());
+		final String sql1 = "INSERT INTO EVENT (NAME, BASE_PRICE, RATING, IMAGE_PATH, COUNTRY, YEAR,"
+				+ " LANGUAGE, DIRECTED_BY, DESCRIPTION,DURATION_MIN,TECHNOLOGY,MIN_AGE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		final String sql2 = "INSERT INTO EVENT_DATE_AND_AUDITORIUM "
 				+ "(EVENT_ID, START_DATE_TIME, END_DATE_TIME, AUDITORIUM_NAME) VALUES (?, ?, ?, ?)";
 		final String sql3 = "INSERT INTO GENRE_EVENT (GENRE_NAME,EVENT_ID) VALUES (?,?)";
@@ -39,6 +43,19 @@ public class JDBCEventDaoImpl implements EventDao {
 			pst.setString(1, event.getName());
 			pst.setDouble(2, event.getBasePrice());
 			pst.setString(3, event.getRating().name());
+			pst.setString(4, event.getImagePath());
+			pst.setString(5, event.getCountry());
+			pst.setInt(6, event.getYear());
+			pst.setString(7, event.getLanguage());
+			pst.setString(8, event.getDirectedBy());
+			pst.setString(9, event.getDescription());
+			pst.setInt(10, event.getDurationMin());
+			pst.setString(11, event.getTechnology().name());
+			if (null != event.getMinAge()) {
+				pst.setInt(12, event.getMinAge());
+			} else {
+				pst.setNull(12, java.sql.Types.INTEGER);
+			}
 			return pst;
 		}, keyHolder);
 		event.setId((Long) keyHolder.getKey());
@@ -47,10 +64,10 @@ public class JDBCEventDaoImpl implements EventDao {
 					entry.getAuditoriumName());
 		}
 		for (String genre : event.getGenres()) {
-			jdbcTemplate.update(sql3, event.getId(), genre, event.getId());
+			jdbcTemplate.update(sql3, genre, event.getId());
 		}
 		for (String actor : event.getActors()) {
-			jdbcTemplate.update(sql4, event.getId(), actor, event.getId());
+			jdbcTemplate.update(sql4, actor, event.getId());
 		}
 		return event;
 	}
@@ -72,8 +89,8 @@ public class JDBCEventDaoImpl implements EventDao {
 	public Event findById(long id) {
 		final String sql1 = "SELECT * FROM EVENT WHERE ID = ?";
 		final String sql2 = "SELECT START_DATE_TIME,END_DATE_TIME, AUDITORIUM_NAME FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
-		final String sql3 = "SELECT GENRE_NAME,EVENT_ID FROM GENRE_EVENT WHERE EVENT_ID = ?";
-		final String sql4 = "SELECT NAME,EVENT_ID FROM ACTOR WHERE EVENT_ID = ?";
+		final String sql3 = "SELECT GENRE_NAME FROM GENRE_EVENT WHERE EVENT_ID = ?";
+		final String sql4 = "SELECT NAME FROM ACTOR WHERE EVENT_ID = ?";
 
 		Event event = jdbcTemplate.queryForObject(sql1, new Object[] { id }, (rs, i) -> {
 			Event e = new Event();
@@ -131,7 +148,7 @@ public class JDBCEventDaoImpl implements EventDao {
 		final String sql6 = "DELETE FROM ACTOR WHERE EVENT_ID = ?";
 		final String sql7 = "INSERT INTO ACTOR (NAME,EVENT_ID) VALUES (?, ?)";
 
-		jdbcTemplate.update(sql1, event.getName(), event.getBasePrice(), event.getRating().name(),event.getImagePath(),
+		jdbcTemplate.update(sql1, event.getName(), event.getBasePrice(), event.getRating().name(), event.getImagePath(),
 				event.getCountry(), event.getYear(), event.getLanguage(), event.getDirectedBy(), event.getDescription(),
 				event.getDurationMin(), event.getTechnology().name(), event.getMinAge(), event.getId());
 

@@ -2,6 +2,7 @@ package com.spring.controller;
 
 import com.spring.dao.AuditoriumDao;
 
+
 import com.spring.domain.Auditorium;
 import com.spring.domain.Event;
 import com.spring.domain.EventDateAndAuditorium;
@@ -147,8 +148,8 @@ public class AdminEventController {
 				redirectAttributes.addFlashAttribute("msg", "Event updated successfully!");
 			}
 
-			System.out.println(event);
 			event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
+
 			File image = null;
 			try {
 				image = new File(context.getRealPath("/") + "/resources/images/events/" + event.getName() + ".png");
@@ -158,13 +159,12 @@ public class AdminEventController {
 				FileOutputStream fos = new FileOutputStream(image);
 				fos.write(event.getImage().getBytes());
 				fos.close();
-				System.out.println(image.getAbsolutePath() + " , name " + image.getName());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			// TODO
 			event.setImagePath("events/" + image.getName());
-			System.out.println(image.getName()+"---"+image.getPath());
+			
+			System.out.println(event);
 			eventService.saveOrUpdate(event);
 			return "redirect:/admin/events";
 		}
