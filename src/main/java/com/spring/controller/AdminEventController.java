@@ -83,7 +83,10 @@ public class AdminEventController {
 		// model.addAttribute("msg", "Event not found");
 		// }
 		model.addAttribute("event", event);
-		return "events/admin/show";
+		
+		//return "events/admin/show";
+		
+		return "events/event";
 	}
 
 	// delete event
