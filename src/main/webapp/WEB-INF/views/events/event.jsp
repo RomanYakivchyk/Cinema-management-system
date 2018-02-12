@@ -1,12 +1,13 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-
+<link href="${pageContext.request.contextPath}/resources/css/header.css"
+	rel="stylesheet" media="screen">
 
 <!-- jQuery library -->
 <script
@@ -17,25 +18,84 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Event</title>
+<style>
+#eventViewContainer {
+	padding-top: 40px;
+}
+
+#eventViewImage {
+	display: block;
+	margin: auto;
+}
+
+#eventViewImageContaner {
+	margin-top: 20px;
+}
+</style>
 </head>
 <body>
-	<div class="container">
+
+	<jsp:include page="../fragments/header.jsp" />
+
+
+	<div class="container-fluid" id="eventViewContainer">
+
+
 		<div class="row">
-			<div class="col-sm-4">
-				<div>
+			<div class="col-sm-3">
+				<div id="eventViewImageContaner">
 					<img
 						src="${pageContext.request.contextPath}/resources/images/${event.imagePath}"
-						alt="img" width="100" height="100" class="img-rounded"/>
+						alt="img" id="eventViewImage" class="img-rounded"
+						style="width: 80%" />
+					<p class="text-center">Rating: ${event.rating}</p>
 				</div>
 			</div>
-			<div class="col-sm-4" >
-				<div>Name: ${event.name}</div>
+			<div class="col-sm-6">
+				<h1 style="font-size: 55px">${event.name}</h1>
 				<br>
-				<div>base price: ${event.basePrice}</div>
-				<br>
-				<div>Rating: ${event.rating}</div>
+				<c:if test="${not empty event.minAge}">
+					<h4>
+						<b>Age:</b>
+						${event.minAge}+
+					</h4>
+				</c:if>
+				<h4>
+					<b>Year:</b> ${event.year}
+				</h4>
+				<h4>
+					<b>Directed by</b>: ${event.directedBy}
+				</h4>
+				<h4>
+					<b>Language:</b> ${event.language}
+				</h4>
+				<h4>
+					<b>Genre:</b>
+					<c:forEach items="${event.genres}" var="item">
+						<c:out value="${item}" />
+						<c:out value=" " />
+					</c:forEach>
+				</h4>
+				<h4>
+					<b>Duration:</b> ${event.durationMin}
+				</h4>
+				<h4>
+					<b>Country:</b> ${event.country}
+				</h4>
+				<h4>
+					<b>Actors:</b>
+					<c:forEach items="${event.actors}" var="item">
+						<c:out value="${item}" />
+						<c:out value=" " />
+					</c:forEach>
+				</h4>
+				<h4>${event.description}</h4>
+				<hr>
+				<br> <br> <br>
+				<h2>Comments:</h2>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-3">
+				<h3 class="text-center">Schedule</h3>
 				<table class="table table-hover">
 					<tr>
 						<th>Start</th>
@@ -52,6 +112,7 @@
 				</table>
 			</div>
 		</div>
+
 	</div>
 </body>
 </html>
