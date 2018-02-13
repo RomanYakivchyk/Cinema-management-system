@@ -26,6 +26,8 @@
 #eventViewImage {
 	display: block;
 	margin: auto;
+	height: 340px; 
+	width:250px;
 }
 
 #eventViewImageContaner {
@@ -44,10 +46,9 @@
 		<div class="row">
 			<div class="col-sm-3">
 				<div id="eventViewImageContaner">
-					<img
+					<img id = "eventViewImage"
 						src="${pageContext.request.contextPath}/resources/images/${event.imagePath}"
-						alt="img" id="eventViewImage" class="img-rounded"
-						style="width: 80%" />
+						alt="img" id="eventViewImage" class="img-rounded"/>
 					<p class="text-center">Rating: ${event.rating}</p>
 				</div>
 			</div>

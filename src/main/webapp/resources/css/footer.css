@@ -1,13 +1,19 @@
-
-.site-footer {
+/* .site-footer {
     margin-top: 40px;
     background: #EDEFF1;
     text-align: center;
-    position: fixed;
+    position: relativ;
  	left: 0;
     bottom: 0;
     width: 100%;
  	padding: 20px;
  	height: 60px;
  	z-index: 4;
+} */
+footer {
+	background-color: #f2f2f2;
+	padding: 20px;
+	margin-top: 40px;
+	left: 0;
+	bottom: 0;
 }

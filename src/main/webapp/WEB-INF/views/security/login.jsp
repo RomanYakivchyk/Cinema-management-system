@@ -1,17 +1,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
- <%-- for footer--%>
-    <link href="${pageContext.request.contextPath}/resources/css/footer.css" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<%-- for footer--%>
+<link href="${pageContext.request.contextPath}/resources/css/footer.css"
+	rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/header.css"
+	rel="stylesheet" media="screen">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 
-<script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script defer
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script defer
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <title>Login Page</title>
 <style>
@@ -53,13 +59,14 @@ h2 {
 }
 </style>
 </head>
+<jsp:include page="..//fragments/header.jsp" />
 <body onload='document.loginForm.username.focus();'>
 	<div class="container">
 		<div class="row">
 			<div class="panel panel-primary">
 				<div class="panel-body">
-					<form name='loginForm' method="POST"
-						action="${contextPath}/login" class="form-signin">
+					<form name='loginForm' method="POST" action="${contextPath}/login"
+						class="form-signin">
 						<div class="form-group">
 							<h2>Log in</h2>
 						</div>
@@ -94,6 +101,6 @@ h2 {
 			</div>
 		</div>
 	</div>
-<jsp:include page="//WEB-INF/views/fragments/footer.jsp"/>
+	<jsp:include page="//WEB-INF/views/fragments/footer.jsp" />
 </body>
 </html>
