@@ -154,7 +154,6 @@ if (typeof jQuery === 'undefined') {
             callback(false, 'File is too large (max ' + options.maxFileSizeKb + 'kB).');
             return;
         }
-
         // Check image format by file extension.
         var fileExtension = getFileExtension(file.name);
         if ($.inArray(fileExtension, options.allowedFormats) > -1) {
@@ -251,7 +250,7 @@ if (typeof jQuery === 'undefined') {
         }
 
         $browseFileButton.prop('disabled', true);
-        
+        //TODO add a check that image sides are 4:3 !!!
         var file = $fileInput[0].files[0];
 
         isValidImageFile(file, function(isValid, message) {

@@ -2,7 +2,6 @@ package com.spring.controller;
 
 import com.spring.dao.AuditoriumDao;
 
-
 import com.spring.domain.Auditorium;
 import com.spring.domain.Event;
 import com.spring.domain.EventDateAndAuditorium;
@@ -83,9 +82,9 @@ public class AdminEventController {
 		// model.addAttribute("msg", "Event not found");
 		// }
 		model.addAttribute("event", event);
-		
-		//return "events/admin/show";
-		
+
+		// return "events/admin/show";
+
 		return "events/event";
 	}
 
@@ -152,25 +151,27 @@ public class AdminEventController {
 			}
 
 			event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
-
+			
+			//TODO image dissapear when updating without any changes
 			File image = null;
 			try {
-				image = new File(context.getRealPath("/") + "/resources/images/events/" + event.getName() + ".png");
-				if (image.exists()) {
-					image.delete();
-				}
-				FileOutputStream fos = new FileOutputStream(image);
-				fos.write(event.getImage().getBytes());
-				fos.close();
+				if (event.getImage().getBytes().length > 0) {
+					image = new File(context.getRealPath("/") + "/resources/images/events/" + event.getName() + ".png");
+					if (image.exists()) {
+						image.delete();
+					}
+					FileOutputStream fos = new FileOutputStream(image);
+					fos.write(event.getImage().getBytes());
+					fos.close();
+				} 
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			event.setImagePath("events/" + image.getName());
-			
-			System.out.println(event);
-			eventService.saveOrUpdate(event);
-			return "redirect:/admin/events";
 		}
+
+		System.out.println(event);
+		eventService.saveOrUpdate(event);
+		return "redirect:/admin/events";
 	}
 
 	@RequestMapping(value = "/admin/events", method = RequestMethod.GET)

@@ -33,6 +33,7 @@ h2 {
 .container {
 	max-width: 380px;
 	margin-top: 40px;
+	margin-bottom: 410px;
 }
 
 .divider {
@@ -101,6 +102,6 @@ h2 {
 			</div>
 		</div>
 	</div>
-	<jsp:include page="//WEB-INF/views/fragments/footer.jsp" />
+	<jsp:include page="..//fragments/footer.jsp" />
 </body>
 </html>

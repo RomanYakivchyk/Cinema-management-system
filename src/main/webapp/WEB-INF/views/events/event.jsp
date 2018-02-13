@@ -24,14 +24,14 @@
 }
 
 #eventViewImage {
-	display: block;
-	margin: auto;
-	height: 340px; 
-	width:250px;
+	height: auto; 
+	width:auto;
+	margin:auto;
 }
 
 #eventViewImageContaner {
 	margin-top: 20px;
+	padding: 10px;
 }
 </style>
 </head>
@@ -46,9 +46,9 @@
 		<div class="row">
 			<div class="col-sm-3">
 				<div id="eventViewImageContaner">
-					<img id = "eventViewImage"
+					<img id = "eventViewImage"  class="img-responsive" 
 						src="${pageContext.request.contextPath}/resources/images/${event.imagePath}"
-						alt="img" id="eventViewImage" class="img-rounded"/>
+						alt="img" id="eventViewImage"/>
 					<p class="text-center">Rating: ${event.rating}</p>
 				</div>
 			</div>

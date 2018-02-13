@@ -63,13 +63,13 @@
 		var cell4 = row.insertCell(3);
 
 		cell1.innerHTML = '<div class="input-group date form_datetime">'
-				+ '<input name="' + path + ".startTime" + '" type="text" class="form-control" value="" />'
+				+ '<input name="' + path + ".startTime" + '" type="text" class="form-control" value="" readonly="true"/>'
 				+ '<span class="input-group-addon">'
 				+ '<span class="glyphicon glyphicon-calendar"></span>'
 				+ '</span></div>';
 
 		cell2.innerHTML = '<div class="input-group date form_datetime">'
-				+ '<input name="' + path + ".endTime" + '" type="text" class="form-control" value="" />'
+				+ '<input name="' + path + ".endTime" + '" type="text" class="form-control" value="" readonly="true"/>'
 				+ '<span class="input-group-addon">'
 				+ '<span class="glyphicon glyphicon-calendar"></span>'
 				+ '</span></div>';
@@ -174,7 +174,7 @@ textarea {
 							<span class="input-group-addon"> <span
 								class="glyphicon glyphicon-calendar"></span>
 							</span>
-							<form:input path="year" class="form-control" />
+							<form:input path="year" class="form-control" readonly="true"/>
 						</div>
 					</div>
 					<div class="form-group">
@@ -271,7 +271,7 @@ textarea {
 									<div class='input-group date form_datetime'>
 										<form:input class="form-control"
 											path="dateAndAuditoriums[${vs.index}].startTime"
-											value="${item.startTime}" />
+											value="${item.startTime}" readonly="true"/>
 										<span class="input-group-addon"> <span
 											class="glyphicon glyphicon-calendar"></span>
 										</span>
@@ -280,7 +280,7 @@ textarea {
 								<td>
 									<div class='input-group date form_datetime'>
 										<form:input path="dateAndAuditoriums[${vs.index}].endTime"
-											value="${item.endTime}" class="form-control" />
+											value="${item.endTime}" class="form-control" readonly="true"/>
 										<span class="input-group-addon"> <span
 											class="glyphicon glyphicon-calendar"></span>
 										</span>
@@ -322,7 +322,9 @@ textarea {
 	<script type="text/javascript">
 		$(function() {
 			$('#yearpicker').datetimepicker({
-				format : 'YYYY'
+				format : 'YYYY',
+				useCurrent : false,
+				ignoreReadonly : true
 			});
 		});
 	</script>
@@ -380,7 +382,9 @@ textarea {
 		$(function() {
 			$(document).on('mouseenter', '.form_datetime', function() {
 				$(this).datetimepicker({
-					format : 'YYYY-MM-DD HH:mm'
+					format : 'YYYY-MM-DD HH:mm',
+					useCurrent : false,
+					ignoreReadonly : true
 				});
 			});
 		});
@@ -388,7 +392,9 @@ textarea {
 	<script type="text/javascript">
 		$(function() {
 			$('.form_datetime').datetimepicker({
-				format : 'YYYY-MM-DD HH:mm'
+				format : 'YYYY-MM-DD HH:mm',
+				useCurrent : false,
+				ignoreReadonly : true
 			});
 		});
 	</script>

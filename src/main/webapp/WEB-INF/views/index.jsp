@@ -72,10 +72,9 @@
 		<div class="row">
 			<c:forEach var="event" items="${events}">
 				<div class="col-sm-3">
-					<a href="admin/events/${event.id}"> <img
+					<a href="admin/events/${event.id}"> <img class="img-responsive" 
 						src="${pageContext.request.contextPath}/resources/images/${event.imagePath}"
-						alt="Image"
-						style="height: 340px; width: 250px; display: block; margin: auto;">
+						alt="Image" class="img-today-movies">
 					</a>
 				</div>
 			</c:forEach>
