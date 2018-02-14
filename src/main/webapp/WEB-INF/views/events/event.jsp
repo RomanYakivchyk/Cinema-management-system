@@ -1,8 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
@@ -17,7 +20,6 @@
 <!-- Latest compiled JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Event</title>
 <style>
 #eventContainer {
@@ -32,6 +34,19 @@
 #eventViewImage {
 	margin: auto;
 }
+
+a:link {
+	color: #000;
+} /* unvisited link  */
+a:visited {
+	color: #000;
+} /* visited link    */
+a:hover {
+	color: #000;
+} /* mouse over link */
+a:active {
+	color: #000;
+} /* selected link   */
 </style>
 </head>
 <body>
@@ -93,9 +108,42 @@
 				<br> <br> <br>
 				<h2>Comments:</h2>
 			</div>
-			<div class="col-sm-3">
-				<h3 class="text-center">Schedule</h3>
-				<table class="table table-hover">
+			<div class="col-sm-3 text-center">
+				<h3>Movie schedule</h3>
+
+				<br> <select id="getFname" onchange="admSelectCheck(this);">
+					<option id="today" value="today">Today</option>
+					<option id="toworrow" value="tomorrow">Tomorrow</option>
+					<option id="week" value="week">For a week</option>
+				</select> <br> <br>
+				<p>Click on the session time to select places</p>
+
+<!-- TODO -->
+				<div id="TodayEvents" style="display: block;">
+					<c:forEach items="${event.dateAndAuditoriums}" var="item">
+						<h2>
+							<a style="color: red;" href="">${item.startTime.hour}:${item.startTime.hour}</a>
+						</h2>
+					</c:forEach>
+				</div>
+
+				<div id="TomorrowEvents" style="display: none;">
+					<c:forEach items="${event.dateAndAuditoriums}" var="item">
+						<h2>
+							<a style="color: red;" href="">${item.startTime.hour}:${item.startTime.hour}</a>
+						</h2>
+					</c:forEach>
+				</div>
+				<div id="WeekEvents" style="display: none;">
+					<c:forEach items="${event.dateAndAuditoriums}" var="item">
+						<h2>
+							<a style="color: red;" href="">${item.startTime.hour}:${item.startTime.hour}</a>
+						</h2>
+					</c:forEach>
+				</div>
+
+
+				<%-- <table class="table table-hover">
 					<tr>
 						<th>Start</th>
 						<th>End</th>
@@ -108,11 +156,29 @@
 							<td><c:out value="${item.auditoriumName}" /></td>
 						</tr>
 					</c:forEach>
-				</table>
+				</table> --%>
 			</div>
 		</div>
 
 	</div>
 	<jsp:include page="..//fragments/footer.jsp" />
 </body>
+<script>
+	function admSelectCheck(nameSelect) {
+		if ("today" == nameSelect.value) {
+			document.getElementById("TodayEvents").style.display = "block";
+			document.getElementById("TomorrowEvents").style.display = "none";
+			document.getElementById("WeekEvents").style.display = "none";
+		} else if ("tomorrow" == nameSelect.value) {
+			document.getElementById("TodayEvents").style.display = "none";
+			document.getElementById("TomorrowEvents").style.display = "block";
+			document.getElementById("WeekEvents").style.display = "none";
+		} else if ("week" == nameSelect.value) {
+			document.getElementById("TodayEvents").style.display = "none";
+			document.getElementById("TomorrowEvents").style.display = "none";
+			document.getElementById("WeekEvents").style.display = "block";
+		}
+
+	}
+</script>
 </html>
