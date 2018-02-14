@@ -55,7 +55,7 @@
 		var table = document.getElementById("addedRows");
 		var rowCount = table.rows.length;
 		var row = table.insertRow(rowCount);
-		var path = "dateAndAuditoriums[" + (rowCount-1) + "]";
+		var path = "dateAndAuditoriums[" + (rowCount - 1) + "]";
 
 		var cell1 = row.insertCell(0);
 		var cell2 = row.insertCell(1);
@@ -140,7 +140,9 @@ textarea {
 
 					<div class="imageupload panel panel-default">
 						<div class="panel-heading clearfix">
-							<h3 class="panel-title pull-left">Upload Image <b>(only 320 X 250px)</b></h3>
+							<h3 class="panel-title pull-left">
+								Upload Image <b>(only 320 X 250px)</b>
+							</h3>
 						</div>
 						<div class="file-tab panel-body">
 							<label class="btn btn-default btn-file"> <span>Browse</span>
@@ -174,7 +176,7 @@ textarea {
 							<span class="input-group-addon"> <span
 								class="glyphicon glyphicon-calendar"></span>
 							</span>
-							<form:input path="year" class="form-control" readonly="true"/>
+							<form:input path="year" class="form-control" readonly="true" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -243,19 +245,19 @@ textarea {
 					<div class="form-group">
 						<label class="control-label">Technology</label>
 						<div>
-							<c:forEach var="technology" items="${technologies}">
-								<div class="radio-inline">
-									<form:radiobutton path="technology" value="${technology}" />
-									${technology.name}
-								</div>
-							</c:forEach>
+							<form:select path="technology" class="form-control">
+								<c:forEach items="${technologies}" var="t">
+									<form:option value="${t}" label="${t.name}" />
+								</c:forEach>
+							</form:select>
 						</div>
 					</div>
-					<div id="ageButtonContainer" class="form-group">
-						<button id="ageBtn" class="btn btn-default btn-md">Add
-							age restriction</button>
+					<div class="form-group ">
+						<label>Age</label>
+						<div>
+							<form:input path="minAge" class="form-control" value="" />
+						</div>
 					</div>
-					<div id="age" class="form-group"></div>
 					<br>
 					<table id="addedRows" class="table">
 						<tr>
@@ -271,7 +273,7 @@ textarea {
 									<div class='input-group date form_datetime'>
 										<form:input class="form-control"
 											path="dateAndAuditoriums[${vs.index}].startTime"
-											value="${item.startTime}" readonly="true"/>
+											value="${item.startTime}" readonly="true" />
 										<span class="input-group-addon"> <span
 											class="glyphicon glyphicon-calendar"></span>
 										</span>
@@ -280,7 +282,7 @@ textarea {
 								<td>
 									<div class='input-group date form_datetime'>
 										<form:input path="dateAndAuditoriums[${vs.index}].endTime"
-											value="${item.endTime}" class="form-control" readonly="true"/>
+											value="${item.endTime}" class="form-control" readonly="true" />
 										<span class="input-group-addon"> <span
 											class="glyphicon glyphicon-calendar"></span>
 										</span>
@@ -329,22 +331,6 @@ textarea {
 		});
 	</script>
 	<script>
-		$(function() {
-			$(document)
-					.on(
-							'click',
-							'#ageBtn',
-							function() {
-								$("#ageBtn").remove();
-								$("#age")
-										.append(
-												'<label>Age from:</label> <div><input name="minAge"' +
-                            'type="text" class="form-control"/></div><button style="margin-top:2px" class="btn btn-default btn-sm" type="button" id="removeAgeBtn">remove</button>');
-							});
-
-		});
-	</script>
-	<script>
 		$("input[name='durationMin']").TouchSpin({
 			step : 5,
 			initval : 20,
@@ -353,31 +339,9 @@ textarea {
 		});
 	</script>
 	<script>
-		$(function() {
-			$(document).on('mouseenter', 'input[name="minAge"]', function() {
-				var $this = $(this);
-				$this.TouchSpin({
-					initval : 4,
-					min : 4,
-					max : 21
-				}); // You should probably check whether datapicker is already attached before binding it.
-			});
-		});
+		$("input[name='minAge']").TouchSpin();
 	</script>
-	<script>
-		$(function() {
-			$(document)
-					.on(
-							'click',
-							'#removeAgeBtn',
-							function() {
-								$("#age").html("");
-								$("#ageButtonContainer")
-										.append(
-												'<button id="ageBtn" class="btn btn-default">Add age restriction</button>');
-							});
-		});
-	</script>
+
 	<script type="text/javascript">
 		$(function() {
 			$(document).on('mouseenter', '.form_datetime', function() {

@@ -43,7 +43,7 @@
                 <td>${event.name}</td>
                 <td>${event.basePrice}</td>
                 <td>${event.rating}</td>
-                <td><spring:url value="events/${event.id}" var="eventUrl"/> <spring:url
+                <td><spring:url value="/events/${event.id}" var="eventUrl"/> <spring:url
                         value="events/${event.id}/delete" var="deleteUrl"/> <spring:url
                         value="events/${event.id}/update" var="updateUrl"/>
 

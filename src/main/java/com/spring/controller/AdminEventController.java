@@ -72,7 +72,6 @@ public class AdminEventController {
 		this.genreService = genreService;
 	}
 
-
 	// delete event
 	@RequestMapping(value = "/admin/events/{id}/delete", method = RequestMethod.GET)
 	public String deleteEvent(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
@@ -137,12 +136,14 @@ public class AdminEventController {
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "Event updated successfully!");
 			}
+			for (String s: event.getActors()) {
+				System.out.print(s);
+
+			}
 
 			event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
-			/*
-			 * // TODO image disappear when updating without any changes if
-			 * (event.getImage() != null) { System.out.println("inside IF block");
-			 */
+			
+
 			try {
 				if (event.getImage() == null || event.getImage().getBytes().length != 0) {
 					File image = null;

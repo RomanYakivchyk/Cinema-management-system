@@ -54,7 +54,7 @@
 			<div class="col-sm-6">
 				<h1 style="font-size: 55px">${event.name}</h1>
 				<br>
-				<c:if test="${not empty event.minAge}">
+				<c:if test="${not empty event.minAge and event.minAge != 0}">
 					<h4>
 						<b>Age:</b> ${event.minAge}+
 					</h4>
@@ -70,9 +70,9 @@
 				</h4>
 				<h4>
 					<b>Genre:</b>
-					<c:forEach items="${event.genres}" var="item">
-						<c:out value="${item}" />
-						<c:out value=" " />
+					<c:forEach items="${event.genres}" var="item" varStatus="loop">
+						${item}
+						<c:if test="${!loop.last}">, </c:if>
 					</c:forEach>
 				</h4>
 				<h4>
@@ -83,9 +83,9 @@
 				</h4>
 				<h4>
 					<b>Actors:</b>
-					<c:forEach items="${event.actors}" var="item">
-						<c:out value="${item}" />
-						<c:out value=" " />
+					<c:forEach items="${event.actors}" var="item" varStatus="loop">
+						${item}
+						<c:if test="${!loop.last}">, </c:if>
 					</c:forEach>
 				</h4>
 				<h4>${event.description}</h4>

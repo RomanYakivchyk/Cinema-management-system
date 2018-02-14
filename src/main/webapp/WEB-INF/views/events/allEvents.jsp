@@ -17,6 +17,21 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
 
+<style>
+
+a:link {
+	color: #000;
+} /* unvisited link  */
+a:visited {
+	color: #000;
+} /* visited link    */
+a:hover {
+	color: #000;
+} /* mouse over link */
+a:active {
+	color: #000;
+} /* selected link   */
+</style>
 
 </head>
 <body>
