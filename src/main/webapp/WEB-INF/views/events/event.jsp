@@ -6,7 +6,8 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-<link href="${pageContext.request.contextPath}/resources/css/header.css"
+<link
+	href="${pageContext.request.contextPath}/resources/css/footer_header.css"
 	rel="stylesheet" media="screen">
 
 <!-- jQuery library -->
@@ -19,19 +20,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Event</title>
 <style>
-#eventViewContainer {
+#eventContainer {
 	padding-top: 40px;
 }
 
-#eventViewImage {
-	height: auto; 
-	width:auto;
-	margin:auto;
+#eventViewImageContaner {
+	padding-top: 25px;
+	margin: auto;
 }
 
-#eventViewImageContaner {
-	margin-top: 20px;
-	padding: 10px;
+#eventViewImage {
+	margin: auto;
 }
 </style>
 </head>
@@ -40,15 +39,15 @@
 	<jsp:include page="../fragments/header.jsp" />
 
 
-	<div class="container-fluid" id="eventViewContainer">
+	<div class="container-fluid" id="eventContainer">
 
 
 		<div class="row">
 			<div class="col-sm-3">
 				<div id="eventViewImageContaner">
-					<img id = "eventViewImage"  class="img-responsive" 
+					<img id="eventViewImage" class="img-responsive img-rounded"
 						src="${pageContext.request.contextPath}/resources/images/${event.imagePath}"
-						alt="img" id="eventViewImage"/>
+						alt="img" id="eventViewImage" />
 					<p class="text-center">Rating: ${event.rating}</p>
 				</div>
 			</div>
@@ -57,8 +56,7 @@
 				<br>
 				<c:if test="${not empty event.minAge}">
 					<h4>
-						<b>Age:</b>
-						${event.minAge}+
+						<b>Age:</b> ${event.minAge}+
 					</h4>
 				</c:if>
 				<h4>
@@ -115,5 +113,6 @@
 		</div>
 
 	</div>
+	<jsp:include page="..//fragments/footer.jsp" />
 </body>
 </html>

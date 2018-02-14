@@ -1,0 +1,37 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	margin: 0 0 200px; /* bottom = footer height */
+}
+
+footer {
+	background-color: #f2f2f2;
+	margin-top: 40px;
+	padding: 40px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 100px;
+	width: 100%;
+}
+
+.navbar {
+	margin-bottom: 0;
+	border-radius: 0;
+}
+
+a:link {
+	color: #000;
+} /* unvisited link  */
+a:visited {
+	color: #000;
+} /* visited link    */
+a:hover {
+	color: #000;
+} /* mouse over link */
+a:active {
+	color: #000;
+} /* selected link   */

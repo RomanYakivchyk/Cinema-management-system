@@ -13,10 +13,9 @@
 <link
 	href="${pageContext.request.contextPath}/resources/bootstrap/css/_bootstrap-datetimepicker.css"
 	rel="stylesheet" media="screen">
-<link href="${pageContext.request.contextPath}/resources/css/footer.css"
-	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/header.css"
+<link href="${pageContext.request.contextPath}/resources/css/footer_header.css"
 	rel="stylesheet" media="screen">
+
 <!-- jQuery library -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"

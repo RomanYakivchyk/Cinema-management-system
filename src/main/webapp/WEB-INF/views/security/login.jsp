@@ -7,10 +7,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <%-- for footer--%>
-<link href="${pageContext.request.contextPath}/resources/css/footer.css"
-	rel="stylesheet">
-<link href="${pageContext.request.contextPath}/resources/css/header.css"
+<link href="${pageContext.request.contextPath}/resources/css/footer_header.css"
 	rel="stylesheet" media="screen">
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 

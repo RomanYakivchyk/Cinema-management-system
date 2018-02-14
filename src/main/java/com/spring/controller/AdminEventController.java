@@ -72,21 +72,6 @@ public class AdminEventController {
 		this.genreService = genreService;
 	}
 
-	// show event
-	@RequestMapping(value = "/admin/events/{id}", method = RequestMethod.GET)
-	public String showEvent(@PathVariable("id") long id, Model model) {
-		// logger.debug("showEvent() id=", id);
-		Event event = eventService.findById(id);
-		// if (event == null) {
-		// model.addAttribute("css", "danger");
-		// model.addAttribute("msg", "Event not found");
-		// }
-		model.addAttribute("event", event);
-
-		// return "events/admin/show";
-
-		return "events/event";
-	}
 
 	// delete event
 	@RequestMapping(value = "/admin/events/{id}/delete", method = RequestMethod.GET)
@@ -110,6 +95,9 @@ public class AdminEventController {
 		// logger.debug("showUpdateEventForm() id=", id);
 
 		Event event = eventService.findById(id);
+
+		System.out.println(event.getImagePath());
+
 		model.addAttribute("event", event);
 		model.addAttribute("eventRatings", EventRating.values());
 		model.addAttribute("technologies", Technology.values());
@@ -151,11 +139,14 @@ public class AdminEventController {
 			}
 
 			event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
-			
-			//TODO image dissapear when updating without any changes
-			File image = null;
+			/*
+			 * // TODO image disappear when updating without any changes if
+			 * (event.getImage() != null) { System.out.println("inside IF block");
+			 */
 			try {
-				if (event.getImage().getBytes().length > 0) {
+				if (event.getImage() == null || event.getImage().getBytes().length != 0) {
+					File image = null;
+
 					image = new File(context.getRealPath("/") + "/resources/images/events/" + event.getName() + ".png");
 					if (image.exists()) {
 						image.delete();
@@ -163,15 +154,18 @@ public class AdminEventController {
 					FileOutputStream fos = new FileOutputStream(image);
 					fos.write(event.getImage().getBytes());
 					fos.close();
-				} 
+					event.setImagePath("events/" + image.getName());
+				} else {
+					event.setImagePath(eventService.findById(event.getId()).getImagePath());
+				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+			System.out.println(event);
+			eventService.saveOrUpdate(event);
+			return "redirect:/admin/events";
 		}
 
-		System.out.println(event);
-		eventService.saveOrUpdate(event);
-		return "redirect:/admin/events";
 	}
 
 	@RequestMapping(value = "/admin/events", method = RequestMethod.GET)

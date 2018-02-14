@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-<link href="${pageContext.request.contextPath}/resources/css/header.css"
+<link
+	href="${pageContext.request.contextPath}/resources/css/footer_header.css"
 	rel="stylesheet" media="screen">
-<link href="${pageContext.request.contextPath}/resources/css/footer.css"
-	rel="stylesheet">
+
 <link href="${pageContext.request.contextPath}/resources/css/index.css"
 	rel="stylesheet" media="screen">
 <%-- 	<link href="${pageContext.request.contextPath}/resources/css/footer.css"
@@ -71,11 +71,11 @@
 		<hr>
 		<div class="row">
 			<c:forEach var="event" items="${events}">
-				<div class="col-sm-3">
-					<a href="admin/events/${event.id}"> <img class="img-responsive" 
+				<div class="col-sm-3 text-center">
+					<a href="events/${event.id}"> <img class="img-responsive"
 						src="${pageContext.request.contextPath}/resources/images/${event.imagePath}"
-						alt="Image" class="img-today-movies">
-					</a>
+						alt="Image">
+					</a> <a href="events/${event.id}"><b>${event.name}</b></a>
 				</div>
 			</c:forEach>
 		</div>

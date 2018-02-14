@@ -140,7 +140,7 @@ textarea {
 
 					<div class="imageupload panel panel-default">
 						<div class="panel-heading clearfix">
-							<h3 class="panel-title pull-left">Upload Image</h3>
+							<h3 class="panel-title pull-left">Upload Image <b>(only 320 X 250px)</b></h3>
 						</div>
 						<div class="file-tab panel-body">
 							<label class="btn btn-default btn-file"> <span>Browse</span>
