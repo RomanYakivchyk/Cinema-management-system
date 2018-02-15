@@ -1,22 +1,35 @@
 package com.spring.controller;
 
+import com.spring.domain.Auditorium;
 import com.spring.domain.Event;
+import com.spring.domain.EventDateAndAuditorium;
+import com.spring.service.AuditoriumService;
 import com.spring.service.EventService;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class EventController {
 
 	private final EventService eventService;
+	private final AuditoriumService auditoriumService;
 
 	@Autowired
-	public EventController(EventService eventService) {
+	public EventController(EventService eventService, AuditoriumService auditoriumService) {
 		this.eventService = eventService;
+		this.auditoriumService = auditoriumService;
 	}
 
 	@RequestMapping(value = "/movies", method = RequestMethod.GET)
@@ -36,9 +49,52 @@ public class EventController {
 		// }
 		model.addAttribute("event", event);
 
-		// return "events/admin/show";
+		List<EventDateAndAuditorium> todayEvents = new ArrayList<>();
+		List<EventDateAndAuditorium> tomorrowEvents = new ArrayList<>();
+		List<EventDateAndAuditorium> weekEvents = new ArrayList<>();
+		LocalDate today = LocalDate.now();
+		LocalDate tomorrow = today.plusDays(1);
+		LocalDate inWeek = today.plusDays(7);
 
+		for (EventDateAndAuditorium edaa : event.getDateAndAuditoriums()) {
+			LocalDate eventStart = edaa.getStartTime().toLocalDate();
+			if (today.equals(eventStart)) {
+				todayEvents.add(edaa);
+			}
+
+			if (tomorrow.equals(eventStart)) {
+				tomorrowEvents.add(edaa);
+			}
+
+			if (today.equals(eventStart) || inWeek.equals(eventStart)
+					|| (eventStart.isAfter(today) && eventStart.isBefore(inWeek))) {
+				weekEvents.add(edaa);
+			}
+		}
+
+		model.addAttribute("todayEvents", todayEvents);
+		model.addAttribute("tomorrowEvents", tomorrowEvents);
+		model.addAttribute("weekEvents", weekEvents);
 		return "events/event";
+	}
+	
+	
+	
+	@RequestMapping(value = "/events/{id}/{dateTime}/select_place", method = RequestMethod.GET)
+	public String selectPlace(@PathVariable("dateTime") String ldt, @PathVariable("id") Long id, Model model) {
+
+		Event event = eventService.findById(id);
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+		LocalDateTime dateTime = LocalDateTime.parse(ldt, formatter);
+		
+		
+		
+		model.addAttribute("dateTime",dateTime);
+		model.addAttribute("event",event);
+		
+		return "events/selectPlace";
+
 	}
 
 }

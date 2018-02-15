@@ -326,7 +326,8 @@ textarea {
 			$('#yearpicker').datetimepicker({
 				format : 'YYYY',
 				useCurrent : false,
-				ignoreReadonly : true
+				ignoreReadonly : true,
+				showTodayButton : true
 			});
 		});
 	</script>
@@ -348,7 +349,8 @@ textarea {
 				$(this).datetimepicker({
 					format : 'YYYY-MM-DD HH:mm',
 					useCurrent : false,
-					ignoreReadonly : true
+					ignoreReadonly : true,
+					showTodayButton : true
 				});
 			});
 		});
@@ -358,7 +360,8 @@ textarea {
 			$('.form_datetime').datetimepicker({
 				format : 'YYYY-MM-DD HH:mm',
 				useCurrent : false,
-				ignoreReadonly : true
+				ignoreReadonly : true,
+				showTodayButton : true
 			});
 		});
 	</script>

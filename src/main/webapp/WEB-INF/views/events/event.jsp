@@ -118,26 +118,26 @@ a:active {
 				</select> <br> <br>
 				<p>Click on the session time to select places</p>
 
-<!-- TODO -->
-				<div id="TodayEvents" style="display: block;">
-					<c:forEach items="${event.dateAndAuditoriums}" var="item">
+				<!-- TODO -->
+				<div id="todayEvents" style="display: block;">
+					<c:forEach items="${todayEvents}" var="item">
 						<h2>
-							<a style="color: red;" href="">${item.startTime.hour}:${item.startTime.hour}</a>
+							<a style="color: red;" href="${event.id}/${item.startTime}/select_place">${item.startTime.hour}:${item.startTime.minute}</a>
 						</h2>
 					</c:forEach>
 				</div>
 
-				<div id="TomorrowEvents" style="display: none;">
-					<c:forEach items="${event.dateAndAuditoriums}" var="item">
+				<div id="tomorrowEvents" style="display: none;">
+					<c:forEach items="${tomorrowEvents}" var="item">
 						<h2>
-							<a style="color: red;" href="">${item.startTime.hour}:${item.startTime.hour}</a>
+							<a style="color: red;" href="">${item.startTime.hour}:${item.startTime.minute}</a>
 						</h2>
 					</c:forEach>
 				</div>
-				<div id="WeekEvents" style="display: none;">
-					<c:forEach items="${event.dateAndAuditoriums}" var="item">
+				<div id="weekEvents" style="display: none;">
+					<c:forEach items="${weekEvents}" var="item">
 						<h2>
-							<a style="color: red;" href="">${item.startTime.hour}:${item.startTime.hour}</a>
+							<a style="color: red;" href="">${item.startTime.hour}:${item.startTime.minute}</a>
 						</h2>
 					</c:forEach>
 				</div>
@@ -166,17 +166,17 @@ a:active {
 <script>
 	function admSelectCheck(nameSelect) {
 		if ("today" == nameSelect.value) {
-			document.getElementById("TodayEvents").style.display = "block";
-			document.getElementById("TomorrowEvents").style.display = "none";
-			document.getElementById("WeekEvents").style.display = "none";
+			document.getElementById("todayEvents").style.display = "block";
+			document.getElementById("tomorrowEvents").style.display = "none";
+			document.getElementById("weekEvents").style.display = "none";
 		} else if ("tomorrow" == nameSelect.value) {
-			document.getElementById("TodayEvents").style.display = "none";
-			document.getElementById("TomorrowEvents").style.display = "block";
-			document.getElementById("WeekEvents").style.display = "none";
+			document.getElementById("todayEvents").style.display = "none";
+			document.getElementById("tomorrowEvents").style.display = "block";
+			document.getElementById("weekEvents").style.display = "none";
 		} else if ("week" == nameSelect.value) {
-			document.getElementById("TodayEvents").style.display = "none";
-			document.getElementById("TomorrowEvents").style.display = "none";
-			document.getElementById("WeekEvents").style.display = "block";
+			document.getElementById("todayEvents").style.display = "none";
+			document.getElementById("tomorrowEvents").style.display = "none";
+			document.getElementById("weekEvents").style.display = "block";
 		}
 
 	}

@@ -47,9 +47,11 @@ public class EventServiceImpl implements EventService {
         return eventDao.findById(id);
     }
 
-    @Nonnull
+    
     @Override
     public Collection<Event> findAll() {
         return eventDao.findAll();
     }
+    
+    
 }
