@@ -75,7 +75,7 @@
 				+ '</span></div>';
 		//TODO hardcoded auditorium names
 		cell3.innerHTML = '<select name="' + path + ".auditoriumName" + '" title="Auditorium" class="form-control" >'
-				+ '<option value="None">Select</option>'
+				+ '<option value="">Select</option>'
 				+ '<option value="Red">Red</option>'
 				+ '<option value="Blue">Blue</option>' + '</select>';
 
@@ -291,7 +291,7 @@ textarea {
 								<td><form:select
 										path="dateAndAuditoriums[${vs.index}].auditoriumName"
 										class="form-control">
-										<form:option value="None" label="Select" />
+										<form:option value="" label="Select" />
 										<c:forEach items="${auditoriums}" var="aud">
 											<form:option value="${aud.name}" label="${aud.name}" />
 										</c:forEach>
