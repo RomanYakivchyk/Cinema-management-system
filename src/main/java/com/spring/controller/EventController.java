@@ -77,24 +77,29 @@ public class EventController {
 		model.addAttribute("weekEvents", weekEvents);
 		return "events/event";
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/events/{id}/{dateTime}/{auditoriumName}/select_place", method = RequestMethod.GET)
-	public String selectPlace(@PathVariable("dateTime") String ldt, @PathVariable("id") Long id, @PathVariable("auditoriumName") String auditoriumName, Model model) {
+	public String selectPlace(@PathVariable("dateTime") String ldt, @PathVariable("id") Long id,
+			@PathVariable("auditoriumName") String auditoriumName, Model model) {
 
 		Event event = eventService.findById(id);
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 		LocalDateTime dateTime = LocalDateTime.parse(ldt, formatter);
-		
-		/*for(EventDateAndAuditorium eda: event.getDateAndAuditoriums()) {
-			eda.ge
+		EventDateAndAuditorium eda = null;
+		for (EventDateAndAuditorium item : event.getDateAndAuditoriums()) {
+			if (item.getStartTime().equals(dateTime) && item.getAuditoriumName().equals(auditoriumName)) {
+				eda = item;
+				break;
+			}
 		}
-		*/
-		model.addAttribute("dateTime",dateTime);
-		model.addAttribute("event",event);
-		
+		if (null == eda) {
+			throw new NullPointerException();
+		}
+
+		model.addAttribute("eda", eda);
+		model.addAttribute("event", event);
+
 		return "events/selectPlace";
 
 	}

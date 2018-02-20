@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -122,47 +123,53 @@ a:active {
 
 				<br>
 				<div class="form-group" id="selectDate">
-					<select class="form-control input-lg text-center" id="getFname"
-						onchange="admSelectCheck(this);">
-						<option id="today" value="today">Today</option>
-						<option id="toworrow" value="tomorrow">Tomorrow</option>
-						<option id="week" value="week">For a week</option>
+					<select class="form-control input-lg text-center" id="getEventsFor">
+						<!-- onchange="admSelectCheck(this);" -->
+						<option value="select">Select day</option>
+						<option value="today">Today</option>
+						<option value="tomorrow">Tomorrow</option>
+						<option value="week">For a week</option>
 					</select>
 				</div>
 				<br> <br>
 				<p>Click on the session time to select places</p>
 
 				<!-- TODO -->
-				<div id="todayEvents" style="display: block;">
+				<div id="today" class="scheduledEvents" style="display:none;">
 					<c:forEach items="${todayEvents}" var="item">
 						<h2>
 							<a style="color: red;"
-								href="${event.id}/${item.startTime}/${item.auditoriumName}/select_place">${item.startTime.hour}:${item.startTime.minute}
-							</a>
+								href="${event.id}/${item.startTime}/${item.auditoriumName}/select_place"><tags:localDateTime
+									date="${item.startTime}" pattern="HH:mm" /> </a>
 						</h2>
 						<span class="label label-default">${item.auditoriumName}
 							hall</span>
 					</c:forEach>
 				</div>
 
-				<div id="tomorrowEvents" style="display: none;">
+				<div id="tomorrow" class="scheduledEvents" style="display:none;">
 					<c:forEach items="${tomorrowEvents}" var="item">
 						<h2>
 							<a style="color: red;"
-								href="${event.id}/${item.startTime}/${item.auditoriumName}/select_place">${item.startTime.hour}:${item.startTime.minute}</a>
+								href="${event.id}/${item.startTime}/${item.auditoriumName}/select_place"><tags:localDateTime
+									date="${item.startTime}" pattern="HH:mm" /></a>
 						</h2>
 						<span class="label label-default">${item.auditoriumName}
 							hall</span>
 					</c:forEach>
 				</div>
-				<div id="weekEvents" style="display: none;">
+				<div id="week" class="scheduledEvents" style="display:none;">
 					<c:forEach items="${weekEvents}" var="item">
 						<h2>
 							<a style="color: red;"
-								href="${event.id}/${item.startTime}/${item.auditoriumName}/select_place">${item.startTime.hour}:${item.startTime.minute}</a>
+								href="${event.id}/${item.startTime}/${item.auditoriumName}/select_place"><tags:localDateTime
+									date="${item.startTime}" pattern="HH:mm" /></a>
 						</h2>
 						<span class="label label-default">${item.auditoriumName}
 							hall</span>
+						<span class="label label-default"> <tags:localDateTime
+								date="${item.startTime}" pattern="dd.MM" />
+						</span>
 					</c:forEach>
 				</div>
 			</div>
@@ -171,23 +178,17 @@ a:active {
 	</div>
 	<jsp:include page="..//fragments/footer.jsp" />
 </body>
-<script>
-	function admSelectCheck(nameSelect) {
-		if ("today" == nameSelect.value) {
-			document.getElementById("todayEvents").style.display = "block";
-			document.getElementById("tomorrowEvents").style.display = "none";
-			document.getElementById("weekEvents").style.display = "none";
-		} else if ("tomorrow" == nameSelect.value) {
-			document.getElementById("todayEvents").style.display = "none";
-			document.getElementById("tomorrowEvents").style.display = "block";
-			document.getElementById("weekEvents").style.display = "none";
-		} else if ("week" == nameSelect.value) {
-			document.getElementById("todayEvents").style.display = "none";
-			document.getElementById("tomorrowEvents").style.display = "none";
-			document.getElementById("weekEvents").style.display = "block";
-		}
 
-	}
+<script>
+	$(function() {
+		$('#getEventsFor').change(function() {
+			$('.scheduledEvents').hide();
+			$('#' + $(this).val()).show();
+		});
+	});
+	$(function() {
+		$('#getEventsFor')..val('select');
+	});
 </script>
 
 <script>

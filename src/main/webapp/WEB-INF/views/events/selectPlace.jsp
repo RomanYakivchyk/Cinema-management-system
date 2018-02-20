@@ -8,6 +8,11 @@
 </head>
 <body>
 ${event.id}
-${dateTime}
+<br>
+${event.name}
+<br>
+${eda.startTime}
+<br>
+${eda.auditoriumName}
 </body>
 </html>

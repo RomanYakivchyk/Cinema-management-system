@@ -36,6 +36,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -136,13 +139,15 @@ public class AdminEventController {
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "Event updated successfully!");
 			}
-			for (String s: event.getActors()) {
+			for (String s : event.getActors()) {
 				System.out.print(s);
 
 			}
 
-			event.setDateAndAuditoriums(removeInvalidItems(event.getDateAndAuditoriums()));
-			
+			List<EventDateAndAuditorium> validList = removeInvalidItems(event.getDateAndAuditoriums());
+			List<EventDateAndAuditorium> sortedList = sortByDate(validList);
+			event.setDateAndAuditoriums(sortedList);
+			event.setDateAndAuditoriums(validList);
 
 			try {
 				if (event.getImage() == null || event.getImage().getBytes().length != 0) {
@@ -186,6 +191,18 @@ public class AdminEventController {
 			}
 		}
 		return resultList;
+	}
+
+	private List<EventDateAndAuditorium> sortByDate(List<EventDateAndAuditorium> dateAndAuditoriums) {
+		List<EventDateAndAuditorium> sortedList = dateAndAuditoriums;
+		Collections.sort(dateAndAuditoriums, new Comparator<EventDateAndAuditorium>() {
+			public int compare(EventDateAndAuditorium e1, EventDateAndAuditorium e2) {
+				return e1.getStartTime().isBefore(e2.getStartTime()) ? -1
+						: e1.getStartTime().isAfter(e2.getStartTime()) ? 1 : 0;
+			}
+		});
+
+		return sortedList;
 	}
 
 }

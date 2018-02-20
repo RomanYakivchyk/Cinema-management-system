@@ -31,7 +31,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event saveOrUpdate(@Nonnull Event event) {
-        if (event.getId() == 0)
+        if (event.isNew())
             return eventDao.create(event);
         else
             return eventDao.update(event);

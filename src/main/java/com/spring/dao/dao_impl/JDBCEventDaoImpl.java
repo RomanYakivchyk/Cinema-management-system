@@ -88,7 +88,7 @@ public class JDBCEventDaoImpl implements EventDao {
 	@Override
 	public Event findById(long id) {
 		final String sql1 = "SELECT * FROM EVENT WHERE ID = ?";
-		final String sql2 = "SELECT START_DATE_TIME,END_DATE_TIME, AUDITORIUM_NAME FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
+		final String sql2 = "SELECT START_DATE_TIME, END_DATE_TIME, AUDITORIUM_NAME FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
 		final String sql3 = "SELECT GENRE_NAME FROM GENRE_EVENT WHERE EVENT_ID = ?";
 		final String sql4 = "SELECT NAME FROM ACTOR WHERE EVENT_ID = ?";
 
@@ -176,6 +176,8 @@ public class JDBCEventDaoImpl implements EventDao {
 		for (Map m : list) {
 			EventDateAndAuditorium eda = new EventDateAndAuditorium();
 			eda.setStartTime(((Timestamp) m.get("START_DATE_TIME")).toLocalDateTime());
+			System.out.println(m.get("START_DATE_TIME"));
+			System.out.println(m.get("END_DATE_TIME"));
 			eda.setEndTime(((Timestamp) m.get("END_DATE_TIME")).toLocalDateTime());
 			eda.setAuditoriumName((String) m.get("AUDITORIUM_NAME"));
 			dateAndAuditoriums.add(eda);

@@ -3,15 +3,17 @@ package com.spring.utility;
 import org.springframework.core.convert.converter.Converter;
 
 
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
  
 public final class LocalDateTimeConverter implements Converter<String, LocalDateTime> {
  
     private final DateTimeFormatter formatter;
  
     public LocalDateTimeConverter(String dateFormat) {
-        this.formatter = DateTimeFormatter.ofPattern(dateFormat);
+        this.formatter = DateTimeFormatter.ofPattern(dateFormat,Locale.ENGLISH);
     }
  
     @Override
