@@ -187,7 +187,7 @@ a:active {
 		});
 	});
 	$(function() {
-		$('#getEventsFor')..val('select');
+		$('#getEventsFor').val('select');
 	});
 </script>
 
