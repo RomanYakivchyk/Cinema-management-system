@@ -2,7 +2,7 @@ package com.spring.domain;
 
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class DomainObject {
 
     private long id;

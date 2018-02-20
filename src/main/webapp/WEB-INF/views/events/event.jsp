@@ -35,6 +35,11 @@
 	margin: auto;
 }
 
+#selectDate {
+	margin: auto;
+	width: 60%;
+}
+
 a:link {
 	color: #000;
 } /* unvisited link  */
@@ -71,9 +76,13 @@ a:active {
 				<br>
 				<c:if test="${not empty event.minAge and event.minAge != 0}">
 					<h4>
-						<b>Age:</b> ${event.minAge}+
+						<b>Age:</b><span data-toggle="popover" data-trigger="hover"
+							data-placement="top"
+							data-content="Over ${ event.minAge} years old">
+							${event.minAge}+</span>
 					</h4>
 				</c:if>
+				<!-- data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Over ${ event.minAge} years old" -->
 				<h4>
 					<b>Year:</b> ${event.year}
 				</h4>
@@ -111,52 +120,51 @@ a:active {
 			<div class="col-sm-3 text-center">
 				<h3>Movie schedule</h3>
 
-				<br> <select id="getFname" onchange="admSelectCheck(this);">
-					<option id="today" value="today">Today</option>
-					<option id="toworrow" value="tomorrow">Tomorrow</option>
-					<option id="week" value="week">For a week</option>
-				</select> <br> <br>
+				<br>
+				<div class="form-group" id="selectDate">
+					<select class="form-control input-lg text-center" id="getFname"
+						onchange="admSelectCheck(this);">
+						<option id="today" value="today">Today</option>
+						<option id="toworrow" value="tomorrow">Tomorrow</option>
+						<option id="week" value="week">For a week</option>
+					</select>
+				</div>
+				<br> <br>
 				<p>Click on the session time to select places</p>
 
 				<!-- TODO -->
 				<div id="todayEvents" style="display: block;">
 					<c:forEach items="${todayEvents}" var="item">
 						<h2>
-							<a style="color: red;" href="${event.id}/${item.startTime}/select_place">${item.startTime.hour}:${item.startTime.minute}</a>
+							<a style="color: red;"
+								href="${event.id}/${item.startTime}/${item.auditoriumName}/select_place">${item.startTime.hour}:${item.startTime.minute}
+							</a>
 						</h2>
+						<span class="label label-default">${item.auditoriumName}
+							hall</span>
 					</c:forEach>
 				</div>
 
 				<div id="tomorrowEvents" style="display: none;">
 					<c:forEach items="${tomorrowEvents}" var="item">
 						<h2>
-							<a style="color: red;" href="">${item.startTime.hour}:${item.startTime.minute}</a>
+							<a style="color: red;"
+								href="${event.id}/${item.startTime}/${item.auditoriumName}/select_place">${item.startTime.hour}:${item.startTime.minute}</a>
 						</h2>
+						<span class="label label-default">${item.auditoriumName}
+							hall</span>
 					</c:forEach>
 				</div>
 				<div id="weekEvents" style="display: none;">
 					<c:forEach items="${weekEvents}" var="item">
 						<h2>
-							<a style="color: red;" href="">${item.startTime.hour}:${item.startTime.minute}</a>
+							<a style="color: red;"
+								href="${event.id}/${item.startTime}/${item.auditoriumName}/select_place">${item.startTime.hour}:${item.startTime.minute}</a>
 						</h2>
+						<span class="label label-default">${item.auditoriumName}
+							hall</span>
 					</c:forEach>
 				</div>
-
-
-				<%-- <table class="table table-hover">
-					<tr>
-						<th>Start</th>
-						<th>End</th>
-						<th>Auditorium</th>
-					</tr>
-					<c:forEach items="${event.dateAndAuditoriums}" var="item">
-						<tr>
-							<td><c:out value="${item.startTime}" /></td>
-							<td><c:out value="${item.endTime}" /></td>
-							<td><c:out value="${item.auditoriumName}" /></td>
-						</tr>
-					</c:forEach>
-				</table> --%>
 			</div>
 		</div>
 
@@ -180,5 +188,11 @@ a:active {
 		}
 
 	}
+</script>
+
+<script>
+	$(document).ready(function() {
+		$('[data-toggle="popover"]').popover();
+	});
 </script>
 </html>

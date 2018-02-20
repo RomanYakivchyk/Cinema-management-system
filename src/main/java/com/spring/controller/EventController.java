@@ -80,16 +80,18 @@ public class EventController {
 	
 	
 	
-	@RequestMapping(value = "/events/{id}/{dateTime}/select_place", method = RequestMethod.GET)
-	public String selectPlace(@PathVariable("dateTime") String ldt, @PathVariable("id") Long id, Model model) {
+	@RequestMapping(value = "/events/{id}/{dateTime}/{auditoriumName}/select_place", method = RequestMethod.GET)
+	public String selectPlace(@PathVariable("dateTime") String ldt, @PathVariable("id") Long id, @PathVariable("auditoriumName") String auditoriumName, Model model) {
 
 		Event event = eventService.findById(id);
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 		LocalDateTime dateTime = LocalDateTime.parse(ldt, formatter);
 		
-		
-		
+		/*for(EventDateAndAuditorium eda: event.getDateAndAuditoriums()) {
+			eda.ge
+		}
+		*/
 		model.addAttribute("dateTime",dateTime);
 		model.addAttribute("event",event);
 		
