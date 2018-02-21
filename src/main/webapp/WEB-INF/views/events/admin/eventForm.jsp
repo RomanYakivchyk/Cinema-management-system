@@ -97,6 +97,10 @@
 textarea {
 	resize: none;
 }
+
+.empty {
+	border: 1px solid red;
+}
 </style>
 </head>
 <body>
@@ -125,15 +129,15 @@ textarea {
 						<label>Name</label>
 						<div>
 							<form:input path="name" type="text" id="name"
-								class="form-control" />
-							<form:errors path="name" />
+								class="form-control requiredField" />
+
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Base price</label>
 						<div>
-							<form:input path="basePrice" id="basePrice" class="form-control" />
-							<form:errors path="basePrice" />
+							<form:input path="basePrice" id="basePrice"
+								class="form-control requiredField" />
 						</div>
 					</div>
 
@@ -167,7 +171,7 @@ textarea {
 					<div class="form-group">
 						<label>Country</label>
 						<div>
-							<form:input path="country" class="form-control" />
+							<form:input path="country" class="form-control requiredField" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -176,12 +180,13 @@ textarea {
 							<span class="input-group-addon"> <span
 								class="glyphicon glyphicon-calendar"></span>
 							</span>
-							<form:input path="year" class="form-control" readonly="true" />
+							<form:input path="year" class="form-control requiredField"
+								readonly="true" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Genre</label>
-						<div class="row">
+						<div class="row" id="genres">
 							<div class="col-md-4">
 								<c:forEach begin="0" end="${fn:length(genres)/3}" var="item"
 									items="${genres}" varStatus="loop">
@@ -215,31 +220,33 @@ textarea {
 					<div class="form-group">
 						<label>Language</label>
 						<div>
-							<form:input path="language" class="form-control" />
+							<form:input path="language" class="form-control requiredField" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Actors</label>
 						<div>
-							<form:textarea path="actors" class="form-control" />
+							<form:textarea path="actors" class="form-control requiredField" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Directed by</label>
 						<div>
-							<form:input path="directedBy" class="form-control" />
+							<form:input path="directedBy" class="form-control requiredField" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Description</label>
 						<div>
-							<form:textarea path="description" class="form-control" rows="5" />
+							<form:textarea path="description"
+								class="form-control requiredField" rows="5" />
 						</div>
 					</div>
 					<div class="form-group ">
 						<label>Duration</label>
 						<div>
-							<form:input path="durationMin" class="form-control" value="" />
+							<form:input path="durationMin" class="form-control requiredField"
+								value="" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -310,10 +317,10 @@ textarea {
 					<div class="text-center">
 						<c:choose>
 							<c:when test="${event['new']}">
-								<button type="submit" class="btn btn-info">Create</button>
+								<button type="submit" class="btn btn-info createUpdateEvent">Create</button>
 							</c:when>
 							<c:otherwise>
-								<button type="submit" class="btn btn-info">Update</button>
+								<button type="submit" class="btn btn-info createUpdateEvent">Update</button>
 							</c:otherwise>
 						</c:choose>
 					</div>
@@ -337,6 +344,14 @@ textarea {
 			initval : 20,
 			min : 20,
 			max : 1440
+		});
+	</script>
+	<script>
+		$("input[name='basePrice']").TouchSpin({
+			step : 5,
+			initval : 100,
+			min : 0,
+			max : 1000
 		});
 	</script>
 	<script>
@@ -371,6 +386,36 @@ textarea {
 			previewWidth : 250,
 			previewHeight : 250,
 			maxFileSizeKb : 5120
+		});
+	</script>
+
+	<script>
+		$(function() {
+			$('.createUpdateEvent').click(function(e) {
+				var isValid = true;
+				$(".requiredField").each(function() {
+					var element = $(this);
+					if (element.val() == "") {
+						isValid = false;
+						$(this).addClass('empty');
+						e.preventDefault();
+					} else {
+						$(this).removeClass('empty');
+					}
+				});
+
+				if ($('input[name="genres"]:checked').length == 0) {
+					isValid = false;
+					$("#genres").addClass('empty');
+					e.preventDefault();
+				} else {
+					$("#genres").removeClass('empty');
+				}
+				if (!isValid) {
+					alert("Fill in all highlighted fields!");
+				}
+
+			});
 		});
 	</script>
 </body>
