@@ -131,6 +131,19 @@ public class JDBCEventDaoImpl implements EventDao {
 		}
 		return events;
 	}
+	
+	@Override
+	public List<Event> findAll(int page, int total) {
+		final String sql1 = "SELECT * FROM EVENT LIMIT "+(page-1)+","+total;  
+		List<Event> events = new ArrayList<>();
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql1);
+		for (Map row : rows) {
+			Long id = (Long) row.get("ID");
+			Event event = findById(id);
+			events.add(event);
+		}
+		return events;
+	}
 
 	@Override // todo!!! update with no data deletes previous data
 	public Event update(Event event) {

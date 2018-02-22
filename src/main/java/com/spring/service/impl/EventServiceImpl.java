@@ -8,50 +8,54 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class EventServiceImpl implements EventService {
 
-    @Autowired
-    private EventDao eventDao;
+	@Autowired
+	private EventDao eventDao;
 
-    public void setEventDao(EventDao eventDao) {
-        this.eventDao = eventDao;
-    }
+	public void setEventDao(EventDao eventDao) {
+		this.eventDao = eventDao;
+	}
 
-    @Override
-    public Event findByName(String name) {
-        for (Event event : findAll()) {
-            if (name.equals(event.getName())) {
-                return event;
-            }
-        }
-        return null;
-    }
+	@Override
+	public Event findByName(String name) {
+		for (Event event : findAll()) {
+			if (name.equals(event.getName())) {
+				return event;
+			}
+		}
+		return null;
+	}
 
-    @Override
-    public Event saveOrUpdate(@Nonnull Event event) {
-        if (event.isNew())
-            return eventDao.create(event);
-        else
-            return eventDao.update(event);
-    }
+	@Override
+	public Event saveOrUpdate(@Nonnull Event event) {
+		if (event.isNew())
+			return eventDao.create(event);
+		else
+			return eventDao.update(event);
+	}
 
-    @Override
-    public void delete(long id) {
-        eventDao.delete(id);
-    }
+	@Override
+	public void delete(long id) {
+		eventDao.delete(id);
+	}
 
-    @Override
-    public Event findById(@Nonnull Long id) {
-        return eventDao.findById(id);
-    }
+	@Override
+	public Event findById(@Nonnull Long id) {
+		return eventDao.findById(id);
+	}
 
-    
-    @Override
-    public Collection<Event> findAll() {
-        return eventDao.findAll();
-    }
-    
-    
+	@Override
+	public Collection<Event> findAll() {
+		return eventDao.findAll();
+	}
+
+	@Override
+	public List<Event> findAll(int page, int total) {
+		return eventDao.findAll(page, total);
+	}
+
 }

@@ -18,7 +18,6 @@
 <title>Insert title here</title>
 
 <style>
-
 a:link {
 	color: #000;
 } /* unvisited link  */
@@ -52,6 +51,45 @@ a:active {
 			</c:forEach>
 		</div>
 
+		<div id="pagination">
+			<c:choose>
+				<c:when test="${param.page != 1}">
+					<a href="${pageContext.request.contextPath}/movies?page=1">Begin</a>
+				</c:when>
+				<c:otherwise>
+					<a href="" class="disabled">Begin</a>
+				</c:otherwise>
+			</c:choose>
+
+
+			<c:forEach var="i" begin="1" end="${pageCountToDisplay}">
+				<c:if test="${param.page - (pageCountToDisplay-i+1) > 0}">
+					<a
+						href="${pageContext.request.contextPath}/movies?page=${param.page-(pageCountToDisplay-i+1)}">${param.page-(pageCountToDisplay-i+1)}</a>
+				</c:if>
+			</c:forEach>
+			<a
+				href="${pageContext.request.contextPath}/movies?page=${param.page}">${param.page}</a>
+			<c:forEach var="i" begin="1" end="${param.page+1}">
+				<c:if test="${param.page + i <= numOfPages}">
+					<a
+						href="${pageContext.request.contextPath}/movies?page=${param.page+i}">${param.page+i}</a>
+				</c:if>
+			</c:forEach>
+
+
+
+
+			<c:choose>
+				<c:when test="${param.page < numOfPages}">
+					<a
+						href="${pageContext.request.contextPath}/movies?page=${numOfPages}">End</a>
+				</c:when>
+				<c:otherwise>
+					<a href="" class="disabled">End</a>
+				</c:otherwise>
+			</c:choose>
+		</div>
 	</div>
 	<jsp:include page="../fragments/footer.jsp" />
 </body>

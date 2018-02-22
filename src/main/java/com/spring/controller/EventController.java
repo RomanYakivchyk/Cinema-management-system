@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -32,12 +33,6 @@ public class EventController {
 		this.auditoriumService = auditoriumService;
 	}
 
-	@RequestMapping(value = "/movies", method = RequestMethod.GET)
-	public String showAllEvents(Model model) {
-
-		model.addAttribute("events", eventService.findAll());
-		return "events/allEvents";
-	}
 
 	@RequestMapping(value = "/events/{id}", method = RequestMethod.GET)
 	public String showEvent(@PathVariable("id") long id, Model model) {
@@ -102,6 +97,34 @@ public class EventController {
 
 		return "events/selectPlace";
 
+	}
+	
+	
+	
+	@RequestMapping(value = "/movies", method = RequestMethod.GET)
+	public String showAllEvents(Model model, @RequestParam(name = "page", required = true) Integer page) {
+		int total = 2;
+		int offset;
+		if (page == null || page <= 0) {
+			offset = 1;
+			page = 1;
+		} else
+			offset = (page - 1) * total + 1;
+
+		int tmp = eventService.findAll().size() / total;
+		int numOfPages = 0;
+		if (tmp % 2 == 0)
+			numOfPages = tmp;
+		else
+			numOfPages = tmp + 1;
+
+		int pageCountToDisplay = 2;
+
+		model.addAttribute("pageCountToDisplay", pageCountToDisplay);
+		model.addAttribute("numOfPages", numOfPages);
+		List<Event> events = eventService.findAll(offset, total);
+		model.addAttribute("events", events);
+		return "events/allEvents";
 	}
 
 }
