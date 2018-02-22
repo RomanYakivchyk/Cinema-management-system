@@ -30,6 +30,29 @@ a:hover {
 a:active {
 	color: #000;
 } /* selected link   */
+.pagination li a {
+	color: #000;
+	
+}
+.pagination li a:active {
+	color: red;
+	
+}
+.pagination li a:hover {
+	color: red;
+	
+}
+
+
+#paginationUl {
+ margin-left:40%;
+}
+
+#paginationContainer {
+	position: absolute;
+	bottom: 100px;
+	width:100%;
+}
 </style>
 
 </head>
@@ -50,47 +73,51 @@ a:active {
 				</div>
 			</c:forEach>
 		</div>
-
-		<div id="pagination">
-			<c:choose>
-				<c:when test="${param.page != 1}">
-					<a href="${pageContext.request.contextPath}/movies?page=1">Begin</a>
-				</c:when>
-				<c:otherwise>
-					<a href="" class="disabled">Begin</a>
-				</c:otherwise>
-			</c:choose>
-
-
-			<c:forEach var="i" begin="1" end="${pageCountToDisplay}">
-				<c:if test="${param.page - (pageCountToDisplay-i+1) > 0}">
-					<a
-						href="${pageContext.request.contextPath}/movies?page=${param.page-(pageCountToDisplay-i+1)}">${param.page-(pageCountToDisplay-i+1)}</a>
-				</c:if>
-			</c:forEach>
-			<a
-				href="${pageContext.request.contextPath}/movies?page=${param.page}">${param.page}</a>
-			<c:forEach var="i" begin="1" end="${param.page+1}">
-				<c:if test="${param.page + i <= numOfPages}">
-					<a
-						href="${pageContext.request.contextPath}/movies?page=${param.page+i}">${param.page+i}</a>
-				</c:if>
-			</c:forEach>
-
-
-
-
-			<c:choose>
-				<c:when test="${param.page < numOfPages}">
-					<a
-						href="${pageContext.request.contextPath}/movies?page=${numOfPages}">End</a>
-				</c:when>
-				<c:otherwise>
-					<a href="" class="disabled">End</a>
-				</c:otherwise>
-			</c:choose>
-		</div>
+		
 	</div>
+	<div id="paginationContainer" class="container">
+			<ul class="pagination" id="paginationUl">
+				<c:choose>
+					<c:when test="${param.page != 1}">
+						<li><a
+							href="${pageContext.request.contextPath}/movies?page=1">Begin</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="" class="disabled">Begin</a></li>
+					</c:otherwise>
+				</c:choose>
+
+
+				<c:forEach var="i" begin="1" end="${pageCountToDisplay}">
+					<c:if test="${param.page - (pageCountToDisplay-i+1) > 0}">
+						<li><a
+							href="${pageContext.request.contextPath}/movies?page=${param.page-(pageCountToDisplay-i+1)}">${param.page-(pageCountToDisplay-i+1)}</a>
+						</li>
+					</c:if>
+				</c:forEach>
+				<li class="active"><a
+					href="${pageContext.request.contextPath}/movies?page=${param.page}">${param.page}</a></li>
+				<c:forEach var="i" begin="1" end="${param.page+1}">
+					<c:if test="${param.page + i <= numOfPages}">
+						<li><a
+							href="${pageContext.request.contextPath}/movies?page=${param.page+i}">${param.page+i}</a></li>
+					</c:if>
+				</c:forEach>
+
+
+
+
+				<c:choose>
+					<c:when test="${param.page < numOfPages}">
+						<li><a
+							href="${pageContext.request.contextPath}/movies?page=${numOfPages}">End</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="" class="disabled">End</a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
 	<jsp:include page="../fragments/footer.jsp" />
 </body>
 </html>

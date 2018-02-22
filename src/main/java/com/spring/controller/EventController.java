@@ -107,17 +107,20 @@ public class EventController {
 		int offset;
 		if (page == null || page <= 0) {
 			offset = 1;
-			page = 1;
 		} else
 			offset = (page - 1) * total + 1;
 
 		int tmp = eventService.findAll().size() / total;
+		
+		System.out.println("tmp="+tmp);
 		int numOfPages = 0;
-		if (tmp % 2 == 0)
+		if(tmp==1) 
+			numOfPages = 1;
+		else if (tmp % 2 == 0)
 			numOfPages = tmp;
 		else
 			numOfPages = tmp + 1;
-
+		System.out.println("numOfPages="+numOfPages);
 		int pageCountToDisplay = 2;
 
 		model.addAttribute("pageCountToDisplay", pageCountToDisplay);

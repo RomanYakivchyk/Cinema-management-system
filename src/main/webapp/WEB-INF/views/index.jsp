@@ -71,7 +71,7 @@
 		<hr>
 		<div class="row">
 			<c:forEach var="event" items="${events}">
-				<div class="col-sm-3 text-center">
+				<div class="col-sm-3 text-center" id="singleEvent">
 					<a href="events/${event.id}"> <img class="img-responsive"
 						src="${pageContext.request.contextPath}/resources/images/${event.imagePath}"
 						alt="Image">

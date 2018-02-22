@@ -15,6 +15,9 @@
 	margin: auto;
 }
 
+#singleEvent {
+	margin-bottom:10px;
+}
 
 a:link {
 	color: #000;

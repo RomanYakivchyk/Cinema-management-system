@@ -1,6 +1,6 @@
 INSERT INTO EVENT (NAME, BASE_PRICE, RATING, IMAGE_PATH, COUNTRY,YEAR,LANGUAGE,DIRECTED_BY,DESCRIPTION,DURATION_MIN,TECHNOLOGY,MIN_AGE) 
-VALUES ('Man in Black', '150.0', 'HIGH', 'events/Man in Black.png','USA','2008','english','Tarantino','На Земле','120','TWO_D','12');
+VALUES ('Man in Black', '150.0', 'HIGH', 'events/240x320.png','USA','2008','english','Tarantino','На Земле','120','TWO_D','12');
 INSERT INTO EVENT (NAME, BASE_PRICE, RATING, IMAGE_PATH, COUNTRY,YEAR,LANGUAGE,DIRECTED_BY,DESCRIPTION,DURATION_MIN,TECHNOLOGY,MIN_AGE) 
-VALUES  ('Tor', '90.0', 'LOW', 'events/Tor.png', 'USA','2008','english','Tarantino','desc','130','THREE_D','12');
+VALUES  ('Tor', '90.0', 'LOW', 'events/240x320.png', 'USA','2008','english','Tarantino','desc','130','THREE_D','12');
 INSERT INTO EVENT (NAME, BASE_PRICE, RATING, IMAGE_PATH, COUNTRY,YEAR,LANGUAGE,DIRECTED_BY,DESCRIPTION,DURATION_MIN,TECHNOLOGY,MIN_AGE)
-VALUES  ('Predator', '110.0', 'MED', 'events/Predator.png','USA','2010','english','Tarantino','desc','115','THREE_D','16');
+VALUES  ('Predator', '110.0', 'MED', 'events/240x320.png','USA','2010','english','Tarantino','desc','115','THREE_D','16');

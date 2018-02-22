@@ -80,9 +80,9 @@ public class JDBCEventDaoImpl implements EventDao {
 		final String sql4 = "DELETE FROM ACTOR WHERE ID = ?";
 
 		jdbcTemplate.update(sql1, id);
-		jdbcTemplate.update(sql2, id);
 		jdbcTemplate.update(sql3, id);
 		jdbcTemplate.update(sql4, id);
+		jdbcTemplate.update(sql2, id);
 	}
 
 	@Override
