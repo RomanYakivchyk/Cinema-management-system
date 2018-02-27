@@ -4,30 +4,55 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 @Component
-public class Auditorium {
+public class Auditorium extends DomainObject{
 
     private String name;
+    private Set<Seat> seats;
+    
 
-    private long numberOfSeats;
+	public Set<Seat> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(Set<Seat> seats) {
+		this.seats = seats;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+    
+    
+
+   /* private long numberOfSeats;
+    
+    private Map<String,Integer> seats = new HashMap<String, Integer>();
+    
 
     private Set<Long> vipSeats = Collections.emptySet();
 
     public Auditorium() {
     }
 
-    /**
+    *//**
      * Counts how many vip seats are there in supplied <code>seats</code>
      * 
      * @param seats
      *            Seats to process
      * @return number of vip seats in request
-     */
+     *//*
     public long countVipSeats(Collection<Long> seats) {
         return seats.stream().filter(seat -> vipSeats.contains(seat)).count();
     }
@@ -94,5 +119,5 @@ public class Auditorium {
                 ", numberOfSeats=" + numberOfSeats +
                 ", vipSeats=" + vipSeats +
                 '}';
-    }
+    }*/
 }

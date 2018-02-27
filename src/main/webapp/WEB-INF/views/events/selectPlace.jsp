@@ -13,6 +13,6 @@ ${event.name}
 <br>
 ${eda.startTime}
 <br>
-${eda.auditoriumName}
+${eda.auditorium.name}
 </body>
 </html>

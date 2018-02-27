@@ -5,6 +5,8 @@ import com.spring.domain.Auditorium;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import java.util.List;
 import java.util.Set;
 
 
@@ -15,7 +17,7 @@ public interface AuditoriumService {
      * 
      * @return set of all RED.properties
      */
-    public @Nonnull Set<Auditorium> findAll();
+    public @Nonnull List<Auditorium> findAll();
 
     /**
      * Finding auditorium by name
@@ -24,6 +26,6 @@ public interface AuditoriumService {
      *            Name of the auditorium
      * @return found auditorium or <code>null</code>
      */
-    public @Nullable Auditorium findByName(@Nonnull String name);
+    public @Nullable Auditorium findById(Long id);
 
 }

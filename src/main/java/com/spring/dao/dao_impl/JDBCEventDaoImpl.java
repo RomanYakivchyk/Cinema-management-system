@@ -1,5 +1,6 @@
 package com.spring.dao.dao_impl;
 
+import com.spring.dao.AuditoriumDao;
 import com.spring.dao.EventDao;
 import com.spring.domain.Event;
 import com.spring.domain.EventDateAndAuditorium;
@@ -19,6 +20,9 @@ import java.util.*;
 @Repository
 public class JDBCEventDaoImpl implements EventDao {
 
+	@Autowired
+	private AuditoriumDao auditoriumDao; 
+	
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
@@ -28,13 +32,11 @@ public class JDBCEventDaoImpl implements EventDao {
 
 	@Override
 	public Event create(Event event) {
-		
-		System.out.println("duration min = "+event.getDurationMin());
-		System.out.println("directed by = "+event.getDirectedBy());
+
 		final String sql1 = "INSERT INTO EVENT (NAME, BASE_PRICE, RATING, IMAGE_PATH, COUNTRY, YEAR,"
 				+ " LANGUAGE, DIRECTED_BY, DESCRIPTION,DURATION_MIN,TECHNOLOGY,MIN_AGE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 		final String sql2 = "INSERT INTO EVENT_DATE_AND_AUDITORIUM "
-				+ "(EVENT_ID, START_DATE_TIME, END_DATE_TIME, AUDITORIUM_NAME) VALUES (?, ?, ?, ?)";
+				+ "(EVENT_ID, START_DATE_TIME, END_DATE_TIME, AUDITORIUM_ID) VALUES (?, ?, ?, ?)";
 		final String sql3 = "INSERT INTO GENRE_EVENT (GENRE_NAME,EVENT_ID) VALUES (?,?)";
 		final String sql4 = "INSERT INTO ACTOR (NAME,EVENT_ID) VALUES (?,?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -59,9 +61,10 @@ public class JDBCEventDaoImpl implements EventDao {
 			return pst;
 		}, keyHolder);
 		event.setId((Long) keyHolder.getKey());
+		
 		for (EventDateAndAuditorium entry : event.getDateAndAuditoriums()) {
 			jdbcTemplate.update(sql2, event.getId(), entry.getStartTime(), entry.getEndTime(),
-					entry.getAuditoriumName());
+					entry.getAuditorium().getId());
 		}
 		for (String genre : event.getGenres()) {
 			jdbcTemplate.update(sql3, genre, event.getId());
@@ -88,7 +91,7 @@ public class JDBCEventDaoImpl implements EventDao {
 	@Override
 	public Event findById(long id) {
 		final String sql1 = "SELECT * FROM EVENT WHERE ID = ?";
-		final String sql2 = "SELECT START_DATE_TIME, END_DATE_TIME, AUDITORIUM_NAME FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
+		final String sql2 = "SELECT START_DATE_TIME, END_DATE_TIME, AUDITORIUM_ID FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
 		final String sql3 = "SELECT GENRE_NAME FROM GENRE_EVENT WHERE EVENT_ID = ?";
 		final String sql4 = "SELECT NAME FROM ACTOR WHERE EVENT_ID = ?";
 
@@ -153,7 +156,7 @@ public class JDBCEventDaoImpl implements EventDao {
 				+ "DESCRIPTION = ? ,DURATION_MIN = ? ,TECHNOLOGY = ? ,MIN_AGE = ? WHERE ID = ?";
 		final String sql2 = "DELETE FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
 		final String sql3 = "INSERT INTO EVENT_DATE_AND_AUDITORIUM "
-				+ "(EVENT_ID, START_DATE_TIME, END_DATE_TIME, AUDITORIUM_NAME) VALUES (?, ?, ?, ?)";
+				+ "(EVENT_ID, START_DATE_TIME, END_DATE_TIME, AUDITORIUM_ID) VALUES (?, ?, ?, ?)";
 
 		final String sql4 = "DELETE FROM GENRE_EVENT WHERE EVENT_ID = ?";
 		final String sql5 = "INSERT INTO GENRE_EVENT (GENRE_NAME, EVENT_ID) VALUES (?, ?)";
@@ -166,9 +169,13 @@ public class JDBCEventDaoImpl implements EventDao {
 				event.getDurationMin(), event.getTechnology().name(), event.getMinAge(), event.getId());
 
 		jdbcTemplate.update(sql2, event.getId());
+		
 		for (EventDateAndAuditorium entry : event.getDateAndAuditoriums()) {
+			// AUDITORIUM ID = 0
+			System.out.println(entry.getAuditorium().getId());
+
 			jdbcTemplate.update(sql3, event.getId(), entry.getStartTime(), entry.getEndTime(),
-					entry.getAuditoriumName());
+					entry.getAuditorium().getId());
 		}
 
 		jdbcTemplate.update(sql4, event.getId());
@@ -189,10 +196,8 @@ public class JDBCEventDaoImpl implements EventDao {
 		for (Map m : list) {
 			EventDateAndAuditorium eda = new EventDateAndAuditorium();
 			eda.setStartTime(((Timestamp) m.get("START_DATE_TIME")).toLocalDateTime());
-			System.out.println(m.get("START_DATE_TIME"));
-			System.out.println(m.get("END_DATE_TIME"));
 			eda.setEndTime(((Timestamp) m.get("END_DATE_TIME")).toLocalDateTime());
-			eda.setAuditoriumName((String) m.get("AUDITORIUM_NAME"));
+			eda.setAuditorium(auditoriumDao.findById((Long) m.get("AUDITORIUM_ID")));
 			dateAndAuditoriums.add(eda);
 		}
 		return dateAndAuditoriums;

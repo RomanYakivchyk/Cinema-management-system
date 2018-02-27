@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -20,16 +22,14 @@ public class AuditoriumServiceImpl implements AuditoriumService {
         this.auditoriumDao = auditoriumDao;
     }
 
-    @Nonnull
     @Override
-    public Set<Auditorium> findAll() {
+    public List<Auditorium> findAll() {
         return auditoriumDao.findAll();
     }
 
-    @Nullable
     @Override
-    public Auditorium findByName(@Nonnull String name) {
-        return auditoriumDao.findByName(name);
+    public Auditorium findById(Long id) {
+        return auditoriumDao.findById(id);
     }
 
 }

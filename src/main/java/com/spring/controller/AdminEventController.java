@@ -97,9 +97,6 @@ public class AdminEventController {
 		// logger.debug("showUpdateEventForm() id=", id);
 
 		Event event = eventService.findById(id);
-
-		System.out.println(event.getImagePath());
-
 		model.addAttribute("event", event);
 		model.addAttribute("eventRatings", EventRating.values());
 		model.addAttribute("technologies", Technology.values());
@@ -185,8 +182,8 @@ public class AdminEventController {
 	private List<EventDateAndAuditorium> removeInvalidItems(List<EventDateAndAuditorium> dateAndAuditoriums) {
 		List<EventDateAndAuditorium> resultList = new ArrayList<>();
 		for (EventDateAndAuditorium dateAndAuditorium : dateAndAuditoriums) {
-			if (!"".equals(dateAndAuditorium.getAuditoriumName()) && dateAndAuditorium.getStartTime() != null
-					&& dateAndAuditorium.getStartTime() != null) {
+			// TODO validation aud
+			if (dateAndAuditorium.getStartTime() != null && dateAndAuditorium.getStartTime() != null) {
 				resultList.add(dateAndAuditorium);
 			}
 		}

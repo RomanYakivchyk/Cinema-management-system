@@ -9,21 +9,21 @@ public class EventDateAndAuditorium {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    private String auditoriumName;
+    private Auditorium auditorium;
 
     public EventDateAndAuditorium() {
     }
 
-    public String getAuditoriumName() {
-        return auditoriumName;
-    }
+   
+    public Auditorium getAuditorium() {
+		return auditorium;
+	}
 
-    public void setAuditoriumName(String auditoriumName) {
-        this.auditoriumName = auditoriumName;
-    }
+	public void setAuditorium(Auditorium auditorium) {
+		this.auditorium = auditorium;
+	}
 
-    
-    public LocalDateTime getStartTime() {
+	public LocalDateTime getStartTime() {
         return startTime;
     }
 

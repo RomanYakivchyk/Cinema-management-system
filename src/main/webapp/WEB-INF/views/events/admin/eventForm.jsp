@@ -73,11 +73,14 @@
 				+ '<span class="input-group-addon">'
 				+ '<span class="glyphicon glyphicon-calendar"></span>'
 				+ '</span></div>';
+				
+				
+				
 		//TODO hardcoded auditorium names
-		cell3.innerHTML = '<select name="' + path + ".auditoriumName" + '" title="Auditorium" class="form-control" >'
+		cell3.innerHTML = '<select name="' + path + ".auditorium.name" + '" title="Auditorium" class="form-control" >'
 				+ '<option value="">Select</option>'
-				+ '<option value="Red">Red</option>'
-				+ '<option value="Blue">Blue</option>' + '</select>';
+				+ '<option value="1">Red</option>'
+				+ '<option value="2">Blue</option>' + '</select>';
 
 		cell4.innerHTML = '<input type="button" value="Delete" class="btn btn-danger" onclick="removeRow(this)"/>';
 	}
@@ -296,7 +299,7 @@ textarea {
 									</div>
 								</td>
 								<td><form:select
-										path="dateAndAuditoriums[${vs.index}].auditoriumName"
+										path="dateAndAuditoriums[${vs.index}].auditorium.name"
 										class="form-control">
 										<form:option value="" label="Select" />
 										<c:forEach items="${auditoriums}" var="aud">

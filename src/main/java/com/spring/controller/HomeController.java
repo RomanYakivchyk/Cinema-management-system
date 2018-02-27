@@ -18,7 +18,7 @@ public class HomeController {
 	           this.eventService = eventService;
 	       }
 	   
-	       @RequestMapping(value = {"/","/index"}, method = RequestMethod.GET)
+	       @RequestMapping(value = "/", method = RequestMethod.GET)
 	       public String showAllEvents(Model model) {	   
 	           model.addAttribute("events", eventService.findAll());
 	           return "index";

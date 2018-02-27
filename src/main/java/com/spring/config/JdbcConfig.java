@@ -29,6 +29,9 @@ public class JdbcConfig {
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript("db/sql/create-event-table.sql")
                 .addScript("db/sql/populate-event-table.sql")
+                
+                .addScript("db/sql/create-and-populate-auditorium-table.sql")
+                .addScript("db/sql/create-seat-table.sql")
 
                 .addScript("db/sql/create-event-date-and-aud-table.sql")
                 .addScript("db/sql/populate-event-date-and-aud-table.sql")
@@ -46,6 +49,7 @@ public class JdbcConfig {
                 .addScript("db/sql/create-genre_event-table.sql")
                 
                 .addScript("db/sql/create-actor-table.sql")
+                
                 .build();
 
         return db;
