@@ -133,13 +133,11 @@ public class EventController {
 	}
 	
 	
-	@GetMapping("/availableSeats")
+	@GetMapping("/getAllAuditoriums")
 	@ResponseBody
-	public Auditorium seats() {
+	public List<Auditorium> getAllAuditoriums() {
 		
-		
-
-		return null;
+		return auditoriumService.findAll();
 		
 	}
 

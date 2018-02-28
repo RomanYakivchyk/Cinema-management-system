@@ -171,12 +171,10 @@ public class JDBCEventDaoImpl implements EventDao {
 		jdbcTemplate.update(sql2, event.getId());
 		
 		for (EventDateAndAuditorium entry : event.getDateAndAuditoriums()) {
-			// AUDITORIUM ID = 0
-			System.out.println(entry.getAuditorium().getId());
-
 			jdbcTemplate.update(sql3, event.getId(), entry.getStartTime(), entry.getEndTime(),
 					entry.getAuditorium().getId());
 		}
+		System.out.println("debug2");
 
 		jdbcTemplate.update(sql4, event.getId());
 		for (String genre : event.getGenres()) {

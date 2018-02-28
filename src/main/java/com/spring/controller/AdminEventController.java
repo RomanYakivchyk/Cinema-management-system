@@ -136,10 +136,7 @@ public class AdminEventController {
 			} else {
 				redirectAttributes.addFlashAttribute("msg", "Event updated successfully!");
 			}
-			for (String s : event.getActors()) {
-				System.out.print(s);
 
-			}
 
 			List<EventDateAndAuditorium> validList = removeInvalidItems(event.getDateAndAuditoriums());
 			List<EventDateAndAuditorium> sortedList = sortByDate(validList);

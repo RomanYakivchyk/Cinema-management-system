@@ -62,25 +62,72 @@
 		var cell3 = row.insertCell(2);
 		var cell4 = row.insertCell(3);
 
-		cell1.innerHTML = '<div class="input-group date form_datetime">'
-				+ '<input name="' + path + ".startTime" + '" type="text" class="form-control" value="" readonly="true"/>'
-				+ '<span class="input-group-addon">'
-				+ '<span class="glyphicon glyphicon-calendar"></span>'
-				+ '</span></div>';
+		var startDateDiv = document.createElement('div');
+		startDateDiv.className = 'input-group date form_datetime';
 
-		cell2.innerHTML = '<div class="input-group date form_datetime">'
-				+ '<input name="' + path + ".endTime" + '" type="text" class="form-control" value="" readonly="true"/>'
-				+ '<span class="input-group-addon">'
-				+ '<span class="glyphicon glyphicon-calendar"></span>'
-				+ '</span></div>';
-				
-				
-				
-		//TODO hardcoded auditorium names
-		cell3.innerHTML = '<select name="' + path + ".auditorium.name" + '" title="Auditorium" class="form-control" >'
-				+ '<option value="">Select</option>'
-				+ '<option value="1">Red</option>'
-				+ '<option value="2">Blue</option>' + '</select>';
+		var startDateInput = document.createElement('input');
+		startDateInput.name = path + ".startTime";
+		startDateInput.type = "text";
+		startDateInput.className = "form-control";
+		startDateInput.value = "";
+		startDateInput.readOnly = "true";
+
+		var startDateInputSpan = document.createElement('span');
+		startDateInputSpan.className = "input-group-addon";
+
+		var startDateIconSpan = document.createElement('span');
+		startDateIconSpan.className = "glyphicon glyphicon-calendar";
+
+		startDateInputSpan.appendChild(startDateIconSpan);
+		startDateDiv.appendChild(startDateInput);
+		startDateDiv.appendChild(startDateInputSpan);
+		cell1.appendChild(startDateDiv);
+
+		var endDateDiv = document.createElement('div');
+		endDateDiv.className = 'input-group date form_datetime';
+
+		var endDateInput = document.createElement('input');
+		endDateInput.name = path + ".endTime";
+		endDateInput.type = "text";
+		endDateInput.className = "form-control";
+		endDateInput.value = "";
+		endDateInput.readOnly = "true";
+
+		var endDateInputSpan = document.createElement('span');
+		endDateInputSpan.className = "input-group-addon";
+
+		var endDateIconSpan = document.createElement('span');
+		endDateIconSpan.className = "glyphicon glyphicon-calendar";
+
+		endDateInputSpan.appendChild(endDateIconSpan);
+		endDateDiv.appendChild(endDateInput);
+		endDateDiv.appendChild(endDateInputSpan);
+		cell2.appendChild(endDateDiv);
+
+		var auditoriums;
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', '${pageContext.request.contextPath}/getAllAuditoriums',
+				false);
+		xhr.onload = function() {
+			if (xhr.status === 200) {
+				auditoriums = JSON.parse(xhr.responseText);
+			} else {
+				alert('Request failed.  Returned status of ' + xhr.status);
+			}
+		};
+		xhr.send();
+
+		var selectAud = document.createElement("select");
+		selectAud.className = "form-control";
+		selectAud.name = path + ".auditorium.id";
+		selectAud.title = "Auditorium";
+		for (var i = 0; i < auditoriums.length; i++) {
+			var option = document.createElement("option");
+			option.value = auditoriums[i].id;
+			option.text = auditoriums[i].name;
+			selectAud.appendChild(option);
+		}
+		cell3.appendChild(selectAud);
 
 		cell4.innerHTML = '<input type="button" value="Delete" class="btn btn-danger" onclick="removeRow(this)"/>';
 	}
@@ -299,11 +346,10 @@ textarea {
 									</div>
 								</td>
 								<td><form:select
-										path="dateAndAuditoriums[${vs.index}].auditorium.name"
+										path="dateAndAuditoriums[${vs.index}].auditorium.id"
 										class="form-control">
-										<form:option value="" label="Select" />
 										<c:forEach items="${auditoriums}" var="aud">
-											<form:option value="${aud.name}" label="${aud.name}" />
+											<form:option value="${aud.id}" label="${aud.name}" />
 										</c:forEach>
 									</form:select></td>
 								<td><input type="button" class="btn btn-danger"
