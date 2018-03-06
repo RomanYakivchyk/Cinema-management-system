@@ -325,6 +325,7 @@ textarea {
 						</tr>
 						<c:forEach items="${event.dateAndAuditoriums}" var="item"
 							varStatus="vs">
+							<form:hidden path="dateAndAuditoriums[${vs.index}].id" />
 							<tr>
 								<td>
 									<div class='input-group date form_datetime'>

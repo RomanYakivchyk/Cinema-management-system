@@ -31,10 +31,12 @@ public class JdbcConfig {
                 .addScript("db/sql/populate-event-table.sql")
                 
                 .addScript("db/sql/create-and-populate-auditorium-table.sql")
-                .addScript("db/sql/create-seat-table.sql")
+                
 
                 .addScript("db/sql/create-event-date-and-aud-table.sql")
                 .addScript("db/sql/populate-event-date-and-aud-table.sql")
+                
+                .addScript("db/sql/create-seat-table.sql")
 
                 .addScript("db/sql/create-role-table.sql")
                 .addScript("db/sql/populate-role-table.sql")

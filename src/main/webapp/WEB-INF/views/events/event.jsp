@@ -139,7 +139,7 @@ a:active {
 					<c:forEach items="${todayEvents}" var="item">
 						<h2>
 							<a style="color: red;"
-								href="${event.id}/${item.startTime}/${item.auditorium.name}/select_place"><tags:localDateTime
+								href="${event.id}/${item.startTime}/${item.auditorium.id}/select_place"><tags:localDateTime
 									date="${item.startTime}" pattern="HH:mm" /> </a>
 						</h2>
 						<span class="label label-default">${item.auditorium.name}
@@ -151,7 +151,7 @@ a:active {
 					<c:forEach items="${tomorrowEvents}" var="item">
 						<h2>
 							<a style="color: red;"
-								href="${event.id}/${item.startTime}/${item.auditorium.name}/select_place"><tags:localDateTime
+								href="${event.id}/${item.startTime}/${item.auditorium.id}/select_place"><tags:localDateTime
 									date="${item.startTime}" pattern="HH:mm" /></a>
 						</h2>
 						<span class="label label-default">${item.auditorium.name}
@@ -162,7 +162,7 @@ a:active {
 					<c:forEach items="${weekEvents}" var="item">
 						<h2>
 							<a style="color: red;"
-								href="${event.id}/${item.startTime}/${item.auditorium.name}/select_place"><tags:localDateTime
+								href="${event.id}/${item.startTime}/${item.auditorium.id}/select_place"><tags:localDateTime
 									date="${item.startTime}" pattern="HH:mm" /></a>
 						</h2>
 						<span class="label label-default">${item.auditorium.name}

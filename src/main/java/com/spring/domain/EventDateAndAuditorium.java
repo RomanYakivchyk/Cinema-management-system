@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class EventDateAndAuditorium {
+public class EventDateAndAuditorium  extends DomainObject{
 	
     private LocalDateTime startTime;
     private LocalDateTime endTime;

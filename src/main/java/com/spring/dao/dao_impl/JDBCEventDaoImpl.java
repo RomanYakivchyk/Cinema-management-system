@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class JDBCEventDaoImpl implements EventDao {
@@ -91,7 +92,7 @@ public class JDBCEventDaoImpl implements EventDao {
 	@Override
 	public Event findById(long id) {
 		final String sql1 = "SELECT * FROM EVENT WHERE ID = ?";
-		final String sql2 = "SELECT START_DATE_TIME, END_DATE_TIME, AUDITORIUM_ID FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
+		final String sql2 = "SELECT ID, START_DATE_TIME, END_DATE_TIME, AUDITORIUM_ID FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
 		final String sql3 = "SELECT GENRE_NAME FROM GENRE_EVENT WHERE EVENT_ID = ?";
 		final String sql4 = "SELECT NAME FROM ACTOR WHERE EVENT_ID = ?";
 
@@ -155,35 +156,62 @@ public class JDBCEventDaoImpl implements EventDao {
 				+ "  IMAGE_PATH = ?, COUNTRY = ?, YEAR = ?, LANGUAGE = ?, DIRECTED_BY = ?, "
 				+ "DESCRIPTION = ? ,DURATION_MIN = ? ,TECHNOLOGY = ? ,MIN_AGE = ? WHERE ID = ?";
 		final String sql2 = "DELETE FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
-		final String sql3 = "INSERT INTO EVENT_DATE_AND_AUDITORIUM "
+		final String sql3 = "UPDATE EVENT_DATE_AND_AUDITORIUM SET EVENT_ID=?, START_DATE_TIME=?, END_DATE_TIME=?, AUDITORIUM_ID=?";
+		final String sql4 = "INSERT INTO EVENT_DATE_AND_AUDITORIUM "
 				+ "(EVENT_ID, START_DATE_TIME, END_DATE_TIME, AUDITORIUM_ID) VALUES (?, ?, ?, ?)";
 
-		final String sql4 = "DELETE FROM GENRE_EVENT WHERE EVENT_ID = ?";
-		final String sql5 = "INSERT INTO GENRE_EVENT (GENRE_NAME, EVENT_ID) VALUES (?, ?)";
+		final String sql5 = "DELETE FROM GENRE_EVENT WHERE EVENT_ID = ?";
+		final String sql6 = "INSERT INTO GENRE_EVENT (GENRE_NAME, EVENT_ID) VALUES (?, ?)";
 
-		final String sql6 = "DELETE FROM ACTOR WHERE EVENT_ID = ?";
-		final String sql7 = "INSERT INTO ACTOR (NAME,EVENT_ID) VALUES (?, ?)";
+		final String sql7 = "DELETE FROM ACTOR WHERE EVENT_ID = ?";
+		final String sql8 = "INSERT INTO ACTOR (NAME,EVENT_ID) VALUES (?, ?)";
 
 		jdbcTemplate.update(sql1, event.getName(), event.getBasePrice(), event.getRating().name(), event.getImagePath(),
 				event.getCountry(), event.getYear(), event.getLanguage(), event.getDirectedBy(), event.getDescription(),
 				event.getDurationMin(), event.getTechnology().name(), event.getMinAge(), event.getId());
 
-		jdbcTemplate.update(sql2, event.getId());
 		
-		for (EventDateAndAuditorium entry : event.getDateAndAuditoriums()) {
-			jdbcTemplate.update(sql3, event.getId(), entry.getStartTime(), entry.getEndTime(),
-					entry.getAuditorium().getId());
+		List<Long> oldIds = jdbcTemplate.queryForList("SELECT ID FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?", new  Object[] {event.getId()}, Long.class);
+		List<Long> newIds = event.getDateAndAuditoriums().stream().map(EventDateAndAuditorium::getId).collect(Collectors.toList());
+		
+		System.out.println("old ids");
+		for(Long id: oldIds) {
+			System.out.println(id);
 		}
-		System.out.println("debug2");
-
-		jdbcTemplate.update(sql4, event.getId());
+		
+		//delete removed on UI sessions
+		for(Long id: oldIds) {
+			
+			if(!newIds.contains(id)) {
+				jdbcTemplate.update(sql2,id);
+				System.out.println("remove Id: "+id);
+			}
+			
+		}
+		
+		//update existing and insert newly added
+		
+		for(EventDateAndAuditorium eda: event.getDateAndAuditoriums()) {	
+			System.out.println(eda.getId());
+//			if(eda.getId() == 0L){//TODO utility class for checking if it is new
+//				jdbcTemplate.update(sql4,
+//						event.getId(),eda.getStartTime(),eda.getEndTime(),eda.getAuditorium().getId());
+//				System.out.println("insert new IDs");
+//			} else {
+//				jdbcTemplate.update(sql3,
+//						event.getId(),eda.getStartTime(),eda.getEndTime(),eda.getAuditorium().getId());
+//				System.out.println("update existing IDs");
+//			}
+		}
+		
+		jdbcTemplate.update(sql5, event.getId());
 		for (String genre : event.getGenres()) {
-			jdbcTemplate.update(sql5, genre, event.getId());
+			jdbcTemplate.update(sql6, genre, event.getId());
 		}
 
-		jdbcTemplate.update(sql6, event.getId());
+		jdbcTemplate.update(sql7, event.getId());
 		for (String actor : event.getActors()) {
-			jdbcTemplate.update(sql7, actor, event.getId());
+			jdbcTemplate.update(sql8, actor, event.getId());
 		}
 
 		return event;
@@ -193,6 +221,8 @@ public class JDBCEventDaoImpl implements EventDao {
 		List<EventDateAndAuditorium> dateAndAuditoriums = new ArrayList<>();
 		for (Map m : list) {
 			EventDateAndAuditorium eda = new EventDateAndAuditorium();
+			eda.setId((Long)m.get("ID"));
+			System.out.println("ID "+eda.getId());
 			eda.setStartTime(((Timestamp) m.get("START_DATE_TIME")).toLocalDateTime());
 			eda.setEndTime(((Timestamp) m.get("END_DATE_TIME")).toLocalDateTime());
 			eda.setAuditorium(auditoriumDao.findById((Long) m.get("AUDITORIUM_ID")));

@@ -2,28 +2,29 @@ package com.spring.domain;
 
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
 
 @Component
 public class Auditorium extends DomainObject{
 
     private String name;
-    private Set<Seat> seats;
-    
+    private Integer rowNumber;
+    private Integer seatsInEachRow;
 
-	public Set<Seat> getSeats() {
-		return seats;
+    
+	public Integer getRowNumber() {
+		return rowNumber;
 	}
 
-	public void setSeats(Set<Seat> seats) {
-		this.seats = seats;
+	public void setRowNumber(Integer rowNumber) {
+		this.rowNumber = rowNumber;
+	}
+
+	public Integer getSeatsInEachRow() {
+		return seatsInEachRow;
+	}
+
+	public void setSeatsInEachRow(Integer seatsInEachRow) {
+		this.seatsInEachRow = seatsInEachRow;
 	}
 
 	public String getName() {
