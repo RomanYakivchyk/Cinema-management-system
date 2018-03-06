@@ -138,7 +138,7 @@ public class JDBCEventDaoImpl implements EventDao {
 
 	@Override
 	public List<Event> findAll(int page, int total) {
-		final String sql1 = "SELECT * FROM EVENT LIMIT " + (page - 1) + "," + total;
+		final String sql1 = "SELECT * FROM EVENT LIMIT " + ((page - 1)*total) + "," + total;
 		List<Event> events = new ArrayList<>();
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql1);
 		for (Map row : rows) {

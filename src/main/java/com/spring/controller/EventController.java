@@ -35,7 +35,6 @@ public class EventController {
 		this.auditoriumService = auditoriumService;
 	}
 
-
 	@RequestMapping(value = "/events/{id}", method = RequestMethod.GET)
 	public String showEvent(@PathVariable("id") long id, Model model) {
 		// logger.debug("showEvent() id=", id);
@@ -100,45 +99,34 @@ public class EventController {
 		return "events/selectPlace";
 
 	}
-	
-	
-	
+
 	@RequestMapping(value = "/movies", method = RequestMethod.GET)
 	public String showAllEvents(Model model, @RequestParam(name = "page", required = true) Integer page) {
-		int total = 2;
-		int offset;
-		if (page == null || page <= 0) {
-			offset = 1;
-		} else
-			offset = (page - 1) * total + 1;
+		int displayItemsOnPageNum = 2;
+		int pageCountToDisplayOnPaginator = 2;
 
-		int tmp = eventService.findAll().size() / total;
-		
-		System.out.println("tmp="+tmp);
-		int numOfPages = 0;
-		if(tmp==1) 
-			numOfPages = 1;
-		else if (tmp % 2 == 0)
-			numOfPages = tmp;
-		else
-			numOfPages = tmp + 1;
-		System.out.println("numOfPages="+numOfPages);
-		int pageCountToDisplay = 2;
+		int allEventsCount = eventService.findAll().size();
+		int numOfPages;
+		if (allEventsCount % displayItemsOnPageNum == 0) {
+			numOfPages = allEventsCount / displayItemsOnPageNum;
+		} else {
+			numOfPages = allEventsCount / displayItemsOnPageNum + 1;
+		}
 
-		model.addAttribute("pageCountToDisplay", pageCountToDisplay);
+
+		model.addAttribute("pageCountToDisplay", pageCountToDisplayOnPaginator);
 		model.addAttribute("numOfPages", numOfPages);
-		List<Event> events = eventService.findAll(offset, total);
+		List<Event> events = eventService.findAll(page, displayItemsOnPageNum);
 		model.addAttribute("events", events);
 		return "events/allEvents";
 	}
-	
-	
+
 	@GetMapping("/getAllAuditoriums")
 	@ResponseBody
 	public List<Auditorium> getAllAuditoriums() {
-		
+
 		return auditoriumService.findAll();
-		
+
 	}
 
 }
