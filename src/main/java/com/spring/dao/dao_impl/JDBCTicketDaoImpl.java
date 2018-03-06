@@ -41,12 +41,11 @@ public class JDBCTicketDaoImpl implements TicketDao {
     }
 
     @Override
-    public Ticket update(Ticket object) {
-        return null;
+    public void update(Ticket object) {
     }
 
     @Override
-    public Ticket create(Ticket ticket) {
+    public void create(Ticket ticket) {
         if (ticket.getId() == 0L) {
             final String sql = "INSERT INTO TICKET (USER_ID, EVENT_ID, DATE_TIME, SEAT) VALUES (?, ?, ?, ?)";
             KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -61,12 +60,11 @@ public class JDBCTicketDaoImpl implements TicketDao {
                     },
                     keyHolder);
             ticket.setId((Long) keyHolder.getKey());
-            return ticket;
+            return;
         }
 
         final String sql = "UPDATE TICKET SET USER_ID=?, EVENT_ID=?, DATE_TIME=?, SEAT=? WHERE ID=?";
         jdbcTemplate.update(sql, ticket.getUser().getId(), ticket.getEvent().getId(), ticket.getDateTime(), ticket.getSeat(), ticket.getId());
-        return ticket;
     }
 
     @Override

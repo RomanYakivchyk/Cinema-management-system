@@ -26,7 +26,7 @@ public class JDBCUserDaoImpl implements UserDao {
     }
 
     @Override
-    public User update(User user) {
+    public void update(User user) {
         final String sql1 = "UPDATE USER SET FIRST_NAME = ?, LAST_NAME = ?, BIRTHDAY = ?," +
                 " EMAIL = ?, USERNAME = ?, PASSWORD = ?, PASSWORD_CONFIRM = ?, ACTIVE = ? WHERE ID = ?";
         final String sql2 = "DELETE * FROM USER_ROLE WHERE USER_ID = ?";
@@ -42,12 +42,11 @@ public class JDBCUserDaoImpl implements UserDao {
             jdbcTemplate.update(sql3, user.getId(), role.getId());
         }
 
-        return user;
     }
 
     //TODO
     @Override
-    public User create(User user) {
+    public void create(User user) {
         final String sql1 = "INSERT INTO USER (FIRST_NAME, LAST_NAME, BIRTHDAY, EMAIL," +
                 " USERNAME, PASSWORD, PASSWORD_CONFIRM, ACTIVE) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         final String sql2 = "INSERT INTO USER_ROLE (USER_ID,ROLE_ID) VALUES (?, ?)";
@@ -75,7 +74,6 @@ public class JDBCUserDaoImpl implements UserDao {
             jdbcTemplate.update(sql2, user.getId(), role.getId());
         }
 
-        return user;
     }
 
     @Override

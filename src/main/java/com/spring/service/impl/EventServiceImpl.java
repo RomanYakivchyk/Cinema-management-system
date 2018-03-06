@@ -3,6 +3,8 @@ package com.spring.service.impl;
 import com.spring.dao.EventDao;
 import com.spring.domain.Event;
 import com.spring.service.EventService;
+import com.spring.utility.Utilities;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +33,11 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Event saveOrUpdate(@Nonnull Event event) {
-		if (event.isNew())
-			return eventDao.create(event);
+	public void saveOrUpdate(@Nonnull Event event) {
+		if (Utilities.isNew(event))
+			eventDao.create(event);
 		else
-			return eventDao.update(event);
+			eventDao.update(event);
 	}
 
 	@Override

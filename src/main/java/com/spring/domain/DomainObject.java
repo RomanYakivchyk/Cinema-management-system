@@ -1,7 +1,5 @@
 package com.spring.domain;
 
-import org.springframework.stereotype.Component;
-
 
 public class DomainObject {
 

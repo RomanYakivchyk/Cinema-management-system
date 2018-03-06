@@ -141,8 +141,10 @@ public class AdminEventController {
 			List<EventDateAndAuditorium> validList = removeInvalidItems(event.getDateAndAuditoriums());
 			List<EventDateAndAuditorium> sortedList = sortByDate(validList);
 			event.setDateAndAuditoriums(sortedList);
-			event.setDateAndAuditoriums(validList);
-
+			
+			
+			
+			
 			try {
 				if (event.getImage() == null || event.getImage().getBytes().length != 0) {
 					File image = null;
@@ -179,8 +181,7 @@ public class AdminEventController {
 	private List<EventDateAndAuditorium> removeInvalidItems(List<EventDateAndAuditorium> dateAndAuditoriums) {
 		List<EventDateAndAuditorium> resultList = new ArrayList<>();
 		for (EventDateAndAuditorium dateAndAuditorium : dateAndAuditoriums) {
-			// TODO validation aud
-			if (dateAndAuditorium.getStartTime() != null && dateAndAuditorium.getStartTime() != null) {
+			if (dateAndAuditorium.getStartTime() != null && dateAndAuditorium.getEndTime() != null) {
 				resultList.add(dateAndAuditorium);
 			}
 		}

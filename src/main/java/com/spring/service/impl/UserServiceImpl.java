@@ -50,15 +50,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User saveOrUpdate(@Nonnull User user) {
+    public void saveOrUpdate(@Nonnull User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setActive((byte)1);
         Role userRole = roleDao.findByName("ROLE_ADMIN");//todo
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-        if (user.getId() == 0)
-            return userDao.create(user);
+        if (user.getId() == 0L)
+             userDao.create(user);
         else
-            return userDao.update(user);
+             userDao.update(user);
     }
 
 
