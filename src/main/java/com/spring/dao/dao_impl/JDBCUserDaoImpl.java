@@ -77,13 +77,13 @@ public class JDBCUserDaoImpl implements UserDao {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         final String sql = "DELETE FROM USER WHERE ID = ?";
         jdbcTemplate.update(sql, id);
     }
 
     @Override
-    public User findById(long id) {
+    public User findById(Long id) {
         final String sql = "SELECT * FROM USER WHERE ID = ?";
         final String sql2 = "SELECT * FROM ROLE WHERE ID IN (SELECT ROLE_ID FROM USER_ROLE WHERE USER_ID = ?)";
         User user = jdbcTemplate.queryForObject(sql, new Object[]{id}, (resultSet, i) -> {

@@ -8,8 +8,8 @@ import java.util.List;
 public interface AbstractDao<T extends DomainObject> {
     void create(T object);
     void update(T object);
-    void delete(long id);
-    T findById(long id);
+    void delete(Long id);
+    T findById(Long id);
     List<T> findAll();
     
 }

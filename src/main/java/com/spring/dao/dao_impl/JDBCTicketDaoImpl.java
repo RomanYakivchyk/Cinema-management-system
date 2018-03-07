@@ -68,13 +68,13 @@ public class JDBCTicketDaoImpl implements TicketDao {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         final String sql = "DELETE FROM TICKET WHERE ID = ?";
         jdbcTemplate.update(sql, id);
     }
 
     @Override
-    public Ticket findById(long id) {
+    public Ticket findById(Long id) {
         final String sql1 = "SELECT * FROM TICKET WHERE ID = ?";
         return jdbcTemplate.queryForObject(sql1, new Object[]{id}, (resultSet, i) -> {
             Ticket ticket = new Ticket();

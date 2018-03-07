@@ -1,8 +1,5 @@
 package com.spring.controller;
 
-import com.spring.dao.AuditoriumDao;
-
-import com.spring.domain.Auditorium;
 import com.spring.domain.Event;
 import com.spring.domain.EventDateAndAuditorium;
 import com.spring.domain.EventRating;
@@ -11,44 +8,28 @@ import com.spring.service.AuditoriumService;
 import com.spring.service.EventService;
 import com.spring.service.GenreService;
 
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.ServletContext;
 
 @Controller
 public class AdminEventController {
-	//
-	// private static final Logger logger
-	// = LoggerFactory.getLogger(EventController.class);
 
 	private final EventService eventService;
 
@@ -75,26 +56,17 @@ public class AdminEventController {
 		this.genreService = genreService;
 	}
 
-	// delete event
+
 	@RequestMapping(value = "/admin/events/{id}/delete", method = RequestMethod.GET)
 	public String deleteEvent(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
 
-		// logger.debug("deleteEvent() id=", id);
-
 		eventService.delete(id);
-
-		// redirectAttributes.addFlashAttribute("css", "success");
-		// redirectAttributes.addFlashAttribute("msg", "Event is deleted!");
-
 		return "redirect:/admin/events";
 
 	}
 
-	// todo
 	@RequestMapping(value = "/admin/events/{id}/update", method = RequestMethod.GET)
 	public String showUpdateEventForm(@PathVariable("id") long id, Model model) {
-
-		// logger.debug("showUpdateEventForm() id=", id);
 
 		Event event = eventService.findById(id);
 		model.addAttribute("event", event);
@@ -109,7 +81,6 @@ public class AdminEventController {
 	@RequestMapping(value = "/admin/events/add", method = RequestMethod.GET)
 	public String showAddEventForm(Model model) {
 
-		// logger.debug("showAddEventForm()");
 		Event event = new Event();
 		model.addAttribute("event", event);
 		model.addAttribute("eventRatings", EventRating.values());
@@ -120,29 +91,13 @@ public class AdminEventController {
 	}
 
 	@RequestMapping(value = "/admin/events", method = RequestMethod.POST)
-	public String createOrUpdateEvent(@ModelAttribute("event") Event event, BindingResult result,
-			final RedirectAttributes redirectAttributes) {
-
-		// logger.debug("createOrUpdateEvent() event=", event);
-
-		if (result.hasErrors()) {
-			System.out.println(result.getFieldError());
-			return "events/admin/eventForm";
-		} else {
-
-			redirectAttributes.addFlashAttribute("css", "success");
-			if (event.isNew()) {
-				redirectAttributes.addFlashAttribute("msg", "Event added successfully!");
-			} else {
-				redirectAttributes.addFlashAttribute("msg", "Event updated successfully!");
-			}
-
+	public String createOrUpdateEvent(@ModelAttribute("event") Event event, BindingResult result) {
 
 			List<EventDateAndAuditorium> validList = removeInvalidItems(event.getDateAndAuditoriums());
 			List<EventDateAndAuditorium> sortedList = sortByDate(validList);
 			event.setDateAndAuditoriums(sortedList);
 			
-			
+			//TODO add validation of image in eventForm.jsp!
 			
 			
 			try {
@@ -166,14 +121,13 @@ public class AdminEventController {
 			System.out.println(event);
 			eventService.saveOrUpdate(event);
 			return "redirect:/admin/events";
-		}
+		
 
 	}
 
 	@RequestMapping(value = "/admin/events", method = RequestMethod.GET)
 	public String showAllEvents(Model model) {
 
-		// logger.debug("showAllEvents()");
 		model.addAttribute("events", eventService.findAll());
 		return "events/admin/list";
 	}

@@ -17,7 +17,6 @@ public interface EventService extends AbstractDomainObjectService<Event> {
      *            Name of the event
      * @return found event or <code>null</code>
      */
-    public @Nullable Event findByName(@Nonnull String name);
     public List<Event> findAll(int page,int total);
-
+    
 }

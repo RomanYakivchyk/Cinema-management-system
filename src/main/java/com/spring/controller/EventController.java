@@ -1,8 +1,10 @@
 package com.spring.controller;
 
+import com.spring.dao.dao_impl.JDBCSeatDaoImpl;
 import com.spring.domain.Auditorium;
 import com.spring.domain.Event;
 import com.spring.domain.EventDateAndAuditorium;
+import com.spring.domain.Seat;
 import com.spring.service.AuditoriumService;
 import com.spring.service.EventService;
 
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +31,9 @@ public class EventController {
 
 	private final EventService eventService;
 	private final AuditoriumService auditoriumService;
+	
+	@Autowired
+	private JDBCSeatDaoImpl seatDaoImpl;
 
 	@Autowired
 	public EventController(EventService eventService, AuditoriumService auditoriumService) {
@@ -74,25 +80,22 @@ public class EventController {
 		return "events/event";
 	}
 
-	@RequestMapping(value = "/events/{id}/{dateTime}/{auditoriumName}/select_place", method = RequestMethod.GET)
-	public String selectPlace(@PathVariable("dateTime") String ldt, @PathVariable("id") Long id,
-			@PathVariable("auditoriumName") String auditoriumName, Model model) {
+	@RequestMapping(value = "/events/{id}/{eda_id}/select_place", method = RequestMethod.GET)
+	public String selectPlace(@PathVariable Long id, @PathVariable Long eda_id, Model model) {
 
 		Event event = eventService.findById(id);
-
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-		LocalDateTime dateTime = LocalDateTime.parse(ldt, formatter);
-		EventDateAndAuditorium eda = null;
-		for (EventDateAndAuditorium item : event.getDateAndAuditoriums()) {
-			if (item.getStartTime().equals(dateTime) && item.getAuditorium().getName().equals(auditoriumName)) {
-				eda = item;
-				break;
-			}
-		}
+		EventDateAndAuditorium eda = event.getDateAndAuditoriums().stream().filter(item -> item.getId() == eda_id)
+				.findFirst().get();
+		
 		if (null == eda) {
 			throw new NullPointerException();
 		}
 
+		List<Seat> seats = seatDaoImpl.findByEdaId(eda_id);
+		for(Seat s: seats) {
+			System.out.println(s.getRow()+"-"+s.getSeat());
+		}
+		model.addAttribute("seats", seats);
 		model.addAttribute("eda", eda);
 		model.addAttribute("event", event);
 
@@ -112,7 +115,6 @@ public class EventController {
 		} else {
 			numOfPages = allEventsCount / displayItemsOnPageNum + 1;
 		}
-
 
 		model.addAttribute("pageCountToDisplay", pageCountToDisplayOnPaginator);
 		model.addAttribute("numOfPages", numOfPages);

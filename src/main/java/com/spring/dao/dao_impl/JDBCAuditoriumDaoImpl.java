@@ -36,36 +36,38 @@ public class JDBCAuditoriumDaoImpl implements AuditoriumDao {
 	}
 
 	@Override
-	public Auditorium findById(long id) {
+	public Auditorium findById(Long id) {
 		final String sql = "SELECT * FROM AUDITORIUM WHERE ID = ?";
 		Auditorium auditorium = jdbcTemplate.queryForObject(sql, new Object[] { id }, (resultSet, i) -> {
 			Auditorium audRowMapper = new Auditorium();
 			audRowMapper.setId(resultSet.getLong("ID"));
 			audRowMapper.setName(resultSet.getString("NAME"));
+			audRowMapper.setRowNumber(resultSet.getInt("ROW_NUM"));
+			audRowMapper.setSeatsInEachRow(resultSet.getInt("SEATS_IN_ROW"));
 			return audRowMapper;
 		});
-		
+
 		return auditorium;
 	}
 
 	@Override
 	public void create(Auditorium auditorium) {
-		final String sql1 = "INSERT INTO AUDITORIUM (NAME) VALUES (?)";
-		jdbcTemplate.update(sql1,new Object[] {auditorium.getName()});
+		final String sql1 = "INSERT INTO AUDITORIUM (NAME,ROW_NUM,SEATS_IN_ROW) VALUES (?,?,?)";
+		jdbcTemplate.update(sql1,
+				new Object[] { auditorium.getName(), auditorium.getRowNumber(), auditorium.getSeatsInEachRow() });
 	}
 
 	@Override
 	public void update(Auditorium auditorium) {
-		final String sql1 = "UPDATE AUDITORIUM SET NAME = ? WHERE ID = ?";
-		jdbcTemplate.update(sql1, auditorium.getName(), auditorium.getId());
+		final String sql1 = "UPDATE AUDITORIUM SET NAME = ? ROW_NUM=?, SEATS_IN_ROW=? WHERE ID = ?";
+		jdbcTemplate.update(sql1, auditorium.getName(), auditorium.getRowNumber(), auditorium.getSeatsInEachRow(),
+				auditorium.getId());
 	}
 
-
 	@Override
-	public void delete(long id) {
+	public void delete(Long id) {
 		final String sql2 = "DELETE FROM AUDITORIUM WHERE ID = ?";
 		jdbcTemplate.update(sql2, id);
 	}
-
 
 }

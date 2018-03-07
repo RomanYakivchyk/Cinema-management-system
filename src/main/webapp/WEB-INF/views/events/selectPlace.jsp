@@ -7,12 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-${event.id}
 <br>
-${event.name}
+
 <br>
-${eda.startTime}
-<br>
-${eda.auditorium.name}
 </body>
 </html>

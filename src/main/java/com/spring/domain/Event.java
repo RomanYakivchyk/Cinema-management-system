@@ -36,19 +36,6 @@ public class Event extends DomainObject {
     }
 
 
-    public boolean isNew() {
-        return (getId() == 0L);
-    }
-
-	@Override
-	public String toString() {
-		return "Event [name=" + name + ", basePrice=" + basePrice + ", rating=" + rating + ", image=" + image
-				+ ", imagePath=" + imagePath + ", country=" + country + ", year=" + year + ", language=" + language
-				+ ", genres=" + genres + ", actors=" + actors + ", directedBy=" + directedBy + ", description="
-				+ description + ", durationMin=" + durationMin + ", technology=" + technology + ", minAge=" + minAge
-				+ ", dateAndAuditoriums=" + dateAndAuditoriums + "]";
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -208,6 +195,17 @@ public class Event extends DomainObject {
 		this.imagePath = imagePath;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Event [name=" + name + ", basePrice=" + basePrice + ", rating=" + rating + ", image=" + image
+				+ ", imagePath=" + imagePath + ", country=" + country + ", year=" + year + ", language=" + language
+				+ ", genres=" + genres + ", actors=" + actors + ", directedBy=" + directedBy + ", description="
+				+ description + ", durationMin=" + durationMin + ", technology=" + technology + ", minAge=" + minAge
+				+ ", dateAndAuditoriums=" + dateAndAuditoriums + "]";
+	}
+
+	
 	
 
 }

@@ -22,15 +22,6 @@ public class EventServiceImpl implements EventService {
 		this.eventDao = eventDao;
 	}
 
-	@Override
-	public Event findByName(String name) {
-		for (Event event : findAll()) {
-			if (name.equals(event.getName())) {
-				return event;
-			}
-		}
-		return null;
-	}
 
 	@Override
 	public void saveOrUpdate(@Nonnull Event event) {

@@ -161,7 +161,7 @@ width:100%;
 	<div class="container">
 		<div class="panel panel-default">
 			<c:choose>
-				<c:when test="${event['new']}">
+				<c:when test="${empty event.id}">
 					<div class="panel-heading">
 						<h1>Create event</h1>
 					</div>
@@ -173,7 +173,6 @@ width:100%;
 				</c:otherwise>
 			</c:choose>
 			<div class="panel-body">
-				<%--@elvariable id="event" type="com.spring.domain.Event"--%>
 				<form:form method="POST"
 					action="${pageContext.request.contextPath}/admin/events?${_csrf.parameterName}=${_csrf.token}"
 					enctype="multipart/form-data" modelAttribute="event">
@@ -199,7 +198,7 @@ width:100%;
 					<div class="imageupload panel panel-default">
 						<div class="panel-heading clearfix">
 							<h3 class="panel-title pull-left">
-								Upload Image <b>(only 320 X 250px)</b>
+								Upload Image <b>(only 320 X 240px)</b>
 							</h3>
 						</div>
 						<div class="file-tab panel-body">
@@ -209,7 +208,8 @@ width:100%;
 							<button type="button" class="btn btn-default">Remove</button>
 						</div>
 					</div>
-
+					
+					<div><form:hidden path="imagePath"/></div>
 
 					<div class="form-group">
 						<label>Rating</label>
@@ -363,7 +363,7 @@ width:100%;
 					<hr>
 					<div class="text-center">
 						<c:choose>
-							<c:when test="${event['new']}">
+							<c:when test="${empty event.id}">
 								<button type="submit" class="btn btn-info createUpdateEvent">Create</button>
 							</c:when>
 							<c:otherwise>
