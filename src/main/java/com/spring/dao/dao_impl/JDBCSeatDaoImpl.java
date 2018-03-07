@@ -30,7 +30,7 @@ public class JDBCSeatDaoImpl {
 			Seat seat = new Seat();
 			seat.setId((Long) m.get("ID"));
 			seat.setIsFree((Boolean) m.get("IS_FREE"));
-			seat.setIsVip(false);//TODO vip doesnt work
+			seat.setIsVip(false);// TODO vip doesnt work
 			seat.setRow((Integer) m.get("ROW"));
 			seat.setSeat((Integer) m.get("SEAT"));
 			seats.add(seat);
@@ -41,7 +41,7 @@ public class JDBCSeatDaoImpl {
 	public void initializeSeats(int rows, int seatsInRow, Long eda_id) {
 
 		final String sql = "INSERT INTO SEAT (IS_FREE,ROW,SEAT,EDA_ID) VALUES (?,?,?,?)";
-
+		System.out.println("init eda_id = " + eda_id);
 		for (int r = 1; r <= rows; r++) {
 			for (int s = 1; s <= seatsInRow; s++) {
 				jdbcTemplate.update(sql, true, r, s, eda_id);

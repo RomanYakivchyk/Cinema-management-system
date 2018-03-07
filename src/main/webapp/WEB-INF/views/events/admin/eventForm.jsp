@@ -135,7 +135,7 @@
 	function removeRow(obj) {
 		var index = obj.parentNode.parentNode.rowIndex;
 		var table = document.getElementById("addedRows");
-		table.rows[index].innerHTML="";
+		table.rows[index].innerHTML = "";
 	}
 </script>
 <style>
@@ -153,7 +153,7 @@ textarea {
 }
 
 .form_datetime {
-width:100%;
+	width: 100%;
 }
 </style>
 </head>
@@ -208,8 +208,10 @@ width:100%;
 							<button type="button" class="btn btn-default">Remove</button>
 						</div>
 					</div>
-					
-					<div><form:hidden path="imagePath"/></div>
+
+					<div>
+						<form:hidden path="imagePath" />
+					</div>
 
 					<div class="form-group">
 						<label>Rating</label>
@@ -330,12 +332,13 @@ width:100%;
 						<c:forEach items="${event.dateAndAuditoriums}" var="item"
 							varStatus="vs">
 							<tr>
-							<form:hidden path="dateAndAuditoriums[${vs.index}].id" id="eda_id"/>
+								<form:hidden path="dateAndAuditoriums[${vs.index}].id"
+									id="eda_id" />
 								<td>
 									<div class='input-group date form_datetime'>
 										<form:input class="form-control"
 											path="dateAndAuditoriums[${vs.index}].startTime"
-											value="${item.startTime}" readonly="true"/>
+											value="${item.startTime}" readonly="true" />
 									</div>
 								</td>
 								<td>
@@ -344,11 +347,11 @@ width:100%;
 											value="${item.endTime}" class="form-control" readonly="true" />
 									</div>
 								</td>
-								<td>
-								<form:select
+								<td><form:select
 										path="dateAndAuditoriums[${vs.index}].auditorium.id"
 										class="form-control">
-											<form:option value="${item.auditorium.id}" label="${item.auditorium.name}"/>
+										<form:option value="${item.auditorium.id}"
+											label="${item.auditorium.name}" />
 									</form:select></td>
 								<td><input type="button" class="btn btn-danger"
 									value="Delete" onclick="removeRow(this)" />

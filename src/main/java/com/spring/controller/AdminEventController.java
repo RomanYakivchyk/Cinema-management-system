@@ -92,7 +92,7 @@ public class AdminEventController {
 
 	@RequestMapping(value = "/admin/events", method = RequestMethod.POST)
 	public String createOrUpdateEvent(@ModelAttribute("event") Event event, BindingResult result) {
-
+		
 			List<EventDateAndAuditorium> validList = removeInvalidItems(event.getDateAndAuditoriums());
 			List<EventDateAndAuditorium> sortedList = sortByDate(validList);
 			event.setDateAndAuditoriums(sortedList);
@@ -120,6 +120,9 @@ public class AdminEventController {
 			}
 			System.out.println(event);
 			eventService.saveOrUpdate(event);
+			for(EventDateAndAuditorium item : eventService.findById(event.getId()).getDateAndAuditoriums())
+				System.out.println("--"+item.getId());
+			
 			return "redirect:/admin/events";
 		
 

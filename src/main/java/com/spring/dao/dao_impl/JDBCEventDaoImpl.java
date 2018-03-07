@@ -53,6 +53,7 @@ public class JDBCEventDaoImpl implements EventDao {
 				(null != event.getMinAge() && 0 != event.getMinAge()) ? event.getMinAge() : java.sql.Types.INTEGER);
 
 		for (EventDateAndAuditorium eda : event.getDateAndAuditoriums()) {
+			System.out.println("eda created"+eda.getId());
 			jdbcTemplate.update(sql2, event.getId(), eda.getStartTime(), eda.getEndTime(), eda.getAuditorium().getId());
 			// init seats
 			seatDaoImpl.initializeSeats(eda.getAuditorium().getRowNumber(), eda.getAuditorium().getSeatsInEachRow(),
@@ -168,12 +169,15 @@ public class JDBCEventDaoImpl implements EventDao {
 		// delete removed eda
 		for (Long id : oldIds) {
 			if (!newIds.contains(id)) {
+				System.out.println("eda deleted="+id);
+				jdbcTemplate.update("DELETE FROM SEAT WHERE EDA_ID =?", id);
 				jdbcTemplate.update(sql2, id);
 			}
 		}
 
 		// insert newly added eda
 		for (EventDateAndAuditorium eda : event.getDateAndAuditoriums()) {
+			System.out.println("eda not changed id="+eda.getId());
 			if (Utilities.isNew(eda)) {
 				jdbcTemplate.update(sql3, event.getId(), eda.getStartTime(), eda.getEndTime(),
 						eda.getAuditorium().getId());// KEYHOLDER set id to use further
@@ -183,16 +187,17 @@ public class JDBCEventDaoImpl implements EventDao {
 					PreparedStatement pst = con.prepareStatement(sql3, new String[] { "ID" });
 					pst.setLong(1, event.getId());
 					pst.setTimestamp(2, Timestamp.valueOf(eda.getStartTime()));
-					pst.setTimestamp(3,  Timestamp.valueOf(eda.getEndTime()));
+					pst.setTimestamp(3, Timestamp.valueOf(eda.getEndTime()));
 					pst.setLong(4, eda.getAuditorium().getId());
 					return pst;
 				}, keyHolder);
 				eda.setId(keyHolder.getKey().longValue());
-
+				
+				System.out.println("eda created id="+eda.getId());
+				
 				Auditorium auditorium = auditoriumDao.findById(eda.getAuditorium().getId());
 
-				seatDaoImpl.initializeSeats(auditorium.getRowNumber(), auditorium.getSeatsInEachRow(),
-						eda.getId());
+				seatDaoImpl.initializeSeats(auditorium.getRowNumber(), auditorium.getSeatsInEachRow(), eda.getId());
 			}
 		}
 

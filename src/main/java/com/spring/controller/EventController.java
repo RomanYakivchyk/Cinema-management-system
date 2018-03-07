@@ -31,7 +31,7 @@ public class EventController {
 
 	private final EventService eventService;
 	private final AuditoriumService auditoriumService;
-	
+
 	@Autowired
 	private JDBCSeatDaoImpl seatDaoImpl;
 
@@ -60,6 +60,7 @@ public class EventController {
 
 		for (EventDateAndAuditorium edaa : event.getDateAndAuditoriums()) {
 			LocalDate eventStart = edaa.getStartTime().toLocalDate();
+			System.out.println(edaa.getId());
 			if (today.equals(eventStart)) {
 				todayEvents.add(edaa);
 			}
@@ -75,6 +76,11 @@ public class EventController {
 		}
 
 		model.addAttribute("todayEvents", todayEvents);
+		for(EventDateAndAuditorium item : todayEvents) {
+			
+			System.out.println(item.getId());
+			
+		}
 		model.addAttribute("tomorrowEvents", tomorrowEvents);
 		model.addAttribute("weekEvents", weekEvents);
 		return "events/event";
@@ -86,16 +92,14 @@ public class EventController {
 		Event event = eventService.findById(id);
 		EventDateAndAuditorium eda = event.getDateAndAuditoriums().stream().filter(item -> item.getId() == eda_id)
 				.findFirst().get();
-		
+
 		if (null == eda) {
 			throw new NullPointerException();
 		}
 
-		List<Seat> seats = seatDaoImpl.findByEdaId(eda_id);
-		for(Seat s: seats) {
-			System.out.println(s.getRow()+"-"+s.getSeat());
-		}
-		model.addAttribute("seats", seats);
+		Auditorium auditorium = auditoriumService.findById(eda.getAuditorium().getId());
+		eda.setAuditorium(auditorium);
+
 		model.addAttribute("eda", eda);
 		model.addAttribute("event", event);
 
@@ -128,6 +132,13 @@ public class EventController {
 	public List<Auditorium> getAllAuditoriums() {
 
 		return auditoriumService.findAll();
+
+	}
+
+	@GetMapping("/{eda_id}/getSeats")
+	@ResponseBody
+	public List<Seat> getSeats(@PathVariable Long eda_id) {
+		return seatDaoImpl.findByEdaId(eda_id);
 
 	}
 
