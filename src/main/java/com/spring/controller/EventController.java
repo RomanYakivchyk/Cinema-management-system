@@ -80,10 +80,6 @@ public class EventController {
 		EventDateAndAuditorium eda = event.getDateAndAuditoriums().stream().filter(item -> item.getId() == eda_id)
 				.findFirst().get();
 
-		if (null == eda) {
-			throw new NullPointerException();
-		}
-
 		Auditorium auditorium = auditoriumService.findById(eda.getAuditorium().getId());
 		eda.setAuditorium(auditorium);
 
@@ -127,8 +123,12 @@ public class EventController {
 	@ResponseBody
 	public List<Seat> getSeats(@PathVariable Long eda_id) {
 		logger.debug("REST get seats by eda_id; eda_id="+eda_id);
-		return seatDaoImpl.findByEdaId(eda_id);
-
+//		return seatDaoImpl.findByEdaId(eda_id);
+		List<Seat> list = seatDaoImpl.findByEdaId(eda_id);
+		Seat s =  list.get(5);
+		s.setIsFree(false);
+		list.set(5,s);
+		return list;
 	}
 
 }
