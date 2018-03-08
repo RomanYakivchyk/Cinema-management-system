@@ -9,12 +9,10 @@ import com.spring.service.AuditoriumService;
 import com.spring.service.EventService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class EventController {
-
+	private final Logger logger = LoggerFactory.getLogger(EventController.class);
 	private final EventService eventService;
 	private final AuditoriumService auditoriumService;
 
@@ -43,12 +40,8 @@ public class EventController {
 
 	@RequestMapping(value = "/events/{id}", method = RequestMethod.GET)
 	public String showEvent(@PathVariable("id") long id, Model model) {
-		// logger.debug("showEvent() id=", id);
+		logger.debug("show event; id="+id);
 		Event event = eventService.findById(id);
-		// if (event == null) {
-		// model.addAttribute("css", "danger");
-		// model.addAttribute("msg", "Event not found");
-		// }
 		model.addAttribute("event", event);
 
 		List<EventDateAndAuditorium> todayEvents = new ArrayList<>();
@@ -60,7 +53,6 @@ public class EventController {
 
 		for (EventDateAndAuditorium edaa : event.getDateAndAuditoriums()) {
 			LocalDate eventStart = edaa.getStartTime().toLocalDate();
-			System.out.println(edaa.getId());
 			if (today.equals(eventStart)) {
 				todayEvents.add(edaa);
 			}
@@ -76,11 +68,6 @@ public class EventController {
 		}
 
 		model.addAttribute("todayEvents", todayEvents);
-		for(EventDateAndAuditorium item : todayEvents) {
-			
-			System.out.println(item.getId());
-			
-		}
 		model.addAttribute("tomorrowEvents", tomorrowEvents);
 		model.addAttribute("weekEvents", weekEvents);
 		return "events/event";
@@ -88,7 +75,7 @@ public class EventController {
 
 	@RequestMapping(value = "/events/{id}/{eda_id}/select_place", method = RequestMethod.GET)
 	public String selectPlace(@PathVariable Long id, @PathVariable Long eda_id, Model model) {
-
+		logger.debug("select place; eda_id="+eda_id);
 		Event event = eventService.findById(id);
 		EventDateAndAuditorium eda = event.getDateAndAuditoriums().stream().filter(item -> item.getId() == eda_id)
 				.findFirst().get();
@@ -109,6 +96,7 @@ public class EventController {
 
 	@RequestMapping(value = "/movies", method = RequestMethod.GET)
 	public String showAllEvents(Model model, @RequestParam(name = "page", required = true) Integer page) {
+		logger.debug("show all events on the page; page="+page);
 		int displayItemsOnPageNum = 2;
 		int pageCountToDisplayOnPaginator = 2;
 
@@ -130,7 +118,7 @@ public class EventController {
 	@GetMapping("/getAllAuditoriums")
 	@ResponseBody
 	public List<Auditorium> getAllAuditoriums() {
-
+		logger.debug("REST get all auditoriums event");
 		return auditoriumService.findAll();
 
 	}
@@ -138,6 +126,7 @@ public class EventController {
 	@GetMapping("/{eda_id}/getSeats")
 	@ResponseBody
 	public List<Seat> getSeats(@PathVariable Long eda_id) {
+		logger.debug("REST get seats by eda_id; eda_id="+eda_id);
 		return seatDaoImpl.findByEdaId(eda_id);
 
 	}

@@ -8,6 +8,8 @@ import com.spring.service.AuditoriumService;
 import com.spring.service.EventService;
 import com.spring.service.GenreService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +32,7 @@ import javax.servlet.ServletContext;
 
 @Controller
 public class AdminEventController {
-
+	private final Logger logger = LoggerFactory.getLogger(AdminEventController.class);
 	private final EventService eventService;
 
 	private final AuditoriumService auditoriumService;
@@ -59,7 +61,7 @@ public class AdminEventController {
 
 	@RequestMapping(value = "/admin/events/{id}/delete", method = RequestMethod.GET)
 	public String deleteEvent(@PathVariable("id") long id, final RedirectAttributes redirectAttributes) {
-
+		logger.debug("delete event; id="+id);
 		eventService.delete(id);
 		return "redirect:/admin/events";
 
@@ -67,7 +69,7 @@ public class AdminEventController {
 
 	@RequestMapping(value = "/admin/events/{id}/update", method = RequestMethod.GET)
 	public String showUpdateEventForm(@PathVariable("id") long id, Model model) {
-
+		logger.debug("update event; id="+id);
 		Event event = eventService.findById(id);
 		model.addAttribute("event", event);
 		model.addAttribute("eventRatings", EventRating.values());
@@ -80,7 +82,7 @@ public class AdminEventController {
 
 	@RequestMapping(value = "/admin/events/add", method = RequestMethod.GET)
 	public String showAddEventForm(Model model) {
-
+		logger.debug("create new event");
 		Event event = new Event();
 		model.addAttribute("event", event);
 		model.addAttribute("eventRatings", EventRating.values());
@@ -92,7 +94,7 @@ public class AdminEventController {
 
 	@RequestMapping(value = "/admin/events", method = RequestMethod.POST)
 	public String createOrUpdateEvent(@ModelAttribute("event") Event event, BindingResult result) {
-		
+		logger.debug("event creted/updated; event="+event);
 			List<EventDateAndAuditorium> validList = removeInvalidItems(event.getDateAndAuditoriums());
 			List<EventDateAndAuditorium> sortedList = sortByDate(validList);
 			event.setDateAndAuditoriums(sortedList);
@@ -118,10 +120,8 @@ public class AdminEventController {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			System.out.println(event);
 			eventService.saveOrUpdate(event);
-			for(EventDateAndAuditorium item : eventService.findById(event.getId()).getDateAndAuditoriums())
-				System.out.println("--"+item.getId());
+			
 			
 			return "redirect:/admin/events";
 		
@@ -130,12 +130,13 @@ public class AdminEventController {
 
 	@RequestMapping(value = "/admin/events", method = RequestMethod.GET)
 	public String showAllEvents(Model model) {
-
+		logger.debug("show all events");
 		model.addAttribute("events", eventService.findAll());
 		return "events/admin/list";
 	}
 
 	private List<EventDateAndAuditorium> removeInvalidItems(List<EventDateAndAuditorium> dateAndAuditoriums) {
+		logger.debug("remove invalid items");
 		List<EventDateAndAuditorium> resultList = new ArrayList<>();
 		for (EventDateAndAuditorium dateAndAuditorium : dateAndAuditoriums) {
 			if (dateAndAuditorium.getStartTime() != null && dateAndAuditorium.getEndTime() != null) {
@@ -146,6 +147,7 @@ public class AdminEventController {
 	}
 
 	private List<EventDateAndAuditorium> sortByDate(List<EventDateAndAuditorium> dateAndAuditoriums) {
+		logger.debug("sort by date");
 		List<EventDateAndAuditorium> sortedList = dateAndAuditoriums;
 		Collections.sort(dateAndAuditoriums, new Comparator<EventDateAndAuditorium>() {
 			public int compare(EventDateAndAuditorium e1, EventDateAndAuditorium e2) {
