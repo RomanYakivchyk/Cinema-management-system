@@ -3,10 +3,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 <!-- jQuery library -->
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-	charset="UTF-8"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>Insert title here</title>
 <style>
 .cell {
@@ -20,12 +21,20 @@
 .unavailable {
 	background-color: grey;
 }
+
+.booked {
+	background-color: orange;
+}
 </style>
 </head>
 <body>
 	<table id="seatTable"></table>
 	<div style="display: none" id="rowNumber">${eda.auditorium.rowNumber}</div>
 	<div style="display: none" id="seatsInRow">${eda.auditorium.seatsInEachRow}</div>
+
+	<br>
+	<br>
+	<div class="price"></div>
 	<script>
 		$(document)
 				.ready(
@@ -57,10 +66,13 @@
 									var div = document.createElement("div");
 									div.id = (r + 1) + "_" + (s + 1);
 									div.className = "cell";
-									for(var i=0;i<seatsArray.length;i++){
-										if(seatsArray[i].row ==r && seatsArray[i].seat ==s){
-											if(!seatsArray[i].isFree){
-												div.classList.add("unavailable");
+									for (var i = 0; i < seatsArray.length; i++) {
+										if (seatsArray[i].row == r
+												&& seatsArray[i].seat == s) {
+											if (!seatsArray[i].isFree) {
+												div.classList
+														.add("unavailable");
+
 											}
 										}
 									}
@@ -71,8 +83,39 @@
 								}
 							}
 
-							//do work
+							$(".cell").hover(function() {
+								$(this).css('cursor', 'pointer');
+								$(this).attr("data-toggle", "tooltip");
+
+								var id = this.id.split("_");
+								var row = id[0];
+								var seat = id[1];
+
+								$(this).attr("title", "seat: " + seat);
+
+							});
 						});
+	</script>
+	<script>
+		$(document).ready(function() {
+
+			$(".cell").click(function() {
+				if (!$(this).hasClass("unavailable")) {
+					if ($(this).hasClass("booked")) {
+						$(this).removeClass("booked");
+					} else {
+						$(this).addClass("booked");
+					}
+
+				}
+			});
+
+		});
+	</script>
+	<script>
+		$(document).ready(function() {
+			$("[data-toggle='tooltip']").tooltip();
+		});
 	</script>
 </body>
 </html>
