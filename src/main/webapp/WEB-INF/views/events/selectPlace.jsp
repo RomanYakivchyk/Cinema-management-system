@@ -12,10 +12,18 @@
 <style>
 .cell {
 	background-color: red;
+	margin: 6px;
+	border-radius: 4px;
 }
 
-.booked {
-	background-color: green;
+.glyphicon {
+	font-size: 46px;
+}
+
+#seatTable {
+	width: 50%;
+	margin: 0px auto;
+	float: none;
 }
 
 .unavailable {
@@ -28,13 +36,19 @@
 </style>
 </head>
 <body>
-	<table id="seatTable"></table>
-	<div style="display: none" id="rowNumber">${eda.auditorium.rowNumber}</div>
-	<div style="display: none" id="seatsInRow">${eda.auditorium.seatsInEachRow}</div>
+	<div class="container">
 
-	<br>
-	<br>
-	<div class="price"></div>
+		<table id="seatTable"></table>
+
+		<div style="display: none" id="rowNumber">${eda.auditorium.rowNumber}</div>
+		<div style="display: none" id="seatsInRow">${eda.auditorium.seatsInEachRow}</div>
+
+		<br> <br>
+		<div class="price"></div>
+		<div>
+			<button id="submitPlaces">Submit</button>
+		</div>
+	</div>
 	<script>
 		$(document)
 				.ready(
@@ -77,7 +91,7 @@
 										}
 									}
 
-									div.innerHTML = "XX";
+									div.innerHTML = "<span class='glyphicon glyphicon-user'></span>";
 									cell.appendChild(div);
 
 								}
@@ -85,13 +99,13 @@
 
 							$(".cell").hover(function() {
 								$(this).css('cursor', 'pointer');
-								$(this).attr("data-toggle", "tooltip");
+							/* 	$(this).attr("data-toggle", "tooltip");
 
 								var id = this.id.split("_");
 								var row = id[0];
 								var seat = id[1];
 
-								$(this).attr("title", "seat: " + seat);
+								$(this).attr("title", "seat: " + seat); */
 
 							});
 						});
@@ -109,13 +123,20 @@
 
 				}
 			});
+			
+			
+			$("#submitPlaces").click(function(){
+				
+				//TODO
+				
+			});
 
 		});
 	</script>
-	<script>
+<!-- 	<script>
 		$(document).ready(function() {
 			$("[data-toggle='tooltip']").tooltip();
 		});
-	</script>
+	</script> -->
 </body>
 </html>
