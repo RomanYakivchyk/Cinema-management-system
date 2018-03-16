@@ -71,14 +71,16 @@ public class JDBCEventDaoImpl implements EventDao {
 	@Override
 	public void delete(Long id) {
 		logger.debug("delete event; id=" + id);
-		final String sql1 = "DELETE FROM GENRE_EVENT WHERE ID = ?";
-		final String sql2 = "DELETE FROM ACTOR WHERE ID = ?";
-		final String sql3 = "DELETE FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
-		final String sql4 = "DELETE FROM EVENT WHERE ID = ?";
+		final String sql1 = "DELETE FROM GENRE_EVENT WHERE EVENT_ID = ?";
+		final String sql2 = "DELETE FROM ACTOR WHERE EVENT_ID = ?";
+		final String sql3 = "DELETE FROM SEAT WHERE EDA_ID IN (SELECT ID FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID=?)";
+		final String sql4 = "DELETE FROM EVENT_DATE_AND_AUDITORIUM WHERE EVENT_ID = ?";
+		final String sql5 = "DELETE FROM EVENT WHERE ID = ?";
 		jdbcTemplate.update(sql1, id);
 		jdbcTemplate.update(sql2, id);
 		jdbcTemplate.update(sql3, id);
 		jdbcTemplate.update(sql4, id);
+		jdbcTemplate.update(sql5, id);
 	}
 
 	@Override
