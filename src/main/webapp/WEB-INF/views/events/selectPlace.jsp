@@ -11,19 +11,60 @@
 <title>Insert title here</title>
 <style>
 .cell {
+	position: relative;
 	background-color: red;
-	margin: 6px;
+	margin: 2px;
 	border-radius: 4px;
+	background-color: red;
+	display: inline-block;
+}
+
+#wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 960px;
+}
+
+#seatTable td {
+	display: inline-block;
+}
+
+.cell .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 110%;
+	left: 50%;
+	margin-left: -60px;
+}
+
+.cell .tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: black transparent transparent transparent;
+}
+
+.cell:hover .tooltiptext {
+	visibility: visible;
 }
 
 .glyphicon {
-	font-size: 46px;
+	font-size: 34px;
 }
 
 #seatTable {
-	width: 50%;
 	margin: 0px auto;
-	float: none;
 }
 
 .unavailable {
@@ -37,12 +78,13 @@
 </head>
 <body>
 	<div class="container">
-
-		<table id="seatTable"></table>
-
+		<div id="wrapper">
+			<table id="seatTable"></table>
+		</div>
 		<br> <br>
-		<div class="price">
-			<table id="selectedSeats">
+		<div>
+			<table class="table" id="selectedSeats">
+
 			</table>
 		</div>
 		<div>
@@ -81,17 +123,26 @@
 								}
 								var cell = row.insertCell(currSeat.seat);
 								var div = document.createElement("div");
+
 								div.id = (currSeat.row + 1) + "_"
-										+ (currSeat.seat + 1) + "_" + $
-								{
-									event.basePrice
-								}
-								;
+										+ (currSeat.seat + 1) + "_"
+										+ "${event.basePrice}";
 								div.className = "cell";
+
 								if (!currSeat.isFree) {
 									div.classList.add("unavailable");
 								}
-								div.innerHTML = "<span class='glyphicon glyphicon-user'></span>";
+								var tooltip = document.createElement("span");
+								tooltip.className = "tooltiptext";
+								tooltip.innerHTML = "Row: "
+										+ (currSeat.row + 1) + " Seat: "
+										+ (currSeat.seat + 1)
+										+ "\nPrice: ${event.basePrice}";
+								var personIcon = document.createElement("span");
+								personIcon.classList.add("glyphicon");
+								personIcon.classList.add("glyphicon-user");
+								div.appendChild(tooltip);
+								div.appendChild(personIcon);
 								cell.appendChild(div);
 
 								if ((i + 1) < seatsArray.length
@@ -104,14 +155,6 @@
 
 							$(".cell").hover(function() {
 								$(this).css('cursor', 'pointer');
-								/* 	$(this).attr("data-toggle", "tooltip");
-
-									var id = this.id.split("_");
-									var row = id[0];
-									var seat = id[1];
-
-									$(this).attr("title", "seat: " + seat); */
-
 							});
 						});
 	</script>
@@ -126,6 +169,28 @@
 						$(this).addClass("booked");
 					}
 
+					//
+					/*
+					var trNumber = $(
+						"#selectedSeats")
+						.find("tr").length;
+					if (trNumber == 0 $("#seatTable").filter(function(item){
+					return item.classList.contains("booked");
+					}).length > 0) {
+					$("#selectedSeats")
+							.append(
+									"<tr><th>Row</th><th>Seat</th><th>Price</th><th></th></tr>")
+					}
+					
+					
+					var rowCount = table.rows.length;
+					var row = table.insertRow(rowCount);
+
+					var cell1 = row.insertCell(0);
+					var cell2 = row.insertCell(1);
+					var cell3 = row.insertCell(2);
+					var cell4 = row.insertCell(3); */
+					//
 				}
 			});
 
@@ -137,10 +202,5 @@
 
 		});
 	</script>
-	<!-- 	<script>
-		$(document).ready(function() {
-			$("[data-toggle='tooltip']").tooltip();
-		});
-	</script> -->
 </body>
 </html>
