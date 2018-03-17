@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.spring.domain.Event;
+import com.spring.domain.EventRating;
 import com.spring.domain.Seat;
+import com.spring.domain.Technology;
 
 @Repository
 public class JDBCSeatDaoImpl {
@@ -19,7 +22,7 @@ public class JDBCSeatDaoImpl {
 	private JdbcTemplate jdbcTemplate;
 
 	public List<Seat> findByEdaId(Long id) {
-		logger.debug("find seats by eda id; eda_id="+id); 
+		logger.debug("find seats by eda id; eda_id=" + id);
 		final String sql = "SELECT * FROM SEAT WHERE EDA_ID = ?";
 		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql, new Object[] { id });
 		List<Seat> seats = new ArrayList<>();
@@ -35,8 +38,28 @@ public class JDBCSeatDaoImpl {
 		return seats;
 	}
 
+	public Seat findById(Long id) {
+		String sql1 = "SELECT * FROM SEAT WHERE ID = ?";
+		Seat seat = jdbcTemplate.queryForObject(sql1, new Object[] { id }, (rs, i) -> {
+			Seat s = new Seat();
+			s.setId(rs.getLong("ID"));
+			s.setIsFree(rs.getBoolean("IS_FREE"));
+			s.setRow(rs.getInt("ROW"));
+			s.setSeat(rs.getInt("SEAT"));
+			return s;
+		});
+		return seat;
+	}
+
+	public void bookSeats(List<Long> ids) {
+		String sql1 = "UPDATE SEAT SET IS_FREE = ? WHERE ID =?";
+		for (Long id : ids) {
+			jdbcTemplate.update(sql1, false, id);
+		}
+	}
+
 	public void initializeSeats(int rows, int seatsInRow, Long eda_id) {
-		logger.debug("init seats; eda_id="+eda_id); 
+		logger.debug("init seats; eda_id=" + eda_id);
 		final String sql = "INSERT INTO SEAT (IS_FREE,ROW,SEAT,EDA_ID) VALUES (?,?,?,?)";
 		for (int r = 0; r < rows; r++) {
 			for (int s = 0; s < seatsInRow; s++) {

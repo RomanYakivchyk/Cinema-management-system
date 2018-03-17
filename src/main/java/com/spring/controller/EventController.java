@@ -14,10 +14,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +43,7 @@ public class EventController {
 
 	@RequestMapping(value = "/events/{id}", method = RequestMethod.GET)
 	public String showEvent(@PathVariable("id") long id, Model model) {
-		logger.debug("show event; id="+id);
+		logger.debug("show event; id=" + id);
 		Event event = eventService.findById(id);
 		model.addAttribute("event", event);
 
@@ -75,7 +78,7 @@ public class EventController {
 
 	@RequestMapping(value = "/events/{id}/{eda_id}/select_place", method = RequestMethod.GET)
 	public String selectPlace(@PathVariable Long id, @PathVariable Long eda_id, Model model) {
-		logger.debug("select place; eda_id="+eda_id);
+		logger.debug("select place; eda_id=" + eda_id);
 		Event event = eventService.findById(id);
 		EventDateAndAuditorium eda = event.getDateAndAuditoriums().stream().filter(item -> item.getId() == eda_id)
 				.findFirst().get();
@@ -90,9 +93,18 @@ public class EventController {
 
 	}
 
+	@RequestMapping(value = "/events/{id}/{eda_id}/verify", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String verify(@PathVariable Long id, @PathVariable Long eda_id, @RequestBody List<Long> seatsId,Model model) {
+		logger.debug("create ticket");
+		seatDaoImpl.bookSeats(seatsId);
+		//todo
+		return "";
+
+	}
+
 	@RequestMapping(value = "/movies", method = RequestMethod.GET)
 	public String showAllEvents(Model model, @RequestParam(name = "page", required = true) Integer page) {
-		logger.debug("show all events on the page; page="+page);
+		logger.debug("show all events on the page; page=" + page);
 		int displayItemsOnPageNum = 2;
 		int pageCountToDisplayOnPaginator = 2;
 
@@ -122,12 +134,12 @@ public class EventController {
 	@GetMapping("/{eda_id}/getSeats")
 	@ResponseBody
 	public List<Seat> getSeats(@PathVariable Long eda_id) {
-		logger.debug("REST get seats by eda_id; eda_id="+eda_id);
-//		return seatDaoImpl.findByEdaId(eda_id);
+		logger.debug("REST get seats by eda_id; eda_id=" + eda_id);
+		// return seatDaoImpl.findByEdaId(eda_id);
 		List<Seat> list = seatDaoImpl.findByEdaId(eda_id);
-		Seat s =  list.get(5);
+		Seat s = list.get(5);
 		s.setIsFree(false);
-		list.set(5,s);
+		list.set(5, s);
 		return list;
 	}
 

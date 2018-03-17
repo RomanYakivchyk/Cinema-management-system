@@ -87,7 +87,7 @@
 
 			</table>
 		</div>
-		<div>
+		<div class="text-center">
 			<button id="submitPlaces">Submit</button>
 		</div>
 	</div>
@@ -124,9 +124,7 @@
 								var cell = row.insertCell(currSeat.seat);
 								var div = document.createElement("div");
 
-								div.id = (currSeat.row + 1) + "_"
-										+ (currSeat.seat + 1) + "_"
-										+ "${event.basePrice}";
+								div.id = currSeat.id;
 								div.className = "cell";
 
 								if (!currSeat.isFree) {
@@ -136,8 +134,7 @@
 								tooltip.className = "tooltiptext";
 								tooltip.innerHTML = "Row: "
 										+ (currSeat.row + 1) + " Seat: "
-										+ (currSeat.seat + 1)
-										+ "\nPrice: ${event.basePrice}";
+										+ (currSeat.seat + 1);
 								var personIcon = document.createElement("span");
 								personIcon.classList.add("glyphicon");
 								personIcon.classList.add("glyphicon-user");
@@ -156,51 +153,71 @@
 							$(".cell").hover(function() {
 								$(this).css('cursor', 'pointer');
 							});
+
+							$(".cell").click(function() {
+								if (!$(this).hasClass("unavailable")) {
+									if ($(this).hasClass("booked")) {
+										$(this).removeClass("booked");
+									} else {
+										$(this).addClass("booked");
+									}
+
+									//
+									/*
+									var trNumber = $(
+										"#selectedSeats")
+										.find("tr").length;
+									if (trNumber == 0 $("#seatTable").filter(function(item){
+									return item.classList.contains("booked");
+									}).length > 0) {
+									$("#selectedSeats")
+											.append(
+													"<tr><th>Row</th><th>Seat</th><th>Price</th><th></th></tr>")
+									}
+									
+									
+									var rowCount = table.rows.length;
+									var row = table.insertRow(rowCount);
+
+									var cell1 = row.insertCell(0);
+									var cell2 = row.insertCell(1);
+									var cell3 = row.insertCell(2);
+									var cell4 = row.insertCell(3); */
+									//
+								}
+							});
+
+							$("#submitPlaces")
+									.click(
+											function() {
+												var bookedSeatsIdArray = $(
+														"#seatTable").find(
+														".booked").map(
+														function() {
+															return this.id;
+														}).get();
+
+												$
+														.ajax({
+															type : "POST",
+															url : "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/verify",
+															// The key needs to match your method's input parameter (case-sensitive).
+															data : JSON.stringify(bookedSeatsIdArray),
+															contentType : "application/json; charset=utf-8",
+															dataType : "json",
+															success : function(
+																	data) {
+																alert(data);
+															},
+															failure : function(
+																	errMsg) {
+																alert(errMsg);
+															}
+														});
+
+											});
+
 						});
-	</script>
-	<script>
-		$(document).ready(function() {
-
-			$(".cell").click(function() {
-				if (!$(this).hasClass("unavailable")) {
-					if ($(this).hasClass("booked")) {
-						$(this).removeClass("booked");
-					} else {
-						$(this).addClass("booked");
-					}
-
-					//
-					/*
-					var trNumber = $(
-						"#selectedSeats")
-						.find("tr").length;
-					if (trNumber == 0 $("#seatTable").filter(function(item){
-					return item.classList.contains("booked");
-					}).length > 0) {
-					$("#selectedSeats")
-							.append(
-									"<tr><th>Row</th><th>Seat</th><th>Price</th><th></th></tr>")
-					}
-					
-					
-					var rowCount = table.rows.length;
-					var row = table.insertRow(rowCount);
-
-					var cell1 = row.insertCell(0);
-					var cell2 = row.insertCell(1);
-					var cell3 = row.insertCell(2);
-					var cell4 = row.insertCell(3); */
-					//
-				}
-			});
-
-			$("#submitPlaces").click(function() {
-
-				//TODO
-
-			});
-
-		});
 	</script>
 </body>
 </html>
