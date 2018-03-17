@@ -40,11 +40,11 @@
 
 		<table id="seatTable"></table>
 
-		<div style="display: none" id="rowNumber">${eda.auditorium.rowNumber}</div>
-		<div style="display: none" id="seatsInRow">${eda.auditorium.seatsInEachRow}</div>
-
 		<br> <br>
-		<div class="price"></div>
+		<div class="price">
+			<table id="selectedSeats">
+			</table>
+		</div>
 		<div>
 			<button id="submitPlaces">Submit</button>
 		</div>
@@ -70,42 +70,47 @@
 							};
 							xhr.send();
 							var table = document.getElementById("seatTable");
+							var row;
+							var currSeat;
+							var createNewRow = true;
+							for (var i = 0; i < seatsArray.length; i++) {
 
-							var rows = document.getElementById("rowNumber").innerHTML;
-							var seats = document.getElementById("seatsInRow").innerHTML;
-							for (var r = 0; r < rows; r++) {
-								var row = table.insertRow(r);
-								for (var s = 0; s < seats; s++) {
-									var cell = row.insertCell(s);
-									var div = document.createElement("div");
-									div.id = (r + 1) + "_" + (s + 1);
-									div.className = "cell";
-									for (var i = 0; i < seatsArray.length; i++) {
-										if (seatsArray[i].row == r
-												&& seatsArray[i].seat == s) {
-											if (!seatsArray[i].isFree) {
-												div.classList
-														.add("unavailable");
+								currSeat = seatsArray[i];
+								if (createNewRow) {
+									row = table.insertRow(currSeat.row);
+								}
+								var cell = row.insertCell(currSeat.seat);
+								var div = document.createElement("div");
+								div.id = (currSeat.row + 1) + "_"
+										+ (currSeat.seat + 1) + "_" + $
+								{
+									event.basePrice
+								}
+								;
+								div.className = "cell";
+								if (!currSeat.isFree) {
+									div.classList.add("unavailable");
+								}
+								div.innerHTML = "<span class='glyphicon glyphicon-user'></span>";
+								cell.appendChild(div);
 
-											}
-										}
-									}
-
-									div.innerHTML = "<span class='glyphicon glyphicon-user'></span>";
-									cell.appendChild(div);
-
+								if ((i + 1) < seatsArray.length
+										&& currSeat.row != seatsArray[i + 1].row) {
+									createNewRow = true;
+								} else {
+									createNewRow = false;
 								}
 							}
 
 							$(".cell").hover(function() {
 								$(this).css('cursor', 'pointer');
-							/* 	$(this).attr("data-toggle", "tooltip");
+								/* 	$(this).attr("data-toggle", "tooltip");
 
-								var id = this.id.split("_");
-								var row = id[0];
-								var seat = id[1];
+									var id = this.id.split("_");
+									var row = id[0];
+									var seat = id[1];
 
-								$(this).attr("title", "seat: " + seat); */
+									$(this).attr("title", "seat: " + seat); */
 
 							});
 						});
@@ -123,17 +128,16 @@
 
 				}
 			});
-			
-			
-			$("#submitPlaces").click(function(){
-				
+
+			$("#submitPlaces").click(function() {
+
 				//TODO
-				
+
 			});
 
 		});
 	</script>
-<!-- 	<script>
+	<!-- 	<script>
 		$(document).ready(function() {
 			$("[data-toggle='tooltip']").tooltip();
 		});
