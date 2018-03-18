@@ -1,13 +1,24 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link
+	href="${pageContext.request.contextPath}/resources/css/footer_header.css"
+	rel="stylesheet" media="screen">
+
 <!-- jQuery library -->
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
 <style>
 .cell {
@@ -77,6 +88,8 @@
 </style>
 </head>
 <body>
+	<jsp:include page="../fragments/header.jsp" />
+
 	<div class="container">
 		<div id="wrapper">
 			<table id="seatTable"></table>
@@ -88,9 +101,11 @@
 			</table>
 		</div>
 		<div class="text-center">
+
 			<button id="submitPlaces">Submit</button>
 		</div>
 	</div>
+	<jsp:include page="..//fragments/footer.jsp" />
 	<script>
 		$(document)
 				.ready(
@@ -196,24 +211,42 @@
 														function() {
 															return this.id;
 														}).get();
+												
+												
+												
+												
+												
+												$.ajax({
+													type : "POST",
+													url : "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/bookSeats",
+													data : JSON.stringify(bookedSeatsIdArray),
+													contentType : "application/json; charset=utf-8",	
+												});
+												
+												
 
-												$
-														.ajax({
-															type : "POST",
-															url : "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/verify",
-															// The key needs to match your method's input parameter (case-sensitive).
-															data : JSON.stringify(bookedSeatsIdArray),
-															contentType : "application/json; charset=utf-8",
-															dataType : "json",
-															success : function(
-																	data) {
-																alert(data);
-															},
-															failure : function(
-																	errMsg) {
-																alert(errMsg);
-															}
-														});
+											
+												
+												window.location.href = "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/verify";
+
+												/* 	$
+															.ajax({
+																type : "POST",
+																url : "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/verify",
+																
+																data : JSON
+																		.stringify(bookedSeatsIdArray),
+																contentType : "application/json; charset=utf-8",
+																dataType : "html",
+																success : function(
+																		response) {
+																	$('html').html(response);
+																},
+																failure : function(
+																		errMsg) {
+																	alert(errMsg);
+																}
+															}); */
 
 											});
 

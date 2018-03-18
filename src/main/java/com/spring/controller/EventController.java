@@ -11,6 +11,11 @@ import com.spring.service.EventService;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Controller
 public class EventController {
@@ -93,12 +99,29 @@ public class EventController {
 
 	}
 
-	@RequestMapping(value = "/events/{id}/{eda_id}/verify", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public String verify(@PathVariable Long id, @PathVariable Long eda_id, @RequestBody List<Long> seatsId,Model model) {
+	@RequestMapping(value = "/events/{id}/{eda_id}/verify", method = RequestMethod.GET)
+	public String verify(@PathVariable Long id, @PathVariable Long eda_id, Model model,
+			@SessionAttribute("bookedSeatsIdArray") List<Long> bookedSeatsIdArray) {
 		logger.debug("create ticket");
-		seatDaoImpl.bookSeats(seatsId);
-		//todo
-		return "";
+		List<Seat> bookedSeats = new ArrayList<>();
+		for(Long seatId : bookedSeatsIdArray) {
+			bookedSeats.add(seatDaoImpl.findById(seatId));
+		}
+		model.addAttribute("bookedSeats",bookedSeats);
+		Event event = eventService.findById(id);
+		model.addAttribute("event", event);
+		EventDateAndAuditorium eda = event.getDateAndAuditoriums().stream().filter(el->el.getId().equals(eda_id)).findFirst().get();
+		model.addAttribute("eda",eda);
+		return "events/createTicket";
+
+	}
+
+	@RequestMapping(value = "/events/{id}/{eda_id}/bookSeats", method = RequestMethod.POST, consumes = "application/json")
+	public void verify(@PathVariable Long id, @PathVariable Long eda_id, Model model,
+			@RequestBody List<Long> bookedSeatsIdArray, HttpServletRequest request) {
+		logger.debug("create ticket");
+		logger.debug("" + bookedSeatsIdArray.size());
+		request.getSession().setAttribute("bookedSeatsIdArray", bookedSeatsIdArray);
 
 	}
 
