@@ -19,7 +19,7 @@
 <!-- Latest compiled JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>Insert title here</title>
+<title>Select places</title>
 <style>
 .cell {
 	position: relative;
@@ -34,6 +34,7 @@
 	margin-left: auto;
 	margin-right: auto;
 	width: 960px;
+	margin-top: 80px;
 }
 
 #seatTable td {
@@ -89,20 +90,46 @@
 </head>
 <body>
 	<jsp:include page="../fragments/header.jsp" />
-
+	<div>
+		<div style="background-color: #a0a0a0">
+			<h2 style="margin-top: 0; padding: 10px">
+				<b>Select places for the event: ${event.name}</b><span
+					id="backToEvent"
+					class="pull-right pointer glyphicon glyphicon-remove"></span>
+			</h2>
+		</div>
+	</div>
 	<div class="container">
-		<div id="wrapper">
-			<table id="seatTable"></table>
-		</div>
-		<br> <br>
-		<div>
-			<table class="table" id="selectedSeats">
-
-			</table>
-		</div>
-		<div class="text-center">
-
-			<button id="submitPlaces">Submit</button>
+		<div class="row">
+			<div class="col-sm-9">
+				<h1 class="text-center">screen</h1>
+				<br> <br>
+				<div>
+					<!--  id="wrapper" -->
+					<table id="seatTable"></table>
+				</div>
+				<br> <br>
+				<div class="text-center">
+					<button class="btn btn-default" style="display: none; color: red"
+						id="submitPlaces">Next</button>
+				</div>
+			</div>
+			<div class="col-sm-3" id="selectedPlaces">
+				<h2>Selected places</h2>
+				<table id="selectedSeats" class="table">
+					<tr id="headTr">
+						<th>Row</th>
+						<th>Seat</th>
+						<th>Price</th>
+						<th></th>
+					</tr>
+				</table>
+				<div id="tip">
+					<h3>
+						<i>Select at least one seat to continue</i>
+					</h3>
+				</div>
+			</div>
 		</div>
 	</div>
 	<jsp:include page="..//fragments/footer.jsp" />
@@ -139,7 +166,8 @@
 								var cell = row.insertCell(currSeat.seat);
 								var div = document.createElement("div");
 
-								div.id = currSeat.id;
+								div.id = currSeat.id + "_" + (currSeat.row + 1)
+										+ "_" + (currSeat.seat + 1);
 								div.className = "cell";
 
 								if (!currSeat.isFree) {
@@ -163,44 +191,100 @@
 								} else {
 									createNewRow = false;
 								}
+
 							}
 
-							$(".cell").hover(function() {
+							$(".cell, .pointer").hover(function() {
 								$(this).css('cursor', 'pointer');
 							});
 
-							$(".cell").click(function() {
-								if (!$(this).hasClass("unavailable")) {
-									if ($(this).hasClass("booked")) {
-										$(this).removeClass("booked");
-									} else {
-										$(this).addClass("booked");
-									}
+							$("#backToEvent")
+									.click(
+											function() {
+												window.location = "${pageContext.request.contextPath}/events/${event.id}";
+											});
 
-									//
-									/*
-									var trNumber = $(
-										"#selectedSeats")
-										.find("tr").length;
-									if (trNumber == 0 $("#seatTable").filter(function(item){
-									return item.classList.contains("booked");
-									}).length > 0) {
-									$("#selectedSeats")
-											.append(
-													"<tr><th>Row</th><th>Seat</th><th>Price</th><th></th></tr>")
-									}
-									
-									
-									var rowCount = table.rows.length;
-									var row = table.insertRow(rowCount);
+							$(".cell")
+									.click(
+											function() {
 
-									var cell1 = row.insertCell(0);
-									var cell2 = row.insertCell(1);
-									var cell3 = row.insertCell(2);
-									var cell4 = row.insertCell(3); */
-									//
-								}
-							});
+												if (!$(this).hasClass(
+														"unavailable")) {
+
+													var cellIdArray = this.id
+															.split("_");
+													var currRow = cellIdArray[1];
+													var currSeat = cellIdArray[2];
+
+													if ($(this).hasClass(
+															"booked")) {
+														$(this).removeClass(
+																"booked");
+
+														$(
+																"#tr_"
+																		+ currRow
+																		+ "_"
+																		+ currSeat)
+																.remove();
+
+														var rowCount = $('#selectedSeats tr').length;
+
+														if (rowCount < 4) {
+															$("#removeAllTr")
+																	.remove();
+														}
+
+													} else {
+														$(this).addClass(
+																"booked");
+
+														$("#tip").hide();
+														$("#submitPlaces")
+																.show();
+														$("#selectedSeats")
+																.append(
+																		"<tr id="+"tr_"+currRow+"_"+currSeat+"><td>"
+																				+ currRow
+																				+ "</td><td>"
+																				+ currSeat
+																				+ "</td><td class='basePriceTd'>${event.basePrice}</td><td><span style='font-size:18px;' class='pointer removeSeat glyphicon glyphicon-trash'></span></td></tr>");
+														var rowCount = $('#selectedSeats tr').length;
+														if (rowCount > 2) {
+															$("#removeAllTr")
+																	.remove();
+															$("#selectedSeats")
+																	.append(
+																			"<tr id='removeAllTr'><td>Remove All</td><td></td><td></td><td><span style='font-size:18px; color:red;' class='pointer removeAllSeats glyphicon glyphicon-trash'></span></td></tr>");
+														}
+
+													}
+
+													var total = 0;
+													$(".basePriceTd")
+															.each(
+																	function() {
+																		total += parseFloat($(
+																				this)
+																				.text());
+																	});
+
+													$("#totalPrice").remove();
+													$("#selectedPlaces")
+															.append(
+																	"<h3 id='totalPrice'>Total: "
+																			+ total
+																			+ "</h3>");
+													var rowCount = $('#selectedSeats tr').length;
+													if (rowCount < 2) {
+														$("#tip").show();
+														$("#totalPrice").hide();
+														$("#submitPlaces")
+																.hide();
+													}
+
+												}
+											});
 
 							$("#submitPlaces")
 									.click(
@@ -211,22 +295,16 @@
 														function() {
 															return this.id;
 														}).get();
-												
-												
-												
-												
-												
-												$.ajax({
-													type : "POST",
-													url : "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/bookSeats",
-													data : JSON.stringify(bookedSeatsIdArray),
-													contentType : "application/json; charset=utf-8",	
-												});
-												
-												
 
-											
-												
+												$
+														.ajax({
+															type : "POST",
+															url : "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/bookSeats",
+															data : JSON
+																	.stringify(bookedSeatsIdArray),
+															contentType : "application/json; charset=utf-8",
+														});
+
 												window.location.href = "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/verify";
 
 												/* 	$
@@ -251,6 +329,30 @@
 											});
 
 						});
+	</script>
+	<script>
+		$(document.body).on(
+				'click',
+				'.removeSeat',
+				function() {
+					var parentId = $(this).parent().parent().attr("id");
+					$("#" + parentId).remove();
+					var row = parentId.split("_")[1];
+					var seat = parentId.split("_")[2];
+					$(".cell").each(
+							function() {
+								if (this.id.split("_")[1] == row
+										&& this.id.split("_")[2] == seat) {
+									$(this).removeClass("booked");
+								}
+							});
+
+				});
+	</script>
+	<script>
+	$(document.body).on('mouseenter', '.removeSeat, .removeAllSeats' ,function(){
+		$(this).css('cursor', 'pointer');
+	});
 	</script>
 </body>
 </html>

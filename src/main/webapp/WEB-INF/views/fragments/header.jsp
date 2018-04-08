@@ -17,10 +17,6 @@
 				<li><a href="${pageContext.request.contextPath}/movies?page=1">Movies</a></li>
 				<li><a href="#">Contacts</a></li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
-						Login</a></li>
-			</ul>
 		</div>
 	</div>
 </nav>
