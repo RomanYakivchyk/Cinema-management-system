@@ -227,14 +227,6 @@
 																		+ "_"
 																		+ currSeat)
 																.remove();
-
-														var rowCount = $('#selectedSeats tr').length;
-
-														if (rowCount < 4) {
-															$("#removeAllTr")
-																	.remove();
-														}
-
 													} else {
 														$(this).addClass(
 																"booked");
@@ -259,30 +251,7 @@
 														}
 
 													}
-
-													var total = 0;
-													$(".basePriceTd")
-															.each(
-																	function() {
-																		total += parseFloat($(
-																				this)
-																				.text());
-																	});
-
-													$("#totalPrice").remove();
-													$("#selectedPlaces")
-															.append(
-																	"<h3 id='totalPrice'>Total: "
-																			+ total
-																			+ "</h3>");
-													var rowCount = $('#selectedSeats tr').length;
-													if (rowCount < 2) {
-														$("#tip").show();
-														$("#totalPrice").hide();
-														$("#submitPlaces")
-																.hide();
-													}
-
+													postRemoveBooking();
 												}
 											});
 
@@ -329,8 +298,7 @@
 											});
 
 						});
-	</script>
-	<script>
+
 		$(document.body).on(
 				'click',
 				'.removeSeat',
@@ -347,12 +315,52 @@
 								}
 							});
 
+					postRemoveBooking();
+
 				});
-	</script>
-	<script>
-	$(document.body).on('mouseenter', '.removeSeat, .removeAllSeats' ,function(){
-		$(this).css('cursor', 'pointer');
-	});
+
+		$(document.body).on('click', '.removeAllSeats', function() {
+			$(".cell").each(function() {
+				if ($(this).hasClass("booked")) {
+					$(this).removeClass("booked");
+				}
+			});
+
+			$("#selectedSeats tr").each(function() {
+				if ($(this).index() > 0) {
+					$(this).remove();
+				}
+
+			});
+			postRemoveBooking();
+
+		});
+
+		$(document.body).on('mouseenter', '.removeSeat, .removeAllSeats',
+				function() {
+					$(this).css('cursor', 'pointer');
+				});
+
+		var postRemoveBooking = function() {
+			var total = 0;
+			$(".basePriceTd").each(function() {
+				total += parseFloat($(this).text());
+			});
+
+			$("#totalPrice").remove();
+			$("#selectedPlaces").append(
+					"<h3 id='totalPrice'>Total: " + total + "</h3>");
+			var rowCount = $('#selectedSeats tr').length;
+
+			if (rowCount < 4) {
+				$("#removeAllTr").remove();
+			}
+			if (rowCount < 2) {
+				$("#tip").show();
+				$("#totalPrice").hide();
+				$("#submitPlaces").hide();
+			}
+		}
 	</script>
 </body>
 </html>
