@@ -55,21 +55,27 @@
 			</div>
 			<div class="col-sm-6">
 				<br> <br>
-				<h4><i>Your tickets are booked for 10 minutes</i></h4>
+				<h4>
+					<i>Your tickets are booked for 10 minutes</i>
+				</h4>
 				<hr>
 				<small>Place</small>
-				<h3 style="margin-top: 0"><b>Lviv, str. Naukova 22,
-					${eda.auditorium.name} hall</b></h3>
-				 <small>Time</small>
-				<h3 style="margin-top: 0"><b>
-					<tags:localDateTime date="${eda.startTime}"
-						pattern="yyyy-MM-dd HH:MM" /></b>
+				<h3 style="margin-top: 0">
+					<b>Lviv, str. Naukova 22, ${eda.auditorium.name} hall</b>
 				</h3>
-				<br>
-				<small>Event(technology)</small>
-				<h3 style="margin-top: 0"><b>${event.name}(${event.technology.name})</b></h3>
+				<small>Time</small>
+				<h3 style="margin-top: 0">
+					<b> <tags:localDateTime date="${eda.startTime}"
+							pattern="yyyy-MM-dd HH:MM" /></b>
+				</h3>
+				<br> <small>Event(technology)</small>
+				<h3 style="margin-top: 0">
+					<b>${event.name}(${event.technology.name})</b>
+				</h3>
 				<hr>
-				<h4><i>You will get the tickets on the following contact</i></h4>
+				<h4>
+					<i>You will get the tickets on the following contact</i>
+				</h4>
 				<br>
 				<div class="row">
 					<div class="col-sm-4">
@@ -81,8 +87,9 @@
 							class="form-control" id="buyerMail">
 					</div>
 					<div class="col-sm-4">
-						<label for="buyerName">Phone number</label> <input placeholder="Your phone number"
-							class="form-control" id="buyerPhoneNumber">
+						<label for="buyerName">Phone number</label> <input
+							placeholder="Your phone number" class="form-control"
+							id="buyerPhoneNumber">
 					</div>
 				</div>
 				<hr>
@@ -92,7 +99,9 @@
 
 			</div>
 			<div class="col-sm-3">
+				<br>
 				<h3>Selected places</h3>
+				<br>
 				<table class="table">
 					<tr>
 						<th>Row</th>

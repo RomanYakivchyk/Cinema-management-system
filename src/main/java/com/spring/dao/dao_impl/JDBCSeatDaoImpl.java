@@ -61,8 +61,8 @@ public class JDBCSeatDaoImpl {
 	public void initializeSeats(int rows, int seatsInRow, Long eda_id) {
 		logger.debug("init seats; eda_id=" + eda_id);
 		final String sql = "INSERT INTO SEAT (IS_FREE,ROW,SEAT,EDA_ID) VALUES (?,?,?,?)";
-		for (int r = 0; r < rows; r++) {
-			for (int s = 0; s < seatsInRow; s++) {
+		for (int r = 1; r <= rows; r++) {
+			for (int s = 1; s <= seatsInRow; s++) {
 				jdbcTemplate.update(sql, true, r, s, eda_id);
 			}
 		}

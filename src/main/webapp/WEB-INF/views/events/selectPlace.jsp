@@ -161,13 +161,13 @@
 
 								currSeat = seatsArray[i];
 								if (createNewRow) {
-									row = table.insertRow(currSeat.row);
+									row = table.insertRow(currSeat.row-1);
 								}
-								var cell = row.insertCell(currSeat.seat);
+								var cell = row.insertCell(currSeat.seat-1);
 								var div = document.createElement("div");
 
-								div.id = currSeat.id + "_" + (currSeat.row + 1)
-										+ "_" + (currSeat.seat + 1);
+								div.id = currSeat.id + "_" + (currSeat.row )
+										+ "_" + (currSeat.seat );
 								div.className = "cell";
 
 								if (!currSeat.isFree) {
@@ -176,8 +176,8 @@
 								var tooltip = document.createElement("span");
 								tooltip.className = "tooltiptext";
 								tooltip.innerHTML = "Row: "
-										+ (currSeat.row + 1) + " Seat: "
-										+ (currSeat.seat + 1);
+										+ (currSeat.row) + " Seat: "
+										+ (currSeat.seat);
 								var personIcon = document.createElement("span");
 								personIcon.classList.add("glyphicon");
 								personIcon.classList.add("glyphicon-user");
@@ -264,17 +264,25 @@
 														function() {
 															return this.id;
 														}).get();
+												
+												
+												
+												var encodedArray = btoa(JSON.stringify(bookedSeatsIdArray));
+												window.location.href = "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/verify/"+encodedArray;
 
-												$
+											/* 	$
 														.ajax({
 															type : "POST",
 															url : "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/bookSeats",
-															data : JSON
-																	.stringify(bookedSeatsIdArray),
+															data : JSON.stringify(bookedSeatsIdArray),
 															contentType : "application/json; charset=utf-8",
-														});
-
-												window.location.href = "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/verify";
+															success : function(
+																	response) {
+																$('html').html(response);
+															}
+														}); */
+/* 
+												window.location.href = "${pageContext.request.contextPath}/events/${event.id}/${eda.id}/verify"; */
 
 												/* 	$
 															.ajax({
